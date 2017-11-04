@@ -11,6 +11,10 @@ Instalacja
 Plik do logowania to login.php
 Rejestracja to register.php
 Wyprowadziłem z reacta wartości do tych plików i zrobiłem testowe echo.
+
+
+
+
 ###################
 What is CodeIgniter
 ###################
