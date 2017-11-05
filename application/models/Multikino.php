@@ -42,9 +42,9 @@ class Multikino extends CI_Model {
 
     $result = '{"movies":[';
     foreach ($movies as $movie) {
-      $result .= $movie->toJson();
+      $result .= $movie->toJson() . ', ';
     }
-    $result .= ']}';
+    $result = substr($result, 0, -2) . ']}';
 
     return $result;
   }

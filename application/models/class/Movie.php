@@ -16,18 +16,13 @@ class Movie {
   private $reservation_link;
 
   public function toJson(){
-    $result = '{ "id:":' . $this->id .
-              ', "title":' . $this->title .
-              ', "time":' . $this->time .
-              ', "version":' . $this->version .
-              ', "reservation_link":' . $this->reservation_link . '}';
+    $result = '{ "id:":"' . $this->id .
+              '", "title":"' . $this->title .
+              '", "time":"' . $this->time .
+              '", "version":"' . $this->version .
+              '", "reservation_link":"' . $this->reservation_link . '"}';
     return $result;
   }
-
-  public function expose() {
-      return get_object_vars($this);
-  }
-
 }
 
 ?>
