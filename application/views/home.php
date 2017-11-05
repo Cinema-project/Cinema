@@ -11,7 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="container">
 	Menu:
 	<a href="<?=site_url('Login')?>">Panel logowania</a> <br />
-	Strona główna aplikacji..
+	<h1>Repertuar dla multikina</h1>
+	<div>
+		<?=$multikino?>
+	</div>
 </div>
 
 </body>
