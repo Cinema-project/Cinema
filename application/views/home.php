@@ -9,6 +9,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div id="container">
+	Menu:
+	<a href="<?=site_url('Login')?>">Panel logowania</a> <br />
 	Strona główna aplikacji..
 </div>
 
