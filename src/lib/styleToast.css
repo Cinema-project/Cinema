@@ -1,0 +1,18 @@
+.toastify-content {
+  background: linear-gradient(
+    to bottom,
+    rgba(60, 176, 219, 1) 0%,
+    rgba(60, 176, 219, 0.6) 53%,
+    rgba(60, 176, 219, 0.3) 100%
+  );
+  border-radius: 5px;
+  color: rgb(0, 0, 0);
+}
+
+.toastify__body {
+  font-size: 15px;
+  font-family: 'Noto Serif', serif;
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+}
