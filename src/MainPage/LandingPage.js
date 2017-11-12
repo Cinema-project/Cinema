@@ -80,7 +80,7 @@ const StyledContainer = styled.div`
   background-image: url(${landingPageImage});
   background-repeat: no-repeat;
   background-position: center;
-  min-height: 98vh;
+  min-height: 100vh;
   color: rgb(201, 201, 201);
   font-family: 'Indie Flower', cursive;
   font-size: 8vw;

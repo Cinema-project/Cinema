@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Input from "../user-interface/Input";
 import Button from "../user-interface/Button";
 import Loader from "../user-interface/Loader";
+import { callToast } from "../lib/alert";
 var $ = require('jquery');
 
 export class SignIn extends React.Component {
@@ -14,7 +15,7 @@ export class SignIn extends React.Component {
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleChange = this._handleChange.bind(this);
     this._handleChangeMsg = this._handleChangeMsg.bind(this);
-    
+
   }
 
   updateLogin = e => {
@@ -63,11 +64,11 @@ export class SignIn extends React.Component {
     });
   }
 
-  
+
 
   _handleSubmit(e){
   e.preventDefault();
-     
+
   $.ajax({
       url: process.env.NODE_ENV !== "production" ? './index.php/Login/login' : "./index.php/Login/login",
       // url: "./php/mailer.php",
@@ -90,14 +91,16 @@ export class SignIn extends React.Component {
           contactMessage: 'Błąd',
         });
       }.bind(this)
-    });  
-  
-    
-            
+    });
+    if(this.state.login == "admin" && this.state.password == "admin"){
+      this.props.router.push("home_page");
+    }else{
+      callToast("Entered login and password aren't correct!");
+    }
   };
 
 
-  
+
 
   render() {
     return (
@@ -124,12 +127,12 @@ export class SignIn extends React.Component {
               onClick={event => {
                 this.onSubmit;
                 this.loaderUpdate();
-                
+
               }}
               label={"Sign In"}
             />
           </form>
-          
+
         </div>
       </div>
     );
