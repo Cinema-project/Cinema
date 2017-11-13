@@ -29,7 +29,7 @@ class Multikino extends CI_Model {
 
   /**
   * Pobiera repertuar dla konkretnego kina
-  * Id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
   * @param int id - id kina
   * @param int id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
   * @return string zwraca repertuar w formacie XML
@@ -39,7 +39,7 @@ class Multikino extends CI_Model {
   }
   /**
   * Pobiera repertuar dla konkretnego kina z zakresu czasu w formacie XML
-  * Id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
   * @param string dateFrom - początek okresu (format yyyymmdd)
   * @param string dateTo - koniec okresu (format yyyymmdd)
   * @param int id - id kina
@@ -51,7 +51,7 @@ class Multikino extends CI_Model {
 
   /**
   * Pobiera repertuar dla konkretnego kina w formacie JSON
-  * Id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
   * @param int id - id kina
   * @return string zwraca repertuar kin w formacie JSON
   */

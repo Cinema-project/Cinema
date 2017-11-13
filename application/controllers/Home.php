@@ -10,7 +10,7 @@ class Home extends CI_Controller {
     $this->load->helper('url');
   }
 
-	/*
+	/**
 	* Strona główna kontrolera
 	* Wyświetla plik view/home.php
 	*/
