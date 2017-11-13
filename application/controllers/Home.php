@@ -24,47 +24,49 @@ class Home extends CI_Controller {
 		$this->load->view('home', $data);
 	}
 
-	/*
-	*	Zwraca repertuar dla Multikina/
-	* Użycie: http://localhost/index.php/Home/getCinemaRepertoire/3
-	*	@id - id kina sieci multikino.
-	* @ID dla multikina są dostępne w PDF.
+	/**
+	* @example http://localhost/index.php/Home/getCinemaRepertoire/3
+	*	@param int id - id kina sieci multikino.
+	* @return string Zwraca repertuar dla Multikina w formacie JSON
 	*/
 	public function getCinemaRepertoire($id){
 		echo $this->multikino->getCinemaRepertoire($id);
 	}
 
-	/*
-	*	Zwraca listę kategorii w formacie JSON.
-	*	Użycie: http://localhost/index.php/Home/getCategoryList
+	/**
+	*	@example http://localhost/index.php/Home/getCategoryList
+	*	@return string Zwraca listę kategorii w formacie JSON.
 	*/
 	public function getCategoryList(){
 		echo $this->themoviedb->getCategoryList();
 	}
 
-	/*
-	*	Zwraca listę filmów z podanej kategorii w formacie JSON.
-	* @id - id kategorii filmów
-	* @page - numer strony
-	* Użycie: http://localhost/index.php/Home/getMoviesFromCategory/35/1
+	/**
+	* Filmy z podanej kategorii
+	* @example http://localhost/index.php/Home/getMoviesFromCategory/35/1
+	* @param int id - id kategorii filmów
+	* @param int page - numer strony
+	* @return string zwraca listę filmów w formacie JSON.
 	*/
 	public function getMoviesFromCategory($id, $page = 1){
 		echo $this->themoviedb->getMoviesFromCategory($id, $page);
 	}
 
-	/*
-	* Zwraca informacje szczegółowe o filmie w formacie JSON.
-	*	@id - id filmu
-	* Użycie: http://localhost/index.php/Home/getMovieDetails/290512
+	/**
+	* szczegółowe informacje o filmie
+	* @example http://localhost/index.php/Home/getMovieDetails/290512
+	*	@param int id - id filmu
+	* @return string zwraca informacje o filmie w formacie JSON.
 	*/
 	public function getMovieDetails($id){
 		echo $this->themoviedb->getMovieDetails($id);
 	}
 
-	/*
-	* Zwraca ścieżkę do plakatu danego filmu.
-	*	@id - id filmu
-	*	Użycie: http://localhost/index.php/Home/getMoviePoster/290512
+	/**
+	* Plakat filmu
+	*	@example http://localhost/index.php/Home/getMoviePoster/290512
+	*	@param int id - id filmu
+	* @return string zwraca ścieżkę do plakatu danego filmu.
 	*/
 	public function getMoviePoster($id){
 		echo $this->themoviedb->getMoviePosterPath($id);

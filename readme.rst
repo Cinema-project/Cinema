@@ -1,4 +1,9 @@
 ###################
+Jak dokumentować kod PHP
+###################
+https://4programmers.net/PHP/Dokumentacja_kodu_PHP
+
+###################
 Konfiguracja PHP
 ###################
 Wymagane do poprawnego działania modelu Multikina.

@@ -1,4 +1,8 @@
 <?php
+/**
+* Klasa jest częściowym wraperem dla API strony themoviedb.org
+* @link https://api.themoviedb.org/3
+*/
 class TheMovieDB extends CI_Model {
 
   private $authKeyV3 = '9a8e79615c34a10f3d14b49681855241';
@@ -16,10 +20,11 @@ class TheMovieDB extends CI_Model {
 		parent :: __construct();
   }
 
-  /*
-  * Tworzy zapytanie do strony pod adresem $this->url i zwraca rezultat
-  * @question - zapytanie
-  * @more - dodatkowe informacje
+  /**
+  * Tworzy zapytanie do strony pod adresem $this->url
+  * @param string question - zapytanie
+  * @param string more - dodatkowe informacje
+  * @return string Zwraca rezultat zapytania w formacie JSON
   */
   private function querry( $question, $more = null ){
     if ($more == null){
@@ -29,30 +34,41 @@ class TheMovieDB extends CI_Model {
     return file_get_contents( $url );
   }
 
-  /*
-  * Zwraca dostępne kategorie
+  /**
+  * Pyta o kategorie
+  * @return string Zwraca dostępne kategorie w formacie JSON
+  * @link https://developers.themoviedb.org/3/genres/get-movie-list
   */
   public function getCategoryList(){
     return $this->querry( '/genre/movie/list' );
   }
 
-  /*
-  * Zwraca filmy z podanej kategorii
+  /**
+  * Pyta o filmy z podanej kategorii
+  * @param int categoryId - id kategorii
+  * @param int page - numer strony
+  * @return string Zwraca filmy z podanej kategorii w formacie JSON
+  * @link https://developers.themoviedb.org/3/discover
   */
   public function getMoviesFromCategory($categoryId, $page = 1){
     return $this->querry( '/discover/movie', '&with_genres=' . $categoryId . '&page=' . $page . '&sort_by=popularity.desc' );
   }
 
-  /*
-  * Zwraca więcej informacji dla filmu o podanym id
+  /**
+  * Pyta o szczegółowe informację o filmie
+  * @param int movieId - id filmu
+  * @return string Zwraca informację o filmie w formacie JSON
+  * @link https://developers.themoviedb.org/3/movies
   */
   public function getMovieDetails($movieId){
     return $this->querry('/movie/' . $movieId);
   }
 
-  /*
+  /**
   * Funkcja wybiera pierwszy plakat w języku domyślnym (zdefiniowany na początku pliku)
   * Jeżeli nie ma plakatu dla domyślnego języka to wybiera pierwszy plakat dla języka alternatywnego (zdefiniowany na początku pliku).
+  * @param int movieId - id filmu
+  * @return string Zwraca link do plakatu
   */
   public function getMoviePosterPath($movieId){
     $json = $this->querry('/movie/' . $movieId . '/images', '&include_image_language=' . $this->language . ',' . $this->alternativeLanguage);
