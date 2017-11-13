@@ -1,5 +1,5 @@
 ###################
-Kongiguracja PHP
+Konfiguracja PHP
 ###################
 Wymagane do poprawnego działania modelu Multikina.
 Odkomentować linijkę w pliku konfiguracyjnym php.ini:

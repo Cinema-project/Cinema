@@ -11,6 +11,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="container">
 	Menu:
 	<a href="<?=site_url('Login')?>">Panel logowania</a> <br />
+	<h1>The Movie db</h1>
+	<div>
+		<h3>Kategorie</h3>
+		<?=$themoviedbLista?>
+	</div>
+	<div>
+		<h3>Np.:Akcja</h3>
+		<?=$themoviedbAkcja?>
+	</div>
+	<div>
+		<h3>Szczegóły:</h3>
+		<?=$movieDetails?>
+		<div>
+			<img src="<?=$poster?>" />
+		</div>
+	</div>
 	<h1>Repertuar dla multikina</h1>
 	<div>
 		<?=$multikino?>
