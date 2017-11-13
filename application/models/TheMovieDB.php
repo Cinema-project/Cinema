@@ -57,18 +57,13 @@ class TheMovieDB extends CI_Model {
   public function getMoviePosterPath($movieId){
     $json = $this->querry('/movie/' . $movieId . '/images', '&include_image_language=' . $this->language . ',' . $this->alternativeLanguage);
     $json = json_decode($json)->posters;
-    $result = null;
+    $result = $json[0];
     foreach ( $json as $data ){
       if ( $data->iso_639_1 == $this->language ){
         $result = $data;
         break;
       }
     }
-
-    if ($result == null){
-      $result = $json[0];
-    }
-
     $result = $this->urlImage . $result->file_path;
 
     return $result;
