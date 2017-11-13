@@ -7,23 +7,45 @@ class Multikino extends CI_Model {
 		parent :: __construct();
   }
 
+  /*
+  * Zwraca ścieżkę do pliku XML z repertuarem
+  */
   private function getXMLFilePath(){
     return 'https://apibeta.multikino.pl/repertoire.xml';
   }
 
+  /*
+  * Pobiera repertuar ze strony w formacie XML
+  * @url - link do strony
+  */
   private function getXML($url){
     return simplexml_load_string( file_get_contents($url) , 'SimpleXMLElement', LIBXML_NOCDATA );
   }
 
+  /*
+  * Pobiera repertuar dla konkretnego kina w formacie XML
+  * @id - id kina
+  * @id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  */
   private function getXMLByCinemaId($id){
     return $this->getXML( $this->getXMLFilePath() . '?cinema_id=' . $id );
   }
-
-  //@Date format yyyymmdd
+  /*
+  * Pobiera repertuar dla konkretnego kina z zakresu czasu w formacie XML
+  * @dateFrom - początek okresu (format yyyymmdd)
+  * @dateTo - koniec okresu (format yyyymmdd)
+  * @id - id kina
+  * @id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  */
   private function getXMLByDateAndID($dateFrom, $dateTo, $id){
     return $this->getXML( $this->getXMLFilePath() . '?cinema_id=' . $id . 'date_from=' . $dateFrom . 'date_to' . $dateTo );
   }
 
+  /*
+  * Pobiera repertuar dla konkretnego kina w formacie JSON
+  * @id - id kina
+  * @id kin znajdują się w pliku "INFORMACJA O PLIKACH XML MULTIKINO.pdf"
+  */
   public function getCinemaRepertoire($id){
 
     $xml = $this->getXMLByCinemaId($id)->children();
