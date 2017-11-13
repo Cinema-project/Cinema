@@ -6,7 +6,8 @@ class TheMovieDB extends CI_Model {
 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5YThlNzk2MTVjMzRhMTBmM2QxNGI0OTY4MTg1NTI0MSIsInN1YiI6IjVhMDk1MzMzYzNhMzY4NjgwYTAxMzZhOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OVbCSRykfDecay1EG1vq1ZEb16Ig9BRnxiRXXb3IqHA';
 
 
-  private $url = 'https://api.themoviedb.org/3';
+  private $urlData = 'https://api.themoviedb.org/3';
+  private $urlImage = 'http://image.tmdb.org/t/p/w500';
   private $language = 'pl';
   private $alternativeLanguage = 'en';
   private $timeZone = 'Europe/Warsaw';
@@ -17,9 +18,15 @@ class TheMovieDB extends CI_Model {
 
   /*
   * Tworzy zapytanie do strony pod adresem $this->url i zwraca rezultat
+  * @question - zapytanie
+  * @more - dodatkowe informacje
   */
-  private function querry( $question ){
-    return file_get_contents( $this->url . $question . '?api_key=' . $this->authKeyV3 . '&language=' . $this->language);
+  private function querry( $question, $more = null ){
+    if ($more == null){
+      $more = '';
+    }
+    $url = $this->urlData . $question . '?api_key=' . $this->authKeyV3 . '&language=' . $this->language . $more;
+    return file_get_contents( $url );
   }
 
   /*
@@ -32,8 +39,8 @@ class TheMovieDB extends CI_Model {
   /*
   * Zwraca filmy z podanej kategorii
   */
-  public function getMoviesFromCategory($categoryId){
-    return $this->querry( '/genre/' . $categoryId . '/movies' );
+  public function getMoviesFromCategory($categoryId, $page = 1){
+    return $this->querry( '/discover/movie', '&with_genres=' . $categoryId . '&page=' . $page . '&sort_by=popularity.desc' );
   }
 
   /*
@@ -45,10 +52,10 @@ class TheMovieDB extends CI_Model {
 
   /*
   * Funkcja wybiera pierwszy plakat w języku domyślnym (zdefiniowany na początku pliku)
-  * Jeżeli nie ma plakatu dla domyślnego języka to wybiera pierwszy plakat dla języka alternatywnego.
+  * Jeżeli nie ma plakatu dla domyślnego języka to wybiera pierwszy plakat dla języka alternatywnego (zdefiniowany na początku pliku).
   */
   public function getMoviePosterPath($movieId){
-    $json = file_get_contents($this->url . '/movie/' . $movieId . '/images?api_key=' . $this->authKeyV3 . '&include_image_language=' . $this->language . ',' . $this->alternativeLanguage);
+    $json = $this->querry('/movie/' . $movieId . '/images', '&include_image_language=' . $this->language . ',' . $this->alternativeLanguage);
     $json = json_decode($json)->posters;
     $result = null;
     foreach ( $json as $data ){
@@ -62,7 +69,7 @@ class TheMovieDB extends CI_Model {
       $result = $json[0];
     }
 
-    $result = 'http://image.tmdb.org/t/p/w500/' . $result->file_path;
+    $result = $this->urlImage . $result->file_path;
 
     return $result;
   }

@@ -45,10 +45,11 @@ class Home extends CI_Controller {
 	/*
 	*	Zwraca listę filmów z podanej kategorii w formacie JSON.
 	* @id - id kategorii filmów
-	* Użycie: http://localhost/index.php/Home/getMoviesFromCategory/35
+	* @page - numer strony
+	* Użycie: http://localhost/index.php/Home/getMoviesFromCategory/35/1
 	*/
-	public function getMoviesFromCategory($id){
-		echo $this->themoviedb->getMoviesFromCategory($id);
+	public function getMoviesFromCategory($id, $page = 1){
+		echo $this->themoviedb->getMoviesFromCategory($id, $page);
 	}
 
 	/*
