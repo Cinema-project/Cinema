@@ -14,13 +14,15 @@ class Layout extends React.Component {
           <div className="col-md-12">
             <Searchbar>
               <div className="col-md-4">
-              <Link to="home" style={{ border: "none" }}>
+              <Link to="home_page" style={{ border: "none" }}>
                 <img
                   src={require("./images/navbarImage.png")}
                   style={{ width: "80px" }}
                 />
               </Link>
-              <NavbarLink to="home" name="MyCinema" />
+              <Link to="home_page">
+                MyCinema
+              </Link>
             </div>
             <div className="col-md-4">
               <div className="input-group" style={{width: "30vw", marginTop: "3.5vh"}}>
@@ -42,7 +44,7 @@ class Layout extends React.Component {
             </div>
             <div className="col-md-4">
               <a href="#">
-                <span class="glyphicon glyphicon-log-out" style={{float: "right", fontSize: "30px"}}></span>
+                <span class="glyphicon glyphicon-log-out" style={{float: "right", fontSize: "40px"}}></span>
               </a>
             </div>
             </Searchbar>
@@ -50,10 +52,10 @@ class Layout extends React.Component {
           <div className="col-md-12">
             <StyledNavbar>
               <NavbarLink to="repertoire" name="Repertuar" />
-              <NavbarLink to="announce" name="Zapowiedzi" />
+              <NavbarLink to="announcements" name="Zapowiedzi" />
               <NavbarLink to="favourites" name="Ulubione" />
               <NavbarLink to="films" name="Filmy" />
-              <NavbarLink to="findCinema" name="Znajdź kino" />
+              <NavbarLink to="find_cinema" name="Znajdź kino" />
             </StyledNavbar>
           </div>
           <div className="col-md-12">
@@ -70,8 +72,7 @@ export default connect()(Layout);
 const StyledNavbar = styled.div`
   background-color: gray;
   overflow: hidden;
-  padding-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
   text-align: center;
   ${'' /* text-shadow: 3px 3px 1px rgba(0, 0, 0, 1); */}
   a {
