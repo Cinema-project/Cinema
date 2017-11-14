@@ -9,6 +9,9 @@ Konfiguracja PHP
 Wymagane do poprawnego działania modelu Multikina.
 Odkomentować linijkę w pliku konfiguracyjnym php.ini:
 extension=php_openssl.dll
+Wymagane do działania bazy danych:
+Odkomentować linijkę w pliku konfiguracyjnym php.ini:
+extension=php_mysqli.dll
 
 ###################
 Instalacja
