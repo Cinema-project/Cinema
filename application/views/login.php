@@ -13,12 +13,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
     </script><link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif" rel="stylesheet">
-    <link href="<?=base_url()?>/static/css/main.2187c948.css" rel="stylesheet">
+    
+	
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <div id="root">
 </div>
-<script type="text/javascript" src="<?=base_url()?>/static/js/main.7638745e.js"></script>
+
 </body>
 </html>

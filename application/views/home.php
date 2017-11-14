@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <div id="container">
     Menu:
-    <a href="<?=site_url('Login')?>">Panel logowania</a> <br />
+    <a href="./">Panel logowania</a> <br />
     <h1>The Movie db</h1>
     <div>
         <h3>Kategorie</h3>
