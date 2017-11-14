@@ -1,7 +1,9 @@
 {
-  "main.css": "static/css/main.2187c948.css",
-  "main.css.map": "static/css/main.2187c948.css.map",
-  "main.js": "static/js/main.7638745e.js",
-  "main.js.map": "static/js/main.7638745e.js.map",
-  "static/media/landingPageImage": "static/media/landingPageImage.3617632e.bin"
+  "main.css": "static/css/main.3d1773bd.css",
+  "main.css.map": "static/css/main.3d1773bd.css.map",
+  "main.js": "static/js/main.7331032b.js",
+  "main.js.map": "static/js/main.7331032b.js.map",
+  "static/media/black_lozenge.png": "static/media/black_lozenge.c3a14079.png",
+  "static/media/landingPageImage": "static/media/landingPageImage.3617632e.bin",
+  "static/media/navbarImage.png": "static/media/navbarImage.9723eb8f.png"
 }

@@ -2,39 +2,44 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
-    public function __construct(){
-        parent :: __construct();
-        $this->load->helper('url');
-        $this->load->model('User_model');
-    }
 
-    public function index()
-    {
-        $this->load->view('login');
-    }
+  public function __construct(){
+    parent :: __construct();
+    $this->load->helper('url');
+  }
 
-    public function login(){
-        echo "Logowanie";
-        echo "<br>";
-        $login = $_POST['login'];
-        $password = $_POST['password'];
-        $user = new User_model();
-        $user->checkLoginAndPassword($login, $password);
-        if($user->getId() != null) {
-            echo "Witamy ".$user->getNick()." na naszej stronie!";
-        }
-        else {
-            echo "Przykro nam ale nie mamy Cię jeszcze w naszej bazie \n";
-            echo "Może chcesz dołączyć?";
-        }
-    }
+	public function index()
+	{
+		$this->load->view('login');
+	}
 
-    public function register(){
-        echo "Rejestracja";
-        echo "<br>";
-        $login = $_POST['login'];
-        $password = $_POST['password'];
-
+  public function login(){
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+    $status="";
+  
+   
+    $this->db->where('Login',$login);
+    $this->db->where('Password',$password);
+    $user = $this->db->get('users')->result();
+    if(!empty($user)) {
+      $status="exist";
+      header('Content-Type: application/json');
+      echo json_encode($status);
     }
+    else {
+        $status="notExist";
+        header('Content-Type: application/json');
+        echo json_encode($status);
+    }
+  }
+
+  public function register(){
+    echo "Rejestracja";
+    echo "<br>";
+    $login = $_POST['login'];
+    $password = $_POST['password'];
+
+  }
 }
 ?>
