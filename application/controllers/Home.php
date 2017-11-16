@@ -183,5 +183,17 @@ class Home extends CI_Controller {
     public function getTrailerPath($language, $id){
       echo $this->themoviedb->getTrailerPath($language, $id);
     }
+
+    /**
+     * Obsada i ekipa filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/Home/getCredits/550
+     * @link https://developers.themoviedb.org/3/movies/get-movie-credits
+     * @method getCredits
+     * @param int $id id filmu
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getCredits($id){
+      echo $this->themoviedb->getCredits($id);
+    }
 }
 ?>

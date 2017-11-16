@@ -276,5 +276,16 @@ class TheMovieDB extends CI_Model {
     }
     return json_encode($result);
   }
+
+  /**
+   * Obsada i ekipa filmu
+   * @link https://developers.themoviedb.org/3/movies/get-movie-credits
+   * @method getCredits
+   * @param int $id id filmu
+   * @return string zwraca dane w formacie JSON
+   */
+  public function getCredits($id) {
+    return $this->querry( '/movie/' . $id . '/credits');
+  }
 }
 ?>
