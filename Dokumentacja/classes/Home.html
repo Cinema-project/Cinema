@@ -106,12 +106,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">47</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">110</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -136,19 +136,23 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1734144932"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-858285966"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1734144932" class="accordion-body collapse in">
+            <div id="namespace-858285966" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
                     <ul>
-                                                                                                    <li class="class"><a href="../classes/Home.html">Home</a></li>
+                                                                                                    <li class="class"><a href="../classes/Director_model.html">Director_model</a></li>
+                                                    <li class="class"><a href="../classes/Home.html">Home</a></li>
                                                     <li class="class"><a href="../classes/Login.html">Login</a></li>
                                                     <li class="class"><a href="../classes/Movie.html">Movie</a></li>
+                                                    <li class="class"><a href="../classes/Movie_model.html">Movie_model</a></li>
                                                     <li class="class"><a href="../classes/Multikino.html">Multikino</a></li>
+                                                    <li class="class"><a href="../classes/Role_model.html">Role_model</a></li>
                                                     <li class="class"><a href="../classes/TheMovieDB.html">TheMovieDB</a></li>
+                                                    <li class="class"><a href="../classes/User_model.html">User_model</a></li>
                                             </ul>
                 </div>
             </div>
@@ -193,6 +197,14 @@
                                                                     <a href="../classes/Home.html#method_getMoviesFromCategory" class="">getMoviesFromCategory()</a><br />
                                                                     <a href="../classes/Home.html#method_getMovieDetails" class="">getMovieDetails()</a><br />
                                                                     <a href="../classes/Home.html#method_getMoviePoster" class="">getMoviePoster()</a><br />
+                                                                    <a href="../classes/Home.html#method_getKeywords" class="">getKeywords()</a><br />
+                                                                    <a href="../classes/Home.html#method_getLatest" class="">getLatest()</a><br />
+                                                                    <a href="../classes/Home.html#method_getNowPlaying" class="">getNowPlaying()</a><br />
+                                                                    <a href="../classes/Home.html#method_getPopular" class="">getPopular()</a><br />
+                                                                    <a href="../classes/Home.html#method_getTopRated" class="">getTopRated()</a><br />
+                                                                    <a href="../classes/Home.html#method_getUpcoming" class="">getUpcoming()</a><br />
+                                                                    <a href="../classes/Home.html#method_getTrailerPath" class="">getTrailerPath()</a><br />
+                                                                    <a href="../classes/Home.html#method_getCredits" class="">getCredits()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -377,15 +389,23 @@ Wyświetla plik view/home.php</em></p>
             <article class="method">
                 <h3 class="public ">getCategoryList()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getCategoryList() : string</pre>
-                <p><em>Przykład użycia: http://localhost/index.php/Home/getCategoryList</em></p>
+                <pre class="signature" style="margin-right: 54px;">getCategoryList(string  <span class="argument">$language</span>) : string</pre>
+                <p><em>Przykład użycia: http://localhost/index.php/Home/getCategoryList/PL</em></p>
                 
 
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
+                                            </table>
                 
                 
                                     <h4>Returns</h4>
                     string
-                                            &mdash; <p>Zwraca listę kategorii w formacie JSON.</p>
+                                            &mdash; <p>zwraca listę kategorii w formacie JSON.</p>
                                     				
                             </article>
         </div>
@@ -413,13 +433,18 @@ Wyświetla plik view/home.php</em></p>
             <article class="method">
                 <h3 class="public ">getMoviesFromCategory()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getMoviesFromCategory(integer  <span class="argument">$id</span>, integer  <span class="argument">$page = 1</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">getMoviesFromCategory(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>, integer  <span class="argument">$page = 1</span>) : string</pre>
                 <p><em>Filmy z podanej kategorii
-Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/35/1</em></p>
+Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
                                                     <tr>
                                 <td>integer</td>
                                 <td>$id </td>
@@ -463,13 +488,18 @@ Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/35/1</e
             <article class="method">
                 <h3 class="public ">getMovieDetails()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getMovieDetails(integer  <span class="argument">$id</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">getMovieDetails(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>) : string</pre>
                 <p><em>Szczegółowe informacje o filmie
-Przykład użycia: http://localhost/index.php/Home/getMovieDetails/290512</em></p>
+Przykład użycia: http://localhost/index.php/Home/getMovieDetails/PL/290512</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
                                                     <tr>
                                 <td>integer</td>
                                 <td>$id </td>
@@ -508,13 +538,18 @@ Przykład użycia: http://localhost/index.php/Home/getMovieDetails/290512</em></
             <article class="method">
                 <h3 class="public ">getMoviePoster()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getMoviePoster(integer  <span class="argument">$id</span>) : string</pre>
+                <pre class="signature" style="margin-right: 54px;">getMoviePoster(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>) : string</pre>
                 <p><em>Plakat filmu
-Przykład użycia: http://localhost/index.php/Home/getMoviePoster/290512</em></p>
+Przykład użycia: http://localhost/index.php/Home/getMoviePoster/PL/290512</em></p>
                 
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
                                                     <tr>
                                 <td>integer</td>
                                 <td>$id </td>
@@ -541,6 +576,424 @@ Przykład użycia: http://localhost/index.php/Home/getMoviePoster/290512</em></p
                         </th>
                         <td>
                                                                                             <p>getMoviePoster</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getKeywords" name="method_getKeywords" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getKeywords()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getKeywords(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>) : string</pre>
+                <p><em>Słowa kluczowe
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getKeywords/PL/550</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id filmu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca słowa kluczowe w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-movie-keywords"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-movie-keywords</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getKeywords</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLatest" name="method_getLatest" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLatest()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLatest(string  <span class="argument">$language</span>, integer  <span class="argument">$page</span>) : string</pre>
+                <p><em>Ostatnie filmy
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getLatest/PL/1</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$page </td>
+                                <td><p>numer strony</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-latest-movie"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-latest-movie</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getLatest</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNowPlaying" name="method_getNowPlaying" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNowPlaying()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNowPlaying(integer  <span class="argument">$page</span>, string  <span class="argument">$region</span>) : string</pre>
+                <p><em>Aktualnie grane filmy w kinach
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/1/PL
+Kod dla Polski PL
+$region = XX - obojętnie gdzie grany film</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$page </td>
+                                <td><p>numer strony</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$region </td>
+                                <td><p>kod regionu - w formacie xx</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://pl.wikipedia.org/wiki/ISO_3166-1"><span class="namespace-wrapper">Kody regionów</span></a></dd>
+                                            <dd><a href="https://developers.themoviedb.org/3/movies/get-now-playing"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-now-playing</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getNowPlaying</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPopular" name="method_getPopular" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPopular()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPopular(integer  <span class="argument">$page</span>, integer  <span class="argument">$region</span>) : string</pre>
+                <p><em>Popularne filmy
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/1/PL</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$page </td>
+                                <td><p>numer strony</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$region </td>
+                                <td><p>kod regionu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-popular-movies"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-popular-movies</span></a></dd>
+                                            <dd><a href="https://pl.wikipedia.org/wiki/ISO_3166-1"><span class="namespace-wrapper">Kody regionów</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getPopular</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTopRated" name="method_getTopRated" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTopRated()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTopRated(integer  <span class="argument">$page</span>, integer  <span class="argument">$region</span>) : string</pre>
+                <p><em>Najwyżej oceniane
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/1/PL</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$page </td>
+                                <td><p>numer strony</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$region </td>
+                                <td><p>kod regionu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-top-rated-movies"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-top-rated-movies</span></a></dd>
+                                            <dd><a href="https://pl.wikipedia.org/wiki/ISO_3166-1"><span class="namespace-wrapper">Kody regionów</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getTopRated</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getUpcoming" name="method_getUpcoming" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getUpcoming()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getUpcoming(integer  <span class="argument">$page</span>, integer  <span class="argument">$region</span>) : string</pre>
+                <p><em>Filmy, które nadchodzą
+Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/1/PL</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$page </td>
+                                <td><p>numer strony</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$region </td>
+                                <td><p>kod regionu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-upcoming"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-upcoming</span></a></dd>
+                                            <dd><a href="https://pl.wikipedia.org/wiki/ISO_3166-1"><span class="namespace-wrapper">Kody regionów</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getUpcoming</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTrailerPath" name="method_getTrailerPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTrailerPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTrailerPath(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>) : string</pre>
+                <p><em>Pobiera trailer do filmu.</em></p>
+                <p>Jeżeli nie ma traileru w podanym języku
+to pobierany jest trailer w dowolnym innym języku.
+Przykład użycia: <a href="http://localhost/Cinema/index.php?/Home/getTrailerPath/PL/383709">http://localhost/Cinema/index.php?/Home/getTrailerPath/PL/383709</a></p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$language </td>
+                                <td><p>język</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id filmu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-movie-videos"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-movie-videos</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getTrailerPath</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCredits" name="method_getCredits" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCredits()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCredits(integer  <span class="argument">$id</span>) : string</pre>
+                <p><em>Obsada i ekipa filmu
+Przykład użycia: http://localhost/Cinema/index.php/Home/getCredits/550</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>id filmu</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>zwraca dane w formacie JSON</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href="https://developers.themoviedb.org/3/movies/get-movie-credits"><span class="namespace-wrapper">https://developers.themoviedb.org/3/movies/get-movie-credits</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            method
+                        </th>
+                        <td>
+                                                                                            <p>getCredits</p>
                                                     </td>
                     </tr>
                             </table>
@@ -596,7 +1049,7 @@ Przykład użycia: http://localhost/index.php/Home/getMoviePoster/290512</em></p
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on November 13th, 2017 at 15:26.
+                    on November 16th, 2017 at 13:26.
                 </section>
             </section>
         </section>
