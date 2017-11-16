@@ -14,13 +14,24 @@ class Login extends CI_Controller {
 	}
 
   public function login(){
-    echo "Logowanie";
-    echo "<br>";
     $login = $_POST['login'];
     $password = $_POST['password'];
-    echo $login;
-    echo "<br>";
-    echo $password;
+    $status="";
+  
+   
+    $this->db->where('Login',$login);
+    $this->db->where('Password',$password);
+    $user = $this->db->get('users')->result();
+    if(!empty($user)) {
+      $status="exist";
+      header('Content-Type: application/json');
+      echo json_encode($status);
+    }
+    else {
+        $status="notExist";
+        header('Content-Type: application/json');
+        echo json_encode($status);
+    }
   }
 
   public function register(){
@@ -28,9 +39,7 @@ class Login extends CI_Controller {
     echo "<br>";
     $login = $_POST['login'];
     $password = $_POST['password'];
-    echo $login;
-    echo "<br>";
-    echo $password;
+
   }
 }
 ?>

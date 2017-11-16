@@ -1,9 +1,17 @@
 ###################
+Jak dokumentować kod PHP
+###################
+https://4programmers.net/PHP/Dokumentacja_kodu_PHP
+
+###################
 Konfiguracja PHP
 ###################
 Wymagane do poprawnego działania modelu Multikina.
 Odkomentować linijkę w pliku konfiguracyjnym php.ini:
 extension=php_openssl.dll
+Wymagane do działania bazy danych:
+Odkomentować linijkę w pliku konfiguracyjnym php.ini:
+extension=php_mysqli.dll
 
 ###################
 Instalacja
