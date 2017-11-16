@@ -6,6 +6,7 @@ class Login extends CI_Controller {
   public function __construct(){
     parent :: __construct();
     $this->load->helper('url');
+    $this->load->model('User_model');
   }
 
 	public function index()
@@ -17,11 +18,8 @@ class Login extends CI_Controller {
     $login = $_POST['login'];
     $password = $_POST['password'];
     $status="";
-  
-   
-    $this->db->where('Login',$login);
-    $this->db->where('Password',$password);
-    $user = $this->db->get('users')->result();
+
+    $user = $this->checkLoginAndPassword($login,$password);
     if(!empty($user)) {
       $status="exist";
       header('Content-Type: application/json');
@@ -38,8 +36,19 @@ class Login extends CI_Controller {
     echo "Rejestracja";
     echo "<br>";
     $login = $_POST['login'];
+    $nick = 'nick';
     $password = $_POST['password'];
 
+    $checkUnique = $this->checkUniqueLoginAndNick($login,$nick);
+    if($checkUnique != null)
+    {
+      if($checkUnique == $login) $status = 'Login not unigue';
+      else $status = 'Nick not unique';
+    }
+    else
+    {
+      $this->addUser($login, $nick, $password);
+    }
   }
 }
 ?>

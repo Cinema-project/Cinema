@@ -30,6 +30,16 @@ class User_model extends CI_Model
         }
     }
 
+    public function addUser($login, $nick, $password)
+    {
+        if ($login != null && $nick != null && $password != null)
+        {
+            $sql = "INSERT INTO users (Login, Nick, Password, RoleId, Avatar) VALUES (?, ?, ?,1,null)";
+            $this->db->query($sql, $login, $nick, $password);
+        }
+
+    }
+
 
     /**
      * @return mixed
@@ -127,6 +137,26 @@ class User_model extends CI_Model
         if(!empty($user))
         {
             $this->setUser($user);
+        }
+    }
+
+    public function checkUniqueLoginAndNick($login, $nick)
+    {
+        $this->db->where('Login', $login);
+        $user = $this->db->get('users')->result_array();
+        if(!empty($user))
+        {
+            return $login;
+        }
+        $this->db->where('Nick', $nick);
+        $user = $this->db->get('users')->result_array();
+        if(!empty($user))
+        {
+            return $nick;
+        }
+        else
+        {
+            return null;
         }
     }
 
