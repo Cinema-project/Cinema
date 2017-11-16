@@ -13,12 +13,18 @@ export class SignUp extends Component {
     super(props);
     this.state = {
       login: "",
+      nick: "",
       password: "",
       confirmPassword: "",
-      loader: false
+      loginCheck: ""
     };
     this._handleSubmit = this._handleSubmit.bind(this);
   }
+  updateNick = e => {
+    this.setState({
+      nick: e.target.value
+    });
+  };
 
   updateLogin = e => {
     this.setState({
@@ -69,19 +75,19 @@ export class SignUp extends Component {
       this.state.password.length < 8 &&
       !this.validateEmail(this.state.login)
     ) {
-      callToast("Password is too short and entered email isn't valid!");
+      callToast("Hasło jest za krótkie");
     } else if (
       this.state.password !== this.state.confirmPassword &&
       !this.validateEmail(this.state.login)
     ) {
-      callToast("Passwords are different and entered email isn't valid!");
+      callToast("Hasła się rożnią i e-mail jest niepoprawny");
     } else if (!this.validateEmail(this.state.login)) {
-      callToast("Entered email isn't valid!");
+      callToast("Wprowadzony e-mail jest niepoprawny");
     } else if (this.state.password !== this.state.confirmPassword) {
-      callToast("Entered passwords are different!");
+      callToast("Hasła są różne");
     } else {
       callToast(
-        "Entered password is too short! Please enter password with minimum 8 signs"
+        "Hasło jest za krótkie. Proszę wprowadzić hasło które ma conajmniej 8 znaków"
       );
     }
     this.clearForm();
@@ -127,20 +133,24 @@ export class SignUp extends Component {
       type: 'POST',
       data: {
         'login': this.state.login,
-        'password': this.state.password
+        'password': this.state.password,
+        'nick': this.state.nick
       },
       success: function(data) {
-        this.setState({
-          successMsg: '<div class="hehe"><h1>Wszystko GIT!</h1></div>'
-        });
-        $('#formContact').slideUp();
-        $('#formContact').after(this.state.successMsg);
+        this.state.loginCheck = data;
+        if (this.state.loginCheck == "exist") {
+          callToast("Użytkownik już istnieje");
+        }
+        else if (this.state.loginCheck == "notExist") {
+          callToast("Zarejestrowano, proszę się zalogować");
+          this.props.router.push("/");
+        }
       }.bind(this),
       error: function(xhr, status, err) {
         console.log(xhr, status);
         console.log(err);
         this.setState({
-          contactMessage: 'Bład',
+          contactMessage: 'Błąd',
         });
       }.bind(this)
     });  
@@ -162,30 +172,35 @@ export class SignUp extends Component {
               type="email"
             required/>
             <Input
+              onChange={this.updateNick}
+              value={this.state.nick}
+              placeholder="Nick"
+              id="nick"
+              type="nick"
+            required/>
+            <Input
               onChange={this.updatePassword}
               value={this.state.password}
-              placeholder="Password"
+              placeholder="Hasło"
               id="password"
               type="password"
             required/>
             <Input
               onChange={this.updateConfirmPassword}
               value={this.state.confirmPassword}
-              placeholder="Confirm password"
+              placeholder="Potwierdź hasło"
               type="password"
             required/>
             <StyledButton
               onClick={event => {
                 this.onSubmit;
-                this.loaderUpdate();
+                
                ;
               }}
-              label={"Sign Up"}
+              label={"Zarejestruj się"}
             />
           </form>
-          {/* <loader>
-            {this.loader()}
-          </loader> */}
+          
         </div>
       </div>
     );
@@ -203,7 +218,7 @@ export default connect()(withRouter(SignUp));
 
 const StyledButton = styled(Button)`
   background-color: rgb(124, 132, 131);
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Roboto', cursive;
   font-weight: bold;
   font-size: 1.5vw;
   width: 100%;

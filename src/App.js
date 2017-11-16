@@ -12,7 +12,7 @@ import Layout from "./Layout"
 class App extends Component {
   render() {
     return (
-      <div className="conteiner">
+      <div className="container">
         <Router history={hashHistory}>
           <Route path="/">
             <IndexRoute component={LandingPage} />

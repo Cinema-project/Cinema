@@ -12,7 +12,7 @@ var $ = require('jquery');
 export class SignIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { login: "", password: "", loader: false,loginCheck: ""};
+    this.state = { login: "", password: "", loader: false, loginCheck: "" };
 
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleChange = this._handleChange.bind(this);
@@ -59,16 +59,16 @@ export class SignIn extends React.Component {
     });
   }
   // Change <textarea> value state onUpdate (while typing) so input is updated
-  _handleChangeMsg = e =>{
+  _handleChangeMsg = e => {
     this.setState({
       password: e.target.value
     });
   }
 
-  _handleSubmit(e){
-  e.preventDefault();
+  _handleSubmit(e) {
+    e.preventDefault();
 
-  $.ajax({
+    $.ajax({
       url: process.env.NODE_ENV !== "production" ? './index.php/Login/login' : "./index.php/Login/login",
       // url: "./php/mailer.php",
       //./index.php/Login/login
@@ -77,16 +77,17 @@ export class SignIn extends React.Component {
         'login': this.state.login,
         'password': this.state.password
       },
-      success: function(data) {
+      success: function (data) {
         this.state.loginCheck = data;
-      if(this.state.loginCheck=="exist"){
-        this.props.router.push("home_page");
-        }else if(this.state.loginCheck=="notExist"){
-      callToast("Entered login and password aren't correct!");
-      }
+        if (this.state.loginCheck == "exist") {
+          this.props.router.push("home_page");
+        }
+        else if (this.state.loginCheck == "notExist") {
+          callToast("Wprowadzono błędne dane logowania");
+        }
 
       }.bind(this),
-      error: function(xhr, status, err) {
+      error: function (xhr, status, err) {
         console.log(xhr, status);
         console.log(err);
         this.setState({
@@ -98,8 +99,8 @@ export class SignIn extends React.Component {
 
 
   render() {
-    return (      
-     <div className="row">
+    return (
+      <div className="row">
         <div className="col-md-12 " style={{ paddingTop: "30px" }}>
           <form onSubmit={this._handleSubmit}>
             <Input
@@ -114,15 +115,15 @@ export class SignIn extends React.Component {
               value={this.state.password}
               className="form-control"
               id="password"
-              placeholder="Password"
+              placeholder="Hasło"
               type="password"
             />
             <ConfirmationButton
               onClick={event => {
                 this.onSubmit;
-                this.loaderUpdate();
+                
               }}
-              label={"Sign In"}
+              label={"Zaloguj się"}
             />
           </form>
         </div>
@@ -132,9 +133,9 @@ export class SignIn extends React.Component {
 }
 export default connect()(withRouter(SignIn));
 
-const ConfirmationButton = styled(Button)`
+const ConfirmationButton = styled(Button) `
   background-color: rgb(124, 132, 131);
-  font-family: 'Indie Flower', cursive;
+  font-family: 'Roboto', cursive;
   font-weight: bold;
   font-size: 1.5vw;
   width: 100%;

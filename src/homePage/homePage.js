@@ -3,7 +3,7 @@ import Calendar from "./calendar"
 import axios from "axios";
 
 class homePage extends Component{
-
+  
   render(){
     return(
       <div className = "row">
@@ -13,6 +13,7 @@ class homePage extends Component{
               <Calendar />
             </div>
             <div className = "col-md-10">
+
             </div>
 
         </div>
