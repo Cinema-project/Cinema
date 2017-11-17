@@ -94,21 +94,48 @@ class TheMovieDB extends CI_Model {
   }
 
   /**
-  * Pyta o filmy z podanej kategorii
-  * @method getMoviesFromCategory
-  * @param string $language język
-  * @param int $categoryId id kategorii
-  * @param int $page numer strony
-  * @return string Zwraca filmy z podanej kategorii w formacie JSON
-  * @link https://developers.themoviedb.org/3/discover
-  */
-  public function getMoviesFromCategory($language, $categoryId, $page = 1){
-    return $this->querry( '/discover/movie',
-                          $this->laguage($language) .
-                          '&with_genres=' . $categoryId .
-                          $this->page($page) .
-                          '&sort_by=popularity.desc' );
-  }
+ * Pobiera filmy
+ *
+ * Dozwolone wartości dla parametru sortowania:
+ * popularity.asc, popularity.desc, release_date.asc,
+ * release_date.desc, revenue.asc, revenue.desc,
+ * primary_release_date.asc, primary_release_date.desc,
+ * original_title.asc, original_title.desc, vote_average.asc,
+ * vote_average.desc, vote_count.asc, vote_count.desc
+ *
+ * @method getMovies
+ * @param string $language język
+ * @param int $categoryId id kategorii
+ * @param int $page numer strony
+ * @param string $sort sposób sortowania
+ * @param int $year rok produkcji
+ * @return string zwraca listę filmów w formacie JSON
+ * @link https://developers.themoviedb.org/3/discover
+ */
+ public function getMovies($language, $categoryId, $page, $sort, $year ){
+   $language = trim($language);
+   $categoryId = trim($categoryId);
+   $page = trim($page);
+   $sort = trim($sort);
+   $year = trim($year);
+   $more = '';
+   if ($language != ''){
+     $more .= $this->laguage($language);
+   }
+   if ($categoryId != '' && is_numeric($page)){
+     $more .= '&with_genres=' . $categoryId;
+   }
+   if ($page != '' && is_numeric($page)){
+     $more .= $this->page($page);
+   }
+   if ($sort != '') {
+     $more .= '&sort_by=' . $sort;
+   }
+   if ($year != '' && is_numeric($year)){
+     $more .= '&year=' . $year;
+   }
+   return $this->querry( '/discover/movie', $more );
+ }
 
   /**
   * Pyta o szczegółowe informację o filmie

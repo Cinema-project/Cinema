@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1664291179"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1001186432"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1664291179" class="accordion-body collapse in">
+            <div id="namespace-1001186432" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -192,7 +192,7 @@
                             <section class="span4">
                                                                     <a href="../classes/TheMovieDB.html#method___construct" class="">__construct()</a><br />
                                                                     <a href="../classes/TheMovieDB.html#method_getCategoryList" class="">getCategoryList()</a><br />
-                                                                    <a href="../classes/TheMovieDB.html#method_getMoviesFromCategory" class="">getMoviesFromCategory()</a><br />
+                                                                    <a href="../classes/TheMovieDB.html#method_getMovies" class="">getMovies()</a><br />
                                                                     <a href="../classes/TheMovieDB.html#method_getMovieDetails" class="">getMovieDetails()</a><br />
                                                                     <a href="../classes/TheMovieDB.html#method_getMoviePosterPath" class="">getMoviePosterPath()</a><br />
                                                                     <a href="../classes/TheMovieDB.html#method_getKeywords" class="">getKeywords()</a><br />
@@ -247,7 +247,7 @@
                     
                     <dl>
                         <dt>File</dt>
-                            <dd><a href="../files/models.TheMovieDB.html"><div class="path-wrapper">models\TheMovieDB.php</div></a></dd>
+                            <dd><a href="../files/models.Themoviedb.html"><div class="path-wrapper">models\Themoviedb.php</div></a></dd>
                                                 <dt>Package</dt>
                             <dd><div class="namespace-wrapper">Default</div></dd>
                                                 <dt>Class hierarchy</dt>
@@ -481,13 +481,18 @@
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_getMoviesFromCategory" name="method_getMoviesFromCategory" class="anchor"></a>
+            <a id="method_getMovies" name="method_getMovies" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">getMoviesFromCategory()</h3>
+                <h3 class="public ">getMovies()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getMoviesFromCategory(string  <span class="argument">$language</span>, integer  <span class="argument">$categoryId</span>, integer  <span class="argument">$page = 1</span>) : string</pre>
-                <p><em>Pyta o filmy z podanej kategorii</em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">getMovies(string  <span class="argument">$language</span>, integer  <span class="argument">$categoryId</span>, integer  <span class="argument">$page</span>, string  <span class="argument">$sort</span>, integer  <span class="argument">$year</span>) : string</pre>
+                <p><em>Pobiera filmy</em></p>
+                <p>Dozwolone wartości dla parametru sortowania:
+popularity.asc, popularity.desc, release_date.asc,
+release_date.desc, revenue.asc, revenue.desc,
+primary_release_date.asc, primary_release_date.desc,
+original_title.asc, original_title.desc, vote_average.asc,
+vote_average.desc, vote_count.asc, vote_count.desc</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -506,12 +511,22 @@
                                 <td>$page </td>
                                 <td><p>numer strony</p></td>
                             </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$sort </td>
+                                <td><p>sposób sortowania</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$year </td>
+                                <td><p>rok produkcji</p></td>
+                            </tr>
                                             </table>
                 
                 
                                     <h4>Returns</h4>
                     string
-                                            &mdash; <p>Zwraca filmy z podanej kategorii w formacie JSON</p>
+                                            &mdash; <p>zwraca listę filmów w formacie JSON</p>
                                     				
                             </article>
         </div>
@@ -528,7 +543,7 @@
                             method
                         </th>
                         <td>
-                                                                                            <p>getMoviesFromCategory</p>
+                                                                                            <p>getMovies</p>
                                                     </td>
                     </tr>
                             </table>
@@ -1256,10 +1271,10 @@ to pobierany jest trailer w dowolnym innym języku.</p>
     <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="source-view-label">TheMovieDB.php</h3>
+            <h3 id="source-view-label">Themoviedb.php</h3>
         </div>
         <div class="modal-body">
-            <pre data-src="../files/models\TheMovieDB.php.txt" class="language-php line-numbers"></pre>
+            <pre data-src="../files/models\Themoviedb.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
 
@@ -1299,7 +1314,7 @@ to pobierany jest trailer w dowolnym innym języku.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on November 16th, 2017 at 13:26.
+                    on November 17th, 2017 at 12:57.
                 </section>
             </section>
         </section>

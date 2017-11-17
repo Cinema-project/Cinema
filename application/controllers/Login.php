@@ -18,8 +18,8 @@ class Login extends CI_Controller {
     $login = $_POST['login'];
     $password = $_POST['password'];
     $status="";
-
-    $user = $this->checkLoginAndPassword($login,$password);
+    $user = new User_model();
+    $user->checkLoginAndPassword($login,$password);
     if(!empty($user)) {
       $status="exist";
       header('Content-Type: application/json');
@@ -38,8 +38,8 @@ class Login extends CI_Controller {
     $login = $_POST['login'];
     $nick = 'nick';
     $password = $_POST['password'];
-
-    $checkUnique = $this->checkUniqueLoginAndNick($login,$nick);
+    $user = new User_model();
+    $checkUnique = $user->checkUniqueLoginAndNick($login,$nick);
     if($checkUnique != null)
     {
       if($checkUnique == $login) $status = 'Login not unigue';
@@ -47,7 +47,7 @@ class Login extends CI_Controller {
     }
     else
     {
-      $this->addUser($login, $nick, $password);
+      $user->addUser($login, $nick, $password);
     }
   }
 }

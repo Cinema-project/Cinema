@@ -22,7 +22,7 @@ class Home extends CI_Controller {
     {
         $data['multikino'] = $this->multikino->getCinemaRepertoire(3);
         $data['themoviedbLista'] = $this->themoviedb->getCategoryList('PL');
-        $data['themoviedbAkcja'] = $this->themoviedb->getMoviesFromCategory('PL', 18);
+        $data['themoviedbAkcja'] = $this->themoviedb->getMovies('PL', 18, 1, '', 2017);
         $data['movieDetails'] = $this->themoviedb->getMovieDetails('PL', 290512);
         $data['poster'] = $this->themoviedb->getMoviePosterPath('PL', 290512);
         $this->load->view('home', $data);
@@ -49,16 +49,28 @@ class Home extends CI_Controller {
     }
 
     /**
-     * Filmy z podanej kategorii
-     * Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1
-     * @method getMoviesFromCategory
+     * Pobiera filmy
+     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/release_date.asc/2017,
+     *                  http://localhost/index.php/Home/getMovies
+     *
+     * Dozwolone wartości dla parametru sortowania:
+     * popularity.asc, popularity.desc, release_date.asc,
+     * release_date.desc, revenue.asc, revenue.desc,
+     * primary_release_date.asc, primary_release_date.desc,
+     * original_title.asc, original_title.desc, vote_average.asc,
+     * vote_average.desc, vote_count.asc, vote_count.desc
+     * Domyślnie - popularity.desc
+     *
+     * @method getMovies
      * @param string $language język
-     * @param int $id	id kategorii filmów
+     * @param int $categoryId	id kategorii filmów
      * @param int $page	numer strony
+     * @param string $sort sposób sortowania
+     * @param int $year rok produkcji
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMoviesFromCategory($language, $id, $page = 1){
-        echo $this->themoviedb->getMoviesFromCategory($language, $id, $page);
+    public function getMovies($language = '', $categoryId = '', $page = '', $sort = '', $year = ''){
+        echo $this->themoviedb->getMovies($language, $categoryId, $page, $sort, $year);
     }
 
     /**
