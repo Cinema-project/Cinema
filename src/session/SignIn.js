@@ -82,7 +82,7 @@ export class SignIn extends React.Component {
       if(this.state.loginCheck=="exist"){
         this.props.router.push("home_page");
         }else if(this.state.loginCheck=="notExist"){
-      callToast("Entered login and password aren't correct!");
+      callToast("Wprowadzono niepoprawny e-mail i hasło.");
       }
 
       }.bind(this),
@@ -98,7 +98,7 @@ export class SignIn extends React.Component {
 
 
   render() {
-    return (      
+    return (
      <div className="row">
         <div className="col-md-12 " style={{ paddingTop: "30px" }}>
           <form onSubmit={this._handleSubmit}>
@@ -122,7 +122,7 @@ export class SignIn extends React.Component {
                 this.onSubmit;
                 this.loaderUpdate();
               }}
-              label={"Sign In"}
+              label={"Zaloguj się"}
             />
           </form>
         </div>

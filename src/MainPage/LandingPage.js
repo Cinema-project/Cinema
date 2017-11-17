@@ -49,10 +49,10 @@ export class Home extends React.Component {
   render() {
     return (
       <StyledContainer className="row">
-        <div className="col-md-6 col-md-offset-3">My Cinema</div>
+        <div className="col-md-6 col-md-offset-3">MyCinema</div>
         <StyledButtonContainer className="col-md-6 col-md-offset-3">
-          <StyledButton onClick={this.signIn}>Sign In</StyledButton>
-          <StyledButton onClick={this.signUp}>Sign Up</StyledButton>
+          <StyledButton onClick={this.signIn}>Zaloguj się</StyledButton>
+          <StyledButton onClick={this.signUp}>Zarejestruj się</StyledButton>
         </StyledButtonContainer>
         <Modal
           isOpen={this.state.isActiveSignIn}
@@ -89,13 +89,13 @@ const StyledContainer = styled.div`
 
 const StyledButtonContainer = styled.div`
   font-size: 30px;
-  padding-top: 5vh;
+  padding-top: 10vh;
 `;
 
 const StyledButton = styled.button`
   background-color: rgb(124, 132, 131);
-  width: 160px;
-  font-size: 30px;
+  width: 220px;
+  font-size: 25px;
   border-radius: 5px;
   border: none;
   margin: 10px 30px 15px 15px;

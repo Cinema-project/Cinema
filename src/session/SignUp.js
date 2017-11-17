@@ -13,6 +13,7 @@ export class SignUp extends Component {
     super(props);
     this.state = {
       login: "",
+      nick: "",
       password: "",
       confirmPassword: "",
       loader: false
@@ -25,6 +26,13 @@ export class SignUp extends Component {
       login: e.target.value
     });
   };
+
+  updateNick = e => {
+    this.setState({
+      nick: e.target.value
+    });
+  };
+
   updatePassword = e => {
     this.setState({
       password: e.target.value
@@ -69,19 +77,19 @@ export class SignUp extends Component {
       this.state.password.length < 8 &&
       !this.validateEmail(this.state.login)
     ) {
-      callToast("Password is too short and entered email isn't valid!");
+      callToast("Wprowadzone hasło jest za krótkie oraz podano nieprawidłowy adres e-mail.");
     } else if (
       this.state.password !== this.state.confirmPassword &&
       !this.validateEmail(this.state.login)
     ) {
-      callToast("Passwords are different and entered email isn't valid!");
+      callToast("Wprowadzone hasła są różne oraz podano nieprawidłowy adres e-mail.");
     } else if (!this.validateEmail(this.state.login)) {
-      callToast("Entered email isn't valid!");
+      callToast("Wprowadzony adres e-mail nie jest poprawny.");
     } else if (this.state.password !== this.state.confirmPassword) {
-      callToast("Entered passwords are different!");
+      callToast("Wprowadzone hasła są różne.");
     } else {
       callToast(
-        "Entered password is too short! Please enter password with minimum 8 signs"
+        "Wprowadzone hasło jest za krótkie. Wprowadź hasło zawierające conajmniej 8 znaków."
       );
     }
     this.clearForm();
@@ -112,41 +120,40 @@ export class SignUp extends Component {
     });
   };
 
-
-
    _handleSubmit(e){
   e.preventDefault();
-   
+
     if (!this.checkConditions()) {
       this.wrongRegistrationAlerts();
+    }else{
+      $.ajax({
+          url: process.env.NODE_ENV !== "production" ? './index.php/Login/register' : "./index.php/Login/register",
+          // url: "./php/mailer.php",
+          type: 'POST',
+          data: {
+            'login': this.state.login,
+            'password': this.state.password,
+            'nick': this.state.nick
+          },
+          success: function(data) {
+            this.state.loginCheck = data;
+            if (this.state.loginCheck == "exist") {
+              callToast("Użytkownik już istnieje");
+            }
+            else if (this.state.loginCheck == "notExist") {
+              callToast("Zarejestrowano, proszę się zalogować");
+              this.props.router.push("/");
+            }
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.log(xhr, status);
+            console.log(err);
+            this.setState({
+              contactMessage: 'Błąd',
+            });
+          }.bind(this)
+        });
     }
-     
-  $.ajax({
-      url: process.env.NODE_ENV !== "production" ? './index.php/Login/register' : "./index.php/Login/register",
-      // url: "./php/mailer.php",
-      type: 'POST',
-      data: {
-        'login': this.state.login,
-        'password': this.state.password
-      },
-      success: function(data) {
-        this.setState({
-          successMsg: '<div class="hehe"><h1>Wszystko GIT!</h1></div>'
-        });
-        $('#formContact').slideUp();
-        $('#formContact').after(this.state.successMsg);
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.log(xhr, status);
-        console.log(err);
-        this.setState({
-          contactMessage: 'Bład',
-        });
-      }.bind(this)
-    });  
-  
-    
-            
   };
 
   render() {
@@ -161,6 +168,15 @@ export class SignUp extends Component {
               id="login"
               type="email"
             required/>
+
+            <Input
+              onChange={this.updateNick}
+              value={this.state.nick}
+              placeholder="Nick"
+              id="nick"
+              type="text"
+            required/>
+
             <Input
               onChange={this.updatePassword}
               value={this.state.password}
@@ -168,19 +184,21 @@ export class SignUp extends Component {
               id="password"
               type="password"
             required/>
+
             <Input
               onChange={this.updateConfirmPassword}
               value={this.state.confirmPassword}
               placeholder="Confirm password"
               type="password"
             required/>
+
             <StyledButton
               onClick={event => {
                 this.onSubmit;
                 this.loaderUpdate();
                ;
               }}
-              label={"Sign Up"}
+              label={"Zarejestruj się"}
             />
           </form>
           {/* <loader>
