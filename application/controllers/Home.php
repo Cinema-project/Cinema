@@ -69,7 +69,7 @@ class Home extends CI_Controller {
      * @param int $year rok produkcji
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $id = '', $page = '', $sort = '', $year = ''){
+    public function getMovies($language = '', $categoryId = '', $page = '', $sort = '', $year = ''){
         echo $this->themoviedb->getMovies($language, $categoryId, $page, $sort, $year);
     }
 

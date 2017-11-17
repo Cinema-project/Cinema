@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-858285966"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1271747367"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-858285966" class="accordion-body collapse in">
+            <div id="namespace-1271747367" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -194,7 +194,7 @@
                                                                     <a href="../classes/Home.html#method_index" class="">index()</a><br />
                                                                     <a href="../classes/Home.html#method_getCinemaRepertoire" class="">getCinemaRepertoire()</a><br />
                                                                     <a href="../classes/Home.html#method_getCategoryList" class="">getCategoryList()</a><br />
-                                                                    <a href="../classes/Home.html#method_getMoviesFromCategory" class="">getMoviesFromCategory()</a><br />
+                                                                    <a href="../classes/Home.html#method_getMovies" class="">getMovies()</a><br />
                                                                     <a href="../classes/Home.html#method_getMovieDetails" class="">getMovieDetails()</a><br />
                                                                     <a href="../classes/Home.html#method_getMoviePoster" class="">getMoviePoster()</a><br />
                                                                     <a href="../classes/Home.html#method_getKeywords" class="">getKeywords()</a><br />
@@ -429,14 +429,21 @@ Wyświetla plik view/home.php</em></p>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
-            <a id="method_getMoviesFromCategory" name="method_getMoviesFromCategory" class="anchor"></a>
+            <a id="method_getMovies" name="method_getMovies" class="anchor"></a>
             <article class="method">
-                <h3 class="public ">getMoviesFromCategory()</h3>
+                <h3 class="public ">getMovies()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">getMoviesFromCategory(string  <span class="argument">$language</span>, integer  <span class="argument">$id</span>, integer  <span class="argument">$page = 1</span>) : string</pre>
-                <p><em>Filmy z podanej kategorii
-Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1</em></p>
-                
+                <pre class="signature" style="margin-right: 54px;">getMovies(string  <span class="argument">$language = &#039;&#039;</span>, integer  <span class="argument">$categoryId = &#039;&#039;</span>, integer  <span class="argument">$page = &#039;&#039;</span>, string  <span class="argument">$sort = &#039;&#039;</span>, integer  <span class="argument">$year = &#039;&#039;</span>) : string</pre>
+                <p><em>Pobiera filmy
+Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1/release_date.asc/2017,
+                 http://localhost/index.php/Home/getMoviesFromCategory</em></p>
+                <p>Dozwolone wartości dla parametru sortowania:
+popularity.asc, popularity.desc, release_date.asc,
+release_date.desc, revenue.asc, revenue.desc,
+primary_release_date.asc, primary_release_date.desc,
+original_title.asc, original_title.desc, vote_average.asc,
+vote_average.desc, vote_count.asc, vote_count.desc
+Domyślnie - popularity.desc</p>
 
                                     <h4>Parameters</h4>
                     <table class="table table-condensed table-hover">
@@ -447,13 +454,23 @@ Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1
                             </tr>
                                                     <tr>
                                 <td>integer</td>
-                                <td>$id </td>
+                                <td>$categoryId </td>
                                 <td><p>id kategorii filmów</p></td>
                             </tr>
                                                     <tr>
                                 <td>integer</td>
                                 <td>$page </td>
                                 <td><p>numer strony</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$sort </td>
+                                <td><p>sposób sortowania</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$year </td>
+                                <td><p>rok produkcji</p></td>
                             </tr>
                                             </table>
                 
@@ -475,7 +492,7 @@ Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1
                             method
                         </th>
                         <td>
-                                                                                            <p>getMoviesFromCategory</p>
+                                                                                            <p>getMovies</p>
                                                     </td>
                     </tr>
                             </table>
@@ -1049,7 +1066,7 @@ Przykład użycia: http://localhost/Cinema/index.php/Home/getCredits/550</em></p
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on November 16th, 2017 at 13:26.
+                    on November 17th, 2017 at 12:57.
                 </section>
             </section>
         </section>
