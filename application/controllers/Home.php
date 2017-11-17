@@ -22,7 +22,7 @@ class Home extends CI_Controller {
     {
         $data['multikino'] = $this->multikino->getCinemaRepertoire(3);
         $data['themoviedbLista'] = $this->themoviedb->getCategoryList('PL');
-        $data['themoviedbAkcja'] = $this->themoviedb->getMoviesFromCategory('PL', 18);
+        $data['themoviedbAkcja'] = $this->themoviedb->getMovies('PL', 18, 1, '', 2017);
         $data['movieDetails'] = $this->themoviedb->getMovieDetails('PL', 290512);
         $data['poster'] = $this->themoviedb->getMoviePosterPath('PL', 290512);
         $this->load->view('home', $data);
