@@ -3,8 +3,37 @@ import Calendar from "./calendar"
 import axios from "axios";
 
 class homePage extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      title: "",
+      poster: "",
+      rating: ""
+    };
+  }
+
+  componentWillMount = () => {
+    console.log("MOUNT");
+    axios
+      .get("./index.php?/Home/getPopular/1/PL")
+      .then(response => {
+        console.log("FILMY", response);
+        this.setState({
+          title: response.data.results[0].title,
+          poster: response.data.results[0].poster_path,
+          rating: response.data.results[0].vote_average
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
 
   render(){
+    console.log("Tytul:", this.state.title);
+    console.log("Plakat:", this.state.poster);
+    console.log("Ocena:", this.state.rating);
     return(
       <div className = "row">
         <div className = "col-md-12">
