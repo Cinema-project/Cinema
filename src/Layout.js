@@ -17,10 +17,10 @@ class Layout extends React.Component {
               <Link to="home_page" style={{ border: "none" }}>
                 <img
                   src={require("./images/navbarImage.png")}
-                  style={{ width: "15vh" }}
+                  style={{ width: "80px" }}
                 />
               </Link>
-              <Link to="home_page" >
+              <Link to="home_page">
                 MyCinema
               </Link>
             </div>
@@ -30,21 +30,21 @@ class Layout extends React.Component {
                   onChange={this.updatePlace}
                   type="text"
                   className="form-control"
-                  placeholder="Wprowadź"
+                  placeholder="Enter text"
                 />
                 <span className="input-group-btn">
                   <button
                     onClick={this.onSubmit}
                     className="btn btn-info"
                     type="button">
-                    Szukaj
+                    Search
                   </button>
                 </span>
               </div>
             </div>
             <div className="col-md-4">
               <a href="#">
-                <span class="glyphicon glyphicon-log-out" style={{float: "right", fontSize: "4vh"}}></span>
+                <span class="glyphicon glyphicon-log-out" style={{float: "right", fontSize: "40px"}}></span>
               </a>
             </div>
             </Searchbar>
@@ -70,8 +70,7 @@ class Layout extends React.Component {
 export default connect()(Layout);
 
 const StyledNavbar = styled.div`
-  background-color: rgb(192,192,192);
-  box-shadow: inset 0px 0px 40px 40px rgb(192,192,192);
+  background-color: gray;
   overflow: hidden;
   margin-bottom: 0px;
   text-align: center;
@@ -96,11 +95,10 @@ const StyledNavbar = styled.div`
 `;
 
 const Searchbar = styled.div`
-  background-color: rgb(169,169,169);
+  background-color: gray;
   overflow: hidden;
   padding-top: 10px;
   margin-top: 10px;
-  box-shadow: inset 0px 0px 40px 40px rgb(169,169,169);
   text-align: left;
   ${'' /* text-shadow: 3px 3px 1px rgba(0, 0, 0, 1); */}
   a {
