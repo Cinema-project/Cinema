@@ -50,8 +50,8 @@ class Home extends CI_Controller {
 
     /**
      * Pobiera filmy
-     * Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/PL/35/1/release_date.asc/2017,
-     *                  http://localhost/index.php/Home/getMoviesFromCategory
+     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/release_date.asc/2017,
+     *                  http://localhost/index.php/Home/getMovies
      *
      * Dozwolone wartości dla parametru sortowania:
      * popularity.asc, popularity.desc, release_date.asc,
