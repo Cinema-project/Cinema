@@ -3,11 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 
-	public function __construct() {
-		parent :: __construct();
-		$this->load->helper('url');
-		$this->load->model('User_model');
-	}
+    public function __construct() {
+        parent :: __construct();
+        $this->load->helper('url');
+        $this->load->model('user_model');
+    }
 
 	public function index() {
 		$this->load->view('login');
@@ -17,7 +17,7 @@ class Login extends CI_Controller {
 		$login = $this->input->post('login');
 		$password = $this->input->post('password');
 
-		if($this->User_model->checkLoginAndPassword($login,$password)) {
+		if($this->user_model->checkLoginAndPassword($login,$password)) {
 			$status="exist";
 		}
 		else {
@@ -30,7 +30,7 @@ class Login extends CI_Controller {
 	public function register() {
 		$user = new User_model();
 		$user->setLogin($this->input->post('login'));
-		$user->setNick('nock');
+		$user->setNick('nick');
 		$user->setPassword($this->input->post('password'));
 		$checkUnique = $user->checkUniqueLoginAndNick();
 		if($checkUnique != null) {
