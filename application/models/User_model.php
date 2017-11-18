@@ -30,6 +30,22 @@ class User_model extends CI_Model
         }
     }
 
+    public function save()
+    {
+        if ($this->login != null && $this->nick != null && $this->password != null)
+        {
+            $data = array(
+                'Login' => $this->login,
+                'Nick' => $this->nick,
+                'Password' => $this->password,
+                'RoleId' => 1,
+                'Avatar' => null
+            );
+            $this->db->insert('users', $data);
+        }
+
+    }
+
 
     /**
      * @return mixed
@@ -119,14 +135,34 @@ class User_model extends CI_Model
         $this->avatar = $avatar;
     }
 
-    public function checkLoginAndPassword($login, $password)
+    public function checkLoginAndPassword()
     {
-        $this->db->where('Login', $login);
-        $this->db->where('Password', $password);
+        $this->db->where('Login', $this->login);
+        $this->db->where('Password', $this->password);
         $user = $this->db->get('users')->result_array();
         if(!empty($user))
         {
             $this->setUser($user);
+        }
+    }
+
+    public function checkUniqueLoginAndNick()
+    {
+        $this->db->where('Login', $this->login);
+        $user = $this->db->get('users')->result_array();
+        if(!empty($user))
+        {
+            return $this->login;
+        }
+        $this->db->where('Nick', $this->nick);
+        $user = $this->db->get('users')->result_array();
+        if(!empty($user))
+        {
+            return $this->nick;
+        }
+        else
+        {
+            return null;
         }
     }
 
