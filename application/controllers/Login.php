@@ -28,20 +28,19 @@ class Login extends CI_Controller {
 	}
 
 	public function register() {
-		$user = new User_model();
-		$user->setLogin($this->input->post('login'));
-		$user->setNick('nick');
-		$user->setPassword($this->input->post('password'));
+		$this->user_model->setLogin($this->input->post('login'));
+		$this->user_model->setNick($this->input->post('nick'));
+		$this->user_model->setPassword($this->input->post('password'));
 		$checkUnique = $user->checkUniqueLoginAndNick();
 		if($checkUnique != null) {
-			if($checkUnique == $user->getLogin()) {
+			if($checkUnique == $this->user_model->getLogin()) {
 				$status = 'Login not unigue';
 			} else {
 				$status = 'Nick not unique';
 			}
 		}
 		else {
-			$user->save();
+			$this->user_model->save();
 			$status = "notexist";
 		}
 		header('Content-Type: application/json');
