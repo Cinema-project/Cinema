@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 14 Lis 2017, 17:03
--- Wersja serwera: 10.1.26-MariaDB
--- Wersja PHP: 7.1.9
+-- Czas generowania: 18 Lis 2017, 23:30
+-- Wersja serwera: 10.1.28-MariaDB
+-- Wersja PHP: 7.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,7 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_cinema`
 --
-DROP DATABASE IF EXISTS `db_cinema`;
 CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `db_cinema`;
 
@@ -32,10 +31,12 @@ USE `db_cinema`;
 --
 
 DROP TABLE IF EXISTS `awards`;
-CREATE TABLE `awards` (
+CREATE TABLE IF NOT EXISTS `awards` (
   `AwardId` int(11) NOT NULL,
   `Name` varchar(45) DEFAULT NULL,
-  `Category` varchar(45) DEFAULT NULL
+  `Category` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`AwardId`),
+  UNIQUE KEY `unique_constraint` (`Name`,`Category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -45,11 +46,12 @@ CREATE TABLE `awards` (
 --
 
 DROP TABLE IF EXISTS `directors`;
-CREATE TABLE `directors` (
-  `DirectorId` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `directors` (
+  `DirectorId` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(30) NOT NULL,
   `Surname` varchar(30) NOT NULL,
-  `Biography` text NOT NULL
+  `Biography` text NOT NULL,
+  PRIMARY KEY (`DirectorId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -59,9 +61,11 @@ CREATE TABLE `directors` (
 --
 
 DROP TABLE IF EXISTS `favorites`;
-CREATE TABLE `favorites` (
+CREATE TABLE IF NOT EXISTS `favorites` (
   `AccountId` int(11) NOT NULL,
-  `MovieId` int(11) NOT NULL
+  `MovieId` int(11) NOT NULL,
+  KEY `fk_Favorites_Movies1_idx` (`MovieId`),
+  KEY `fk_Favorites_Accounts1` (`AccountId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -71,14 +75,16 @@ CREATE TABLE `favorites` (
 --
 
 DROP TABLE IF EXISTS `movies`;
-CREATE TABLE `movies` (
-  `MovieId` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `movies` (
+  `MovieId` int(11) NOT NULL AUTO_INCREMENT,
   `DirectorId` int(11) NOT NULL,
   `Title` text NOT NULL,
   `TypeId` int(11) NOT NULL,
   `Length` time DEFAULT NULL,
   `Description` text,
-  `PremiereDate` date DEFAULT NULL
+  `PremiereDate` date DEFAULT NULL,
+  PRIMARY KEY (`MovieId`),
+  KEY `DirectorId` (`DirectorId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -88,9 +94,12 @@ CREATE TABLE `movies` (
 --
 
 DROP TABLE IF EXISTS `movies_awards`;
-CREATE TABLE `movies_awards` (
+CREATE TABLE IF NOT EXISTS `movies_awards` (
   `MovieId` int(11) NOT NULL,
-  `AwardId` int(11) NOT NULL
+  `AwardId` int(11) NOT NULL,
+  PRIMARY KEY (`MovieId`,`AwardId`),
+  KEY `fk_Movies_has_Awards_Awards1_idx` (`AwardId`),
+  KEY `fk_Movies_has_Awards_Movies1_idx` (`MovieId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -100,9 +109,12 @@ CREATE TABLE `movies_awards` (
 --
 
 DROP TABLE IF EXISTS `roles`;
-CREATE TABLE `roles` (
+CREATE TABLE IF NOT EXISTS `roles` (
   `RoleId` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL
+  `Name` varchar(45) NOT NULL,
+  PRIMARY KEY (`RoleId`),
+  UNIQUE KEY `RoleId_UNIQUE` (`RoleId`),
+  UNIQUE KEY `Name_UNIQUE` (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -110,9 +122,7 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`RoleId`, `Name`) VALUES
-(1, 'Admin'),
-(3, 'Guest'),
-(2, 'User');
+(1, 'Admin');
 
 -- --------------------------------------------------------
 
@@ -121,14 +131,17 @@ INSERT INTO `roles` (`RoleId`, `Name`) VALUES
 --
 
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `UserId` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `Login` varchar(45) NOT NULL,
   `Nick` varchar(45) NOT NULL,
-  `Password` varchar(45) NOT NULL,
+  `Password` varchar(255) NOT NULL,
   `RoleId` int(11) NOT NULL,
-  `Avatar` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `Avatar` text,
+  PRIMARY KEY (`UserId`),
+  UNIQUE KEY `AccountName_UNIQUE` (`Login`),
+  KEY `fk_Accounts_Roles1_idx` (`RoleId`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 --
 -- Zrzut danych tabeli `users`
@@ -136,103 +149,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`UserId`, `Login`, `Nick`, `Password`, `RoleId`, `Avatar`) VALUES
 (1, 'Admin', 'Admin', 'Admin', 1, NULL),
-(2, 'Wyso', 'Wyso', 'qwerty123', 2, NULL),
-(3, 'Qbson', 'Damian', 'qwerty123', 2, NULL),
-(4, 'Vincent', 'Winccent', 'qwerty123', 2, NULL),
-(5, 'Łukasz', 'Nosacz', 'qwerty123', 2, NULL),
-(6, 'Bartek', 'Programista', 'qwerty123', 2, NULL),
-(7, 'Jan', 'Kowalski', 'qwerty123', 2, NULL),
-(8, 'Tomasz', 'Nowak', 'qwerty123', 2, NULL),
-(9, 'Jerzy', 'Lec', 'qwerty123', 2, NULL),
-(10, 'Jurek', 'Owsiak', 'qwerty123', 2, NULL),
-(11, 'Donald', 'Tusk', 'qwerty123', 2, NULL),
-(12, 'Jarek', 'Kaczor', 'qwerty123', 2, NULL),
-(13, 'Marek', 'Jolo', 'qwerty123', 3, NULL),
-(14, 'Artur', 'Sołtyś', 'qwerty123', 3, NULL),
-(15, 'Polak', 'Nosacz', 'qwerty123', 3, NULL),
-(16, 'George', 'Nowam', 'qwerty123', 3, NULL),
-(17, 'Natalia', 'Kowalski', 'qwerty123', 3, NULL),
-(18, 'Julia', 'Nowak', 'qwerty123', 3, NULL),
-(19, 'Izabela', 'Lec', 'qwerty123', 3, NULL),
-(21, 'Jędrzej', 'Tusk', 'qwerty123', 3, NULL),
-(22, 'Gumiś', 'Kaczor', 'qwerty123', 3, NULL);
-
---
--- Indeksy dla zrzutów tabel
---
-
---
--- Indexes for table `awards`
---
-ALTER TABLE `awards`
-  ADD PRIMARY KEY (`AwardId`),
-  ADD UNIQUE KEY `unique_constraint` (`Name`,`Category`);
-
---
--- Indexes for table `directors`
---
-ALTER TABLE `directors`
-  ADD PRIMARY KEY (`DirectorId`);
-
---
--- Indexes for table `favorites`
---
-ALTER TABLE `favorites`
-  ADD KEY `fk_Favorites_Movies1_idx` (`MovieId`),
-  ADD KEY `fk_Favorites_Accounts1` (`AccountId`);
-
---
--- Indexes for table `movies`
---
-ALTER TABLE `movies`
-  ADD PRIMARY KEY (`MovieId`),
-  ADD KEY `DirectorId` (`DirectorId`);
-
---
--- Indexes for table `movies_awards`
---
-ALTER TABLE `movies_awards`
-  ADD PRIMARY KEY (`MovieId`,`AwardId`),
-  ADD KEY `fk_Movies_has_Awards_Awards1_idx` (`AwardId`),
-  ADD KEY `fk_Movies_has_Awards_Movies1_idx` (`MovieId`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`RoleId`),
-  ADD UNIQUE KEY `RoleId_UNIQUE` (`RoleId`),
-  ADD UNIQUE KEY `Name_UNIQUE` (`Name`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`UserId`),
-  ADD UNIQUE KEY `AccountName_UNIQUE` (`Login`),
-  ADD KEY `fk_Accounts_Roles1_idx` (`RoleId`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT dla tabeli `directors`
---
-ALTER TABLE `directors`
-  MODIFY `DirectorId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT dla tabeli `movies`
---
-ALTER TABLE `movies`
-  MODIFY `MovieId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT dla tabeli `users`
---
-ALTER TABLE `users`
-  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+(2, 'Arek', 'AREK', 'Arek2', 1, NULL),
+(7, 'qweqrq@qwqerqr.pl', 'nick', '12345678', 1, NULL);
 
 --
 -- Ograniczenia dla zrzutów tabel
