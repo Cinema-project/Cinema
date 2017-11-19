@@ -138,7 +138,7 @@ class User_model extends CI_Model
 	public function checkLoginAndPassword($login, $password)
 	{
 		$this->db->select('Password');
-		$this->db->from('Users');
+		$this->db->from('users');
 		$this->db->where('Login', $login);
 		$hash = $this->db->get()->row('Password');
 		return $this->verify_password_hash($password, $hash);
