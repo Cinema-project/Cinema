@@ -16,45 +16,23 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Baza danych: `db_cinema`
 --
+drop database if exists db_cinema;
 CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `db_cinema`;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `awards`
---
-
-DROP TABLE IF EXISTS `awards`;
-CREATE TABLE IF NOT EXISTS `awards` (
-  `AwardId` int(11) NOT NULL,
-  `Name` varchar(45) DEFAULT NULL,
-  `Category` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`AwardId`),
-  UNIQUE KEY `unique_constraint` (`Name`,`Category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `directors`
---
-
-DROP TABLE IF EXISTS `directors`;
-CREATE TABLE IF NOT EXISTS `directors` (
-  `DirectorId` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(30) NOT NULL,
-  `Surname` varchar(30) NOT NULL,
-  `Biography` text NOT NULL,
-  PRIMARY KEY (`DirectorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `favorites`
@@ -70,39 +48,9 @@ CREATE TABLE IF NOT EXISTS `favorites` (
 
 -- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `movies`
---
 
-DROP TABLE IF EXISTS `movies`;
-CREATE TABLE IF NOT EXISTS `movies` (
-  `MovieId` int(11) NOT NULL AUTO_INCREMENT,
-  `DirectorId` int(11) NOT NULL,
-  `Title` text NOT NULL,
-  `TypeId` int(11) NOT NULL,
-  `Length` time DEFAULT NULL,
-  `Description` text,
-  `PremiereDate` date DEFAULT NULL,
-  PRIMARY KEY (`MovieId`),
-  KEY `DirectorId` (`DirectorId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- --------------------------------------------------------
 
---
--- Struktura tabeli dla tabeli `movies_awards`
---
-
-DROP TABLE IF EXISTS `movies_awards`;
-CREATE TABLE IF NOT EXISTS `movies_awards` (
-  `MovieId` int(11) NOT NULL,
-  `AwardId` int(11) NOT NULL,
-  PRIMARY KEY (`MovieId`,`AwardId`),
-  KEY `fk_Movies_has_Awards_Awards1_idx` (`AwardId`),
-  KEY `fk_Movies_has_Awards_Movies1_idx` (`MovieId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `roles`
@@ -122,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
 --
 
 INSERT INTO `roles` (`RoleId`, `Name`) VALUES
-(1, 'Admin');
+(1, 'Admin'), (2, 'User');
 
 -- --------------------------------------------------------
 
@@ -147,10 +95,73 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Zrzut danych tabeli `users`
 --
 
+DROP TABLE IF EXISTS `movies_awards`;
+CREATE TABLE IF NOT EXISTS `movies_awards` (
+  `MovieId` int(11) NOT NULL,
+  `AwardId` int(11) NOT NULL,
+  PRIMARY KEY (`MovieId`,`AwardId`),
+  KEY `fk_Movies_has_Awards_Awards1_idx` (`AwardId`),
+  KEY `fk_Movies_has_Awards_Movies1_idx` (`MovieId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+
+
+DROP TABLE IF EXISTS `awards`;
+CREATE TABLE IF NOT EXISTS `awards` (
+  `AwardId` int(11) NOT NULL,
+  `Name` varchar(45) DEFAULT NULL,
+  `Category` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`AwardId`),
+  UNIQUE KEY `unique_constraint` (`Name`,`Category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Struktura tabeli dla tabeli `movies`
+--
+
+DROP TABLE IF EXISTS `movies`;
+CREATE TABLE IF NOT EXISTS `movies` (
+  `MovieId` int(11) NOT NULL AUTO_INCREMENT,
+  `DirectorId` int(11) NOT NULL,
+  `Title` text NOT NULL,
+  `TypeId` int(11) NOT NULL,
+  `Length` time DEFAULT NULL,
+  `Description` text,
+  `PremiereDate` date DEFAULT NULL,
+  PRIMARY KEY (`MovieId`),
+  KEY `DirectorId` (`DirectorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `directors`
+--
+
+DROP TABLE IF EXISTS `directors`;
+CREATE TABLE IF NOT EXISTS `directors` (
+  `DirectorId` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(30) NOT NULL,
+  `Surname` varchar(30) NOT NULL,
+  `Biography` text NOT NULL,
+  PRIMARY KEY (`DirectorId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+
+
 INSERT INTO `users` (`UserId`, `Login`, `Nick`, `Password`, `RoleId`, `Avatar`) VALUES
-(1, 'Admin', 'Admin', 'Admin', 1, NULL),
-(2, 'Arek', 'AREK', 'Arek2', 1, NULL),
-(7, 'qweqrq@qwqerqr.pl', 'nick', '12345678', 1, NULL);
+(1, 'Admin', 'Admin', '$2y$10$DjW1zh6mOKBifrJ8p0uBcOJ9h0l80DehgmY.4xe9KVFuWgp/4O/hq ', 1, NULL),
+(2, 'Arek', 'AREK', '$2y$10$sow.mC0Tg6tTv6exZn0vLuM3i5yT4DBDOsHXHVPq.V0ITdc057h9q', 1, NULL),
+(3, 'Jan', 'Janusz', '$2y$10$MIIt1b9om9EEPvGYkZd08uwjElyS6.vn8iE/r4VtopwSFWNCoSYxa', 2, NULL),
+(4, 'Adam', 'adam', '$2y$10$WCp2.yuzRn4MA9IGin4J8ufga0G/0pUZyIj4OZLZmIumn75Y3WWZi', 2, NULL),
+(5, 'Bartek', 'Barto', '$2y$10$sow.mC0Tg6tTv6exZn0vLuM3i5yT4DBDOsHXHVPq.V0ITdc057h9q', 2, NULL),
+(6, 'qweqrq@qwqerqr.pl', 'nick', '$2y$10$7cHt.jaMM0KwB12SmxvpNu0pciFcpUp3HZQeSX1V1TmhMUQz9Piju', 1, NULL);
 
 --
 -- Ograniczenia dla zrzutów tabel
