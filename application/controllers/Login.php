@@ -31,7 +31,7 @@ class Login extends CI_Controller {
 		$this->user_model->setLogin($this->input->post('login'));
 		$this->user_model->setNick($this->input->post('nick'));
 		$this->user_model->setPassword($this->input->post('password'));
-		$checkUnique = $user->checkUniqueLoginAndNick();
+		$checkUnique = $this->user_model->checkUniqueLoginAndNick();
 		if($checkUnique != null) {
 			if($checkUnique == $this->user_model->getLogin()) {
 				$status = 'Login not unigue';
