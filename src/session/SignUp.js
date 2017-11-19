@@ -127,7 +127,7 @@ export class SignUp extends Component {
       this.wrongRegistrationAlerts();
     }else{
       $.ajax({
-          url: process.env.NODE_ENV !== "production" ? './index.php/Login/register' : "./index.php/Login/register",
+          url: process.env.NODE_ENV !== "production" ? 'http://localhost:80/Cinema/index.php/Login/register' : "http://localhost:80/Cinema/index.php/Login/register",
           // url: "./php/mailer.php",
           type: 'POST',
           data: {

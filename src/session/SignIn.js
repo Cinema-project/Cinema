@@ -69,7 +69,7 @@ export class SignIn extends React.Component {
   e.preventDefault();
 
   $.ajax({
-      url: process.env.NODE_ENV !== "production" ? './index.php/Login/login' : "./index.php/Login/login",
+      url: process.env.NODE_ENV !== "production" ? 'http://localhost:80/Cinema/index.php/Login/login' : "http://localhost:80/Cinema/index.php/Login/login",
       // url: "./php/mailer.php",
       //./index.php/Login/login
       type: 'POST',

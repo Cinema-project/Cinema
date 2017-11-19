@@ -30,14 +30,14 @@ class Layout extends React.Component {
                   onChange={this.updatePlace}
                   type="text"
                   className="form-control"
-                  placeholder="Enter text"
+                  placeholder="Wprowadź tekst"
                 />
                 <span className="input-group-btn">
                   <button
                     onClick={this.onSubmit}
                     className="btn btn-info"
                     type="button">
-                    Search
+                    Szukaj
                   </button>
                 </span>
               </div>

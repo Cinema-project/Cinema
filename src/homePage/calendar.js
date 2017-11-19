@@ -12,6 +12,7 @@ class CalendarView extends Component {
                 <Calendar
                     onInit={this.handleSelect}
                     onChange={this.handleSelect}
+                    
                 />
             </div>
         )

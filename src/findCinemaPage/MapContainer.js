@@ -11,7 +11,7 @@ render() {
 
         <InfoWindow onClose={this.onInfoWindowClose}>
             <div>
-              <h1>{this.state.selectedPlace.name}</h1>
+              <h1>"My Cinema"</h1>
             </div>
         </InfoWindow>
       </Map>
