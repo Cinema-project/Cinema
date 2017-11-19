@@ -21,65 +21,191 @@ class Home extends CI_Controller {
     public function index()
     {
         $data['multikino'] = $this->multikino->getCinemaRepertoire(3);
-        $data['themoviedbLista'] = $this->themoviedb->getCategoryList();
-        $data['themoviedbAkcja'] = $this->themoviedb->getMoviesFromCategory(18);
-        $data['movieDetails'] = $this->themoviedb->getMovieDetails(290512);
-        $data['poster'] = $this->themoviedb->getMoviePosterPath(290512);
+        $data['themoviedbLista'] = $this->themoviedb->getCategoryList('PL');
+        $data['themoviedbAkcja'] = $this->themoviedb->getMovies('PL', 18, 1, '', 2017);
+        $data['movieDetails'] = $this->themoviedb->getMovieDetails('PL', 290512);
+        $data['poster'] = $this->themoviedb->getMoviePosterPath('PL', 290512);
         $this->load->view('home', $data);
     }
 
     /**
      * Przykład użycia: http://localhost/index.php/Home/getCinemaRepertoire/3
      * @method getCinemaRepertoire
-     * @param 	int 		$id id kina sieci multikino.
-     * @return 	string 			Zwraca repertuar dla Multikina w formacie JSON
+     * @param int $id id kina sieci multikino.
+     * @return string Zwraca repertuar dla Multikina w formacie JSON
      */
     public function getCinemaRepertoire($id){
         echo $this->multikino->getCinemaRepertoire($id);
     }
 
     /**
-     * Przykład użycia: http://localhost/index.php/Home/getCategoryList
+     * Przykład użycia: http://localhost/index.php/Home/getCategoryList/PL
      * @method getCategoryList
-     * @return string Zwraca listę kategorii w formacie JSON.
+     * @param string $language język
+     * @return string zwraca listę kategorii w formacie JSON.
      */
-    public function getCategoryList(){
-        echo $this->themoviedb->getCategoryList();
+    public function getCategoryList($language){
+        echo $this->themoviedb->getCategoryList($language);
     }
 
     /**
-     * Filmy z podanej kategorii
-     * Przykład użycia: http://localhost/index.php/Home/getMoviesFromCategory/35/1
-     * @method getMoviesFromCategory
-     * @param int 			$id			id kategorii filmów
-     * @param int 			$page		numer strony
-     * @return string 					zwraca listę filmów w formacie JSON.
+     * Pobiera filmy
+     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/release_date.asc/2017,
+     *                  http://localhost/index.php/Home/getMovies
+     *
+     * Dozwolone wartości dla parametru sortowania:
+     * popularity.asc, popularity.desc, release_date.asc,
+     * release_date.desc, revenue.asc, revenue.desc,
+     * primary_release_date.asc, primary_release_date.desc,
+     * original_title.asc, original_title.desc, vote_average.asc,
+     * vote_average.desc, vote_count.asc, vote_count.desc
+     * Domyślnie - popularity.desc
+     *
+     * @method getMovies
+     * @param string $language język
+     * @param int $categoryId	id kategorii filmów
+     * @param int $page	numer strony
+     * @param string $sort sposób sortowania
+     * @param int $year rok produkcji
+     * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMoviesFromCategory($id, $page = 1){
-        echo $this->themoviedb->getMoviesFromCategory($id, $page);
+    public function getMovies($language = '', $categoryId = '', $page = '', $sort = '', $year = ''){
+        echo $this->themoviedb->getMovies($language, $categoryId, $page, $sort, $year);
     }
 
     /**
      * Szczegółowe informacje o filmie
-     * Przykład użycia: http://localhost/index.php/Home/getMovieDetails/290512
+     * Przykład użycia: http://localhost/index.php/Home/getMovieDetails/PL/290512
      * @method
-     *	@param 	int 		$id		id filmu
-     * @return string 				zwraca informacje o filmie w formacie JSON.
+     * @param string $language język
+     * @param int $id	id filmu
+     * @return string zwraca informacje o filmie w formacie JSON.
      */
-    public function getMovieDetails($id){
-        echo $this->themoviedb->getMovieDetails($id);
+    public function getMovieDetails($language, $id){
+        echo $this->themoviedb->getMovieDetails($language, $id);
     }
 
     /**
      * Plakat filmu
-     * Przykład użycia: http://localhost/index.php/Home/getMoviePoster/290512
+     * Przykład użycia: http://localhost/index.php/Home/getMoviePoster/PL/290512
      * @method getMoviePoster
-     *	@param 	int 		$id		id filmu
-     * @return string 				zwraca ścieżkę do plakatu danego filmu.
+     * @param string $language język
+     * @param int $id	id filmu
+     * @return string zwraca ścieżkę do plakatu danego filmu.
      */
-    public function getMoviePoster($id){
-        echo $this->themoviedb->getMoviePosterPath($id);
+    public function getMoviePoster($language, $id){
+        echo $this->themoviedb->getMoviePosterPath($language, $id);
+    }
+
+    /**
+     * Słowa kluczowe
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getKeywords/PL/550
+     * @link https://developers.themoviedb.org/3/movies/get-movie-keywords
+     * @method getKeywords
+     * @param string $language język
+     * @param int $id id filmu
+     * @return string zwraca słowa kluczowe w formacie JSON
+     */
+    public function getKeywords($language, $id){
+      echo $this->themoviedb->getKeywords($language, $id);
+    }
+
+    /**
+     * Ostatnie filmy
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getLatest/PL/1
+     * @link https://developers.themoviedb.org/3/movies/get-latest-movie
+     * @method getLatest
+     * @param string $language język
+     * @param int $page numer strony
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getLatest($language, $page){
+      echo $this->themoviedb->getLatest($language, $page);
+    }
+
+    /**
+     * Aktualnie grane filmy w kinach
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/1/PL
+     * Kod dla Polski PL
+     * $region = XX - obojętnie gdzie grany film
+     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
+     * @link https://developers.themoviedb.org/3/movies/get-now-playing
+     * @method getNowPlaying
+     * @param int $page numer strony
+     * @param string $region kod regionu - w formacie xx
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getNowPlaying($page, $region){
+      echo $this->themoviedb->getNowPlaying($region, $page, $region);
+    }
+
+    /**
+     * Popularne filmy
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/1/PL
+     * @link https://developers.themoviedb.org/3/movies/get-popular-movies
+     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
+     * @method getPopular
+     * @param int $page numer strony
+     * @param int $region kod regionu
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getPopular($page, $region){
+      echo $this->themoviedb->getPopular($region, $page, $region);
+    }
+
+    /**
+     * Najwyżej oceniane
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/1/PL
+     * @link https://developers.themoviedb.org/3/movies/get-top-rated-movies
+     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
+     * @method getTopRated
+     * @param int $page numer strony
+     * @param int $region kod regionu
+     * @return string             zwraca dane w formacie JSON
+     */
+    public function getTopRated($page, $region){
+      echo $this->themoviedb->getTopRated($region, $page, $region);
+    }
+
+    /**
+     * Filmy, które nadchodzą
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/1/PL
+     * @link https://developers.themoviedb.org/3/movies/get-upcoming
+     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
+     * @method getUpcoming
+     * @param int $page numer strony
+     * @param int $region kod regionu
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getUpcoming($page, $region){
+      echo $this->themoviedb->getUpcoming($region, $page, $region);
+    }
+
+    /**
+     * Pobiera trailer do filmu.
+     * Jeżeli nie ma traileru w podanym języku
+     * to pobierany jest trailer w dowolnym innym języku.
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTrailerPath/PL/383709
+     * @link https://developers.themoviedb.org/3/movies/get-movie-videos
+     * @method getTrailerPath
+     * @param string $language język
+     * @param int $id id filmu
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getTrailerPath($language, $id){
+      echo $this->themoviedb->getTrailerPath($language, $id);
+    }
+
+    /**
+     * Obsada i ekipa filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/Home/getCredits/550
+     * @link https://developers.themoviedb.org/3/movies/get-movie-credits
+     * @method getCredits
+     * @param int $id id filmu
+     * @return string zwraca dane w formacie JSON
+     */
+    public function getCredits($id){
+      echo $this->themoviedb->getCredits($id);
     }
 }
-
 ?>
