@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import axios from "axios";
+import apiClient from "../api-client";
 
 class Repertoire extends Component{
   constructor(props){
@@ -11,8 +11,8 @@ class Repertoire extends Component{
 
   componentWillMount = () => {
     console.log("MOUNT");
-    axios
-      .get("./index.php/Home/getCategoryList/PL")
+    apiClient
+      .get("index.php/Home/getCinemaRepertoire/3")
       .then(response => {
         console.log("REPERTUAR", response);
       })

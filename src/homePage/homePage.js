@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Calendar from "./calendar"
-import axios from "axios";
+import apiClient from "../api-client";
 
 class homePage extends Component{
   constructor(props){
@@ -14,8 +14,8 @@ class homePage extends Component{
 
   componentWillMount = () => {
     console.log("MOUNT");
-    axios
-      .get("./index.php?/Home/getPopular/1/PL")
+    apiClient
+      .get("index.php?/Home/getPopular/1/PL")
       .then(response => {
         console.log("FILMY", response);
         this.setState({

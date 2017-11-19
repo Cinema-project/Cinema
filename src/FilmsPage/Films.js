@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import axios from "axios";
+import apiClient from "../api-client";
 
 class Films extends Component{
   constructor(props){
@@ -11,8 +11,8 @@ class Films extends Component{
 
   componentWillMount = () => {
     console.log("MOUNT");
-    axios
-      .get("./index.php/Home/getMovies")
+    apiClient
+      .get("index.php/Home/getMovies")
       .then(response => {
         console.log("FILMY", response);
       })
