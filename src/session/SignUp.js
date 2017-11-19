@@ -120,39 +120,44 @@ export class SignUp extends Component {
     });
   };
 
-   _handleSubmit(e){
-  e.preventDefault();
+  _handleSubmit(e) {
+    e.preventDefault();
 
     if (!this.checkConditions()) {
       this.wrongRegistrationAlerts();
-    }else{
+    } else {
       $.ajax({
-          url: process.env.NODE_ENV !== "production" ? 'http://localhost:80/Cinema/index.php/Login/register' : "http://localhost:80/Cinema/index.php/Login/register",
-          // url: "./php/mailer.php",
-          type: 'POST',
-          data: {
-            'login': this.state.login,
-            'password': this.state.password,
-            'nick': this.state.nick
-          },
-          success: function(data) {
-            this.state.loginCheck = data;
-            if (this.state.loginCheck == "exist") {
-              callToast("Użytkownik już istnieje");
-            }
-            else if (this.state.loginCheck == "notExist") {
-              callToast("Zarejestrowano, proszę się zalogować");
-              this.props.router.push("/");
-            }
-          }.bind(this),
-          error: function(xhr, status, err) {
-            console.log(xhr, status);
-            console.log(err);
-            this.setState({
-              contactMessage: 'Błąd',
-            });
-          }.bind(this)
-        });
+        url: process.env.NODE_ENV !== "production" ? 'http://localhost:80/Cinema/index.php/Login/register' : "http://localhost:80/Cinema/index.php/Login/register",
+        // url: "./php/mailer.php",
+        type: 'POST',
+        data: {
+          'login': this.state.login,
+          'password': this.state.password,
+          'nick': this.state.nick
+        },
+        success: function (data) {
+          this.state.loginCheck = data;
+          if (this.state.loginCheck == "Login not unique") {
+            callToast("Użytkownik już istnieje!");
+          }
+          else if (this.state.loginCheck == "notExist") {
+            callToast("Zarejestrowano, proszę się zalogować");
+            this.props.router.push("/");
+          }
+          else if (this.state.loginCheck == "Nick not unique") {
+            callToast("Ten nick jest już zajęty!");
+          }
+
+
+        }.bind(this),
+        error: function (xhr, status, err) {
+          console.log(xhr, status);
+          console.log(err);
+          this.setState({
+            contactMessage: 'Błąd',
+          });
+        }.bind(this)
+      });
     }
   };
 
@@ -167,7 +172,7 @@ export class SignUp extends Component {
               placeholder="E-mail"
               id="login"
               type="email"
-            required/>
+              required />
 
             <Input
               onChange={this.updateNick}
@@ -175,7 +180,7 @@ export class SignUp extends Component {
               placeholder="Nick"
               id="nick"
               type="text"
-            required/>
+              required />
 
             <Input
               onChange={this.updatePassword}
@@ -183,20 +188,20 @@ export class SignUp extends Component {
               placeholder="Password"
               id="password"
               type="password"
-            required/>
+              required />
 
             <Input
               onChange={this.updateConfirmPassword}
               value={this.state.confirmPassword}
               placeholder="Confirm password"
               type="password"
-            required/>
+              required />
 
             <StyledButton
               onClick={event => {
                 this.onSubmit;
                 this.loaderUpdate();
-               ;
+                ;
               }}
               label={"Zarejestruj się"}
             />
@@ -219,7 +224,7 @@ const options = {
 
 export default connect()(withRouter(SignUp));
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button) `
   background-color: rgb(124, 132, 131);
   font-family: 'Indie Flower', cursive;
   font-weight: bold;
