@@ -41,7 +41,7 @@ class Login extends CI_Controller {
 		}
 		else {
 			$this->user_model->save();
-			$status = "notexist";
+			$status = "notExist";
 		}
 		header('Content-Type: application/json');
 		echo json_encode($status);
