@@ -34,7 +34,7 @@ class Login extends CI_Controller {
 		$checkUnique = $this->user_model->checkUniqueLoginAndNick();
 		if($checkUnique != null) {
 			if($checkUnique == $this->user_model->getLogin()) {
-				$status = 'Login not unigue';
+				$status = 'Login not unique';
 			} else {
 				$status = 'Nick not unique';
 			}
