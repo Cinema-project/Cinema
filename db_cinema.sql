@@ -154,6 +154,17 @@ CREATE TABLE IF NOT EXISTS `directors` (
 -- --------------------------------------------------------
 
 
+create table if not exists tmdbmovies
+(
+MovieTmdbId int not null auto_increment primary key,
+Title varchar(40) not null,
+popularity real not null,
+IsAdult varchar(6),
+IsVideo varchar(6)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
 
 INSERT INTO `users` (`UserId`, `Login`, `Nick`, `Password`, `RoleId`, `Avatar`) VALUES
 (1, 'Admin', 'Admin', '$2y$10$DjW1zh6mOKBifrJ8p0uBcOJ9h0l80DehgmY.4xe9KVFuWgp/4O/hq ', 1, NULL),
