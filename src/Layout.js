@@ -4,43 +4,46 @@ import { Link } from "react-router";
 import { connect } from "react-redux";
 import Button from "./user-interface/Button";
 import NavbarLink from "./NavbarLink";
+import homePageBackground from "./images/it.jpg";
 
 class Layout extends React.Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
+        <Background className="row">
 
           <div className="col-md-12">
             <Searchbar>
+              <div className="col-md-4" style={{float: "left"}}>
+                <Link to="home_page" style={{ border: "none" }}>
+                <img
+                  src={require("./images/facebook.png")}
+                  style={{ width: "32px" }}
+                />
+              </Link>
+                <Link to="home_page" style={{ border: "none" }}>
+                <img
+                  src={require("./images/twitter.png")}
+                  style={{ width: "32px" }}
+                />
+              </Link>
+              <Link to="home_page" style={{ border: "none" }}>
+              <img
+                src={require("./images/instagram.png")}
+                style={{ width: "32px" }}
+              />
+            </Link>
+            </div>
               <div className="col-md-4">
               <Link to="home_page" style={{ border: "none" }}>
                 <img
-                  src={require("./images/navbarImage.png")}
-                  style={{ width: "80px" }}
+                  src={require("./images/icon2.png")}
+                  style={{ width: "64px" }}
                 />
               </Link>
               <Link to="home_page">
                 MyCinema
               </Link>
-            </div>
-            <div className="col-md-4">
-              <div className="input-group" style={{width: "30vw", marginTop: "3.5vh"}}>
-                <input
-                  onChange={this.updatePlace}
-                  type="text"
-                  className="form-control"
-                  placeholder="Wprowadź tekst"
-                />
-                <span className="input-group-btn">
-                  <button
-                    onClick={this.onSubmit}
-                    className="btn btn-info"
-                    type="button">
-                    Szukaj
-                  </button>
-                </span>
-              </div>
             </div>
             <div className="col-md-4">
               <a href="#">
@@ -58,10 +61,10 @@ class Layout extends React.Component {
               <NavbarLink to="find_cinema" name="Znajdź kino" />
             </StyledNavbar>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-12" style={{paddingTop: "15vh"}}>
             {this.props.children}
           </div>
-        </div>
+          </Background>
       </div>
     );
   }
@@ -69,8 +72,19 @@ class Layout extends React.Component {
 
 export default connect()(Layout);
 
+const Background = styled.div `
+  background-color: black;
+background-image: url(${homePageBackground});
+box-shadow: inset 10px 0px 30px 30px #000000;
+background-repeat: no-repeat;
+background-position: center;
+background-size: auto;
+min-height: 40vh;
+max-height: 40vh;
+min-width: 98.5vw;
+`
+
 const StyledNavbar = styled.div`
-  background-color: gray;
   overflow: hidden;
   margin-bottom: 0px;
   text-align: center;
@@ -82,7 +96,7 @@ const StyledNavbar = styled.div`
     font-family: 'Julee', cursive;
     font-size: 20px;
     font-size: 2vmax;
-    color: black;
+    color: white;
     text-decoration: none;
 
     &:hover {
@@ -95,7 +109,7 @@ const StyledNavbar = styled.div`
 `;
 
 const Searchbar = styled.div`
-  background-color: gray;
+  ${'' /* background-color: gray; */}
   overflow: hidden;
   padding-top: 10px;
   margin-top: 10px;
@@ -108,7 +122,7 @@ const Searchbar = styled.div`
     font-family: 'Julee', cursive;
     font-size: 50px;
     font-size: 4vmax;
-    color: black;
+    color: white;
     text-decoration: none;
   }
 `;
