@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Calendar from "./calendar"
 import apiClient from "../api-client";
 import ReactGridLayout from 'react-grid-layout'
+import styled from "styled-components"
 
 class homePage extends Component {
   constructor(props) {
@@ -34,25 +35,78 @@ class homePage extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="col-md-12">
-          <div className="col-md-3" style={{ paddingTop: "30px" }}>
-            <Calendar />
+          <div className="col-md-12" style={{ paddingTop: "5vh" }}>
+            <div className="col-md-8 col-md-offset-2">
+              <div className="col-md-4">
+                <PosterContainer>
+                  <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[0]}`} alt="logo"/>
+                  <p>{this.state.title[0]} <br/> {this.state.rating[0]}</p>
+                </PosterContainer>
+              </div>
+              <div className="col-md-4">
+                <PosterContainer>
+                  <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[1]}`} alt="logo"/>
+                  <p>{this.state.title[1]} <br/> {this.state.rating[1]}</p>
+                </PosterContainer>
+              </div>
+              <div className="col-md-4">
+                <PosterContainer>
+                  <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[2]}`} alt="logo"/>
+                  <p>{this.state.title[2]} <br/> {this.state.rating[2]}</p>
+                </PosterContainer>
+              </div>
           </div>
-          <div className="col-md-9" style={{ paddingTop: "20px" }}>
-            <ReactGridLayout className="layout" cols={10} rowHeight={30} width={800}>
-              <div key="a" data-grid={{ x: 0, y: 0, w: 4, h: 12, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[0]}`} alt="logo"/></div>
-              <div key="b" data-grid={{ x: 4, y: 0, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[1]}`} alt="logo"/></div>
-              <div key="c" data-grid={{ x: 6, y: 0, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[2]}`} alt="logo"/></div>
-              <div key="d" data-grid={{ x: 4, y: 6, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[3]}`} alt="logo"/></div>
-              <div key="e" data-grid={{ x: 6, y: 6, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[4]}`} alt="logo"/></div>
-              <div key="f" data-grid={{ x: 8, y: 0, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[5]}`} alt="logo"/></div>
-              <div key="g" data-grid={{ x: 8, y: 0, w: 2, h: 6, static: true }} style={{}}><img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[6]}`} alt="logo"/></div>
-            </ReactGridLayout>
+          <div className="col-md-8 col-md-offset-2" style={{paddingTop: "5vh"}}>
+            <div className="col-md-4">
+              <PosterContainer>
+                <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[3]}`} alt="logo"/>
+                <p>{this.state.title[3]} <br/> {this.state.rating[3]}</p>
+              </PosterContainer>
+            </div>
+            <div className="col-md-4">
+              <PosterContainer>
+                <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[4]}`} alt="logo"/>
+                <p>{this.state.title[4]} <br/> {this.state.rating[4]}</p>
+              </PosterContainer>
+            </div>
+            <div className="col-md-4">
+              <PosterContainer>
+                <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[5]}`} alt="logo"/>
+                <p>{this.state.title[5]} <br/> {this.state.rating[5]}</p>
+              </PosterContainer>
+            </div>
           </div>
-        </div>
+          </div>
       </div>
     );
   }
 }
 
 export default homePage;
+
+const PosterContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  p{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 20%;
+    background-color: black;
+    left: 0px;
+    bottom: -10px;
+    font-size: 30px;
+    text-align:center;
+    color:white;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  &:hover{
+    cursor: pointer;
+    p{
+      opacity: 0.8;
+    }
+  }
+`
