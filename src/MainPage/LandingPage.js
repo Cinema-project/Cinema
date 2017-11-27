@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Modal from "react-modal";
-import landingPageImage from "../images/landingPageImage";
+import landingPageImageDesktop from "../images/Deadpool.png";
+import landingPageImageMobile from "../images/blur.jpg";
 import SignUp from "../session/SignUp";
 import SignIn from "../session/SignIn";
+import MediaQuery from "react-responsive";
 
 export class Home extends React.Component {
   constructor(props) {
@@ -48,42 +50,97 @@ export class Home extends React.Component {
 
   render() {
     return (
-      <StyledContainer className="row">
-        <div className="col-md-6 col-md-offset-3">MyCinema</div>
-        <StyledButtonContainer className="col-md-6 col-md-offset-3">
-          <StyledButton onClick={this.signIn}>Zaloguj się</StyledButton>
-          <StyledButton onClick={this.signUp}>Zarejestruj się</StyledButton>
-        </StyledButtonContainer>
-        <Modal
-          isOpen={this.state.isActiveSignIn}
-          onRequestClose={this.toogleModalSignIn}
-          className="col-md-4 col-md-offset-4"
-          style={styledModal}>
-          <SignIn />
-        </Modal>
-        <Modal
-          isOpen={this.state.isActiveSignUp}
-          onRequestClose={this.toogleModalSignUp}
-          className="col-md-4 col-md-offset-4"
-          style={styledModal}>
-          <SignUp modalClose={this.changeModal} />
-        </Modal>
-      </StyledContainer>
+      <div>
+      <MediaQuery query='(min-device-width: 1224px)'>
+        <BackgroundDesktop>
+          <StyledContainer className="container-fluid">
+            <div className="col-md-6 col-md-offset-3">MyCinema</div>
+            <StyledButtonContainer className="col-md-6 col-md-offset-3">
+              <StyledButton onClick={this.signIn}>Zaloguj się</StyledButton>
+              <StyledButton onClick={this.signUp}>Zarejestruj się</StyledButton>
+            </StyledButtonContainer>
+            <Text className="col-md-6 col-md-offset-3">
+              Odkrywaj świat filmów z MyCinema!
+            </Text>
+            <Modal
+              isOpen={this.state.isActiveSignIn}
+              onRequestClose={this.toogleModalSignIn}
+              className="col-md-4 col-md-offset-4"
+              style={styledModal}>
+              <SignIn />
+            </Modal>
+            <Modal
+              isOpen={this.state.isActiveSignUp}
+              onRequestClose={this.toogleModalSignUp}
+              className="col-md-4 col-md-offset-4"
+              style={styledModal}>
+              <SignUp modalClose={this.changeModal} />
+            </Modal>
+          </StyledContainer>
+      </BackgroundDesktop>
+    </MediaQuery>
+    <MediaQuery query='(max-width: 1224px)'>
+      <BackgroundMobile>
+        <StyledContainer className="container-fluid">
+          <div className="col-md-6 col-md-offset-3">MyCinema</div>
+          <StyledButtonContainer className="col-md-6 col-md-offset-3">
+            <StyledButton onClick={this.signIn}>Zaloguj się</StyledButton>
+            <StyledButton onClick={this.signUp}>Zarejestruj się</StyledButton>
+          </StyledButtonContainer>
+          <Text className="col-md-6 col-md-offset-3">
+            Odkrywaj świat filmów z MyCinema!
+          </Text>
+          <Modal
+            isOpen={this.state.isActiveSignIn}
+            onRequestClose={this.toogleModalSignIn}
+            className="col-md-4 col-md-offset-4"
+            style={styledModal}>
+            <SignIn />
+          </Modal>
+          <Modal
+            isOpen={this.state.isActiveSignUp}
+            onRequestClose={this.toogleModalSignUp}
+            className="col-md-4 col-md-offset-4"
+            style={styledModal}>
+            <SignUp modalClose={this.changeModal} />
+          </Modal>
+        </StyledContainer>
+    </BackgroundMobile>
+    </MediaQuery>
+  </div>
     );
   }
 }
 
 export default Home;
 
-const StyledContainer = styled.div`
+const BackgroundDesktop = styled.div`
   background-color: black;
-  background-image: url(${landingPageImage});
+  background-image: url(${landingPageImageDesktop});
   background-repeat: no-repeat;
   background-position: center;
+  opacity: 0.95;
+  background-size: auto;
   min-height: 100vh;
-  color: rgb(201, 201, 201);
+  max-width: 100vw;
+`
+const BackgroundMobile = styled.div`
+  background-color: black;
+  background-image: url(${landingPageImageMobile});
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.95;
+  background-size: auto;
+  min-height: 100vh;
+  max-width: 100vw;
+`
+
+const StyledContainer = styled.div`
+  color: rgb(255, 255, 255);
+  padding-top: 5vh;
   font-family: 'Indie Flower', cursive;
-  font-size: 8vw;
+  font-size: 12vh;
+  text-shadow: 4px 4px 9px rgba(150, 150, 150, 1);
   text-align: center;
 `;
 
@@ -91,6 +148,11 @@ const StyledButtonContainer = styled.div`
   font-size: 30px;
   padding-top: 10vh;
 `;
+
+const Text = styled.div`
+  font-size: 50%;
+  padding-top: 20vh;
+`
 
 const StyledButton = styled.button`
   background-color: rgb(124, 132, 131);
@@ -119,13 +181,13 @@ const styledModal = {
     backgroundColor: "rgba(23, 23, 23, 0.9)"
   },
   content: {
-    marginTop: "210px",
+    marginTop: "30vh",
     borderRadius: "10px",
-    opacity: "0.8",
+    opacity: "0.7",
     overflow: "auto",
     WebkitOverflowScrolling: "touch",
     outline: "none",
-   height: "400px",
+    height: "400px",
     color: "rgb(201, 201, 201)"
   }
 };

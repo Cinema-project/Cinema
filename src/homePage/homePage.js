@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Calendar from "./calendar"
 import apiClient from "../api-client";
-var ReactGridLayout = require('react-grid-layout');
+import ReactGridLayout from 'react-grid-layout'
 
 class homePage extends Component {
   constructor(props) {
@@ -33,7 +33,7 @@ class homePage extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="container-fluid">
         <div className="col-md-12">
           <div className="col-md-3" style={{ paddingTop: "30px" }}>
             <Calendar />

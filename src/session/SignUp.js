@@ -228,7 +228,7 @@ const StyledButton = styled(Button) `
   background-color: rgb(124, 132, 131);
   font-family: 'Indie Flower', cursive;
   font-weight: bold;
-  font-size: 1.5vw;
+  font-size: 20px;
   width: 100%;
 `;
 const loader = styled.div`
