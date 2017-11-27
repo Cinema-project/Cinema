@@ -15,8 +15,9 @@ class homePage extends Component {
   }
 
   componentWillMount = () => {
+    const rand = Math.floor(1 + Math.random() * 20);
     apiClient
-      .get("index.php?/Home/getPopular/1/PL")
+      .get(`index.php?/Home/getPopular/${rand}/PL`)
       .then(response => {
         {response.data.results.map(r =>
           this.setState(previousState =>({
@@ -33,6 +34,7 @@ class homePage extends Component {
 
 
   render() {
+    console.log("rand:", this.state.random);
     return (
       <div className="container-fluid">
           <div className="col-md-12" style={{ paddingTop: "5vh" }}>
@@ -96,7 +98,7 @@ const PosterContainer = styled.div`
     background-color: black;
     left: 0px;
     bottom: -10px;
-    font-size: 30px;
+    font-size: 20px;
     text-align:center;
     color:white;
     opacity: 0;
