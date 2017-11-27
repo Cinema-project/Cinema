@@ -15,7 +15,7 @@ class homePage extends Component {
   }
 
   componentWillMount = () => {
-    const rand = Math.floor(1 + Math.random() * 20);
+    const rand = Math.floor(1 + Math.random() * 100);
     apiClient
       .get(`index.php?/Home/getPopular/${rand}/PL`)
       .then(response => {
