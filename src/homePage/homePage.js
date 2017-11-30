@@ -3,6 +3,8 @@ import Calendar from "./calendar"
 import apiClient from "../api-client";
 import ReactGridLayout from 'react-grid-layout'
 import styled from "styled-components"
+import Modal from "react-modal";
+import FilmModal from "./FilmModal"
 
 class homePage extends Component {
   constructor(props) {
@@ -10,11 +12,15 @@ class homePage extends Component {
     this.state = {
       title: [],
       poster: [],
-      rating: []
+      rating: [],
+      id: [],
+      isModalActive: false,
+      modalId: ""
     };
   }
 
   componentWillMount = () => {
+    Modal.setAppElement("body");
     const rand = Math.floor(1 + Math.random() * 100);
     apiClient
       .get(`index.php?/Home/getPopular/${rand}/PL`)
@@ -23,7 +29,8 @@ class homePage extends Component {
           this.setState(previousState =>({
             title: [...previousState.title, r.title],
             poster: [...previousState.poster, r.poster_path],
-            rating: [...previousState.rating, r.vote_average]
+            rating: [...previousState.rating, r.vote_average],
+            id: [...previousState.id, r.id]
           }))
         )}
       })
@@ -32,27 +39,41 @@ class homePage extends Component {
       });
   };
 
+  toogleModal = number => {
+    console.log(number);
+    this.setState({
+      isModalActive: !this.state.isModalActive,
+      modalId: this.state.id[number]
+    });
+  };
 
   render() {
-    console.log("rand:", this.state.random);
+    console.log("MODAL", this.state.modalId, this.state.modalTitle);
     return (
       <div className="container-fluid">
           <div className="col-md-12" style={{ paddingTop: "5vh" }}>
+            <Modal
+              isOpen={this.state.isModalActive}
+              onRequestClose={this.toogleModal}
+              className="col-md-4 col-md-offset-4"
+              style={styledModal}>
+              <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
+            </Modal>
             <div className="col-md-8 col-md-offset-2">
               <div className="col-md-4">
-                <PosterContainer>
+                <PosterContainer onClick = {this.toogleModal.bind(this, 0)}>
                   <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[0]}`} alt="logo"/>
                   <p>{this.state.title[0]} <br/> {this.state.rating[0]}</p>
                 </PosterContainer>
               </div>
               <div className="col-md-4">
-                <PosterContainer>
+                <PosterContainer onClick = {this.toogleModal.bind(this, 1)}>
                   <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[1]}`} alt="logo"/>
                   <p>{this.state.title[1]} <br/> {this.state.rating[1]}</p>
                 </PosterContainer>
               </div>
               <div className="col-md-4">
-                <PosterContainer>
+                <PosterContainer onClick = {this.toogleModal.bind(this, 2)}>
                   <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[2]}`} alt="logo"/>
                   <p>{this.state.title[2]} <br/> {this.state.rating[2]}</p>
                 </PosterContainer>
@@ -60,19 +81,19 @@ class homePage extends Component {
           </div>
           <div className="col-md-8 col-md-offset-2" style={{paddingTop: "5vh"}}>
             <div className="col-md-4">
-              <PosterContainer>
+              <PosterContainer onClick = {this.toogleModal.bind(this, 3)}>
                 <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[3]}`} alt="logo"/>
                 <p>{this.state.title[3]} <br/> {this.state.rating[3]}</p>
               </PosterContainer>
             </div>
             <div className="col-md-4">
-              <PosterContainer>
+              <PosterContainer onClick = {this.toogleModal.bind(this, 4)}>
                 <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[4]}`} alt="logo"/>
                 <p>{this.state.title[4]} <br/> {this.state.rating[4]}</p>
               </PosterContainer>
             </div>
             <div className="col-md-4">
-              <PosterContainer>
+              <PosterContainer onClick = {this.toogleModal.bind(this, 5)}>
                 <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[5]}`} alt="logo"/>
                 <p>{this.state.title[5]} <br/> {this.state.rating[5]}</p>
               </PosterContainer>
@@ -108,7 +129,28 @@ const PosterContainer = styled.div`
   &:hover{
     cursor: pointer;
     p{
-      opacity: 0.8;
+      opacity: 0.85;
     }
   }
 `
+
+const styledModal = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(23, 23, 23, 0.9)"
+  },
+  content: {
+    marginTop: "30vh",
+    borderRadius: "10px",
+    opacity: "0.7",
+    overflow: "auto",
+    WebkitOverflowScrolling: "touch",
+    outline: "none",
+    height: "400px",
+    color: "rgb(201, 201, 201)"
+  }
+};

@@ -20,6 +20,7 @@
     "react-scripts": "1.0.14",
     "react-table-view": "^1.0.0",
     "react-toastify": "^2.2.0",
+    "react-youtube": "^7.5.0",
     "redux": "^3.7.2",
     "redux-localstorage": "^0.4.1",
     "styled-components": "^2.2.3"
