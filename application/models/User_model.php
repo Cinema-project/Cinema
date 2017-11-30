@@ -197,4 +197,12 @@ class User_model extends CI_Model
 		$this->load->model('Role_model');
 		$this->role = new Role_model($user[0]['RoleId']);
 	}
+
+	public function getUserId($email){
+    $this->db->select('userId');
+    $this->db->from('users');
+    $this->db->where('Login', $email);
+    $querry = $this->db->get()->result()[0];
+    return $querry;
+  }
 }

@@ -7,18 +7,30 @@ class Login extends CI_Controller {
         parent :: __construct();
         $this->load->helper('url');
         $this->load->model('user_model');
+        $this->load->library("jwt");
     }
 
 	public function index() {
 		$this->load->view('login');
 	}
-
+  private function generateToken($user_id){
+      $CONSUMER_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+      $CONSUMER_SECRET = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+      $CONSUMER_TTL = 86400;
+      return $this->jwt->encode(array(
+        'consumerKey'=>$CONSUMER_KEY,
+        'userId'=>$user_id,
+        'issuedAt'=>date(DATE_ISO8601, strtotime("now")),
+        'ttl'=>$CONSUMER_TTL
+      ), $CONSUMER_SECRET);
+  }
 	public function login() {
 		$login = $this->input->post('login');
 		$password = $this->input->post('password');
 
 		if($this->user_model->checkLoginAndPassword($login,$password)) {
-			$status="exist";
+      $status = array('token' => $this->generateToken($this->user_model->getUserId($login)),
+                      'status' => 'Exist');
 		}
 		else {
 			$status="notExist";
@@ -45,7 +57,6 @@ class Login extends CI_Controller {
 		}
 		header('Content-Type: application/json');
 		echo json_encode($status);
-
 	}
 }
 ?>
