@@ -9,10 +9,6 @@ class Login extends CI_Controller {
         $this->load->model('user_model');
         $this->load->library("jwt");
     }
-
-	public function index() {
-		$this->load->view('login');
-	}
   private function generateToken($user_id){
       $CONSUMER_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
       $CONSUMER_SECRET = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
