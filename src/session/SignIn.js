@@ -12,7 +12,7 @@ var $ = require('jquery');
 export class SignIn extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { login: "", password: "", loader: false,loginCheck: ""};
+    this.state = { login: "", password: "", loader: false,loginCheck: "",nick:"",token:""};
 
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleChange = this._handleChange.bind(this);
@@ -78,10 +78,12 @@ export class SignIn extends React.Component {
         'password': this.state.password
       },
       success: function(data) {
-        this.state.loginCheck = data;
-      if(this.state.loginCheck=="exist"){
+        this.state.loginCheck = data['status'];
+        this.state.nick = data['status'];
+        this.state.token = data['token'];
+        if(this.state.loginCheck!=null && this.state.loginCheck!="notExist"){
         this.props.router.push("home_page");
-        }else if(this.state.loginCheck=="notExist"){
+        }else{
       callToast("Wprowadzono niepoprawny e-mail i hasło.");
       }
 
