@@ -33,7 +33,7 @@ class Login extends CI_Controller {
                       'status' => $this->user_model->getUserNick($email));
 		}
 		else {
-			$status="notExist";
+            $status = array('status' => 'notExist');
 		}
 		header('Content-Type: application/json');
 		echo json_encode($status);
