@@ -48,7 +48,6 @@ class homePage extends Component {
   };
 
   render() {
-    console.log("MODAL", this.state.modalId, this.state.modalTitle);
     return (
       <div className="container-fluid">
           <div className="col-md-12" style={{ paddingTop: "5vh" }}>
