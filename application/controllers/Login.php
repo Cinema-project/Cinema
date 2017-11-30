@@ -25,12 +25,12 @@ class Login extends CI_Controller {
       ), $CONSUMER_SECRET);
   }
 	public function login() {
-		$login = $this->input->post('login');
+		$email = $this->input->post('login');
 		$password = $this->input->post('password');
 
-		if($this->user_model->checkLoginAndPassword($login,$password)) {
-      $status = array('token' => $this->generateToken($this->user_model->getUserId($login)),
-                      'status' => 'Exist');
+		if($this->user_model->checkLoginAndPassword($email,$password)) {
+      		$status = array('token' => $this->generateToken($this->user_model->getUserId($email)),
+                      'status' => $this->user_model->getUserNick($email));
 		}
 		else {
 			$status="notExist";
@@ -40,13 +40,13 @@ class Login extends CI_Controller {
 	}
 
 	public function register() {
-		$this->user_model->setLogin($this->input->post('login'));
+		$this->user_model->setEmail($this->input->post('login'));
 		$this->user_model->setNick($this->input->post('nick'));
 		$this->user_model->setPassword($this->input->post('password'));
 		$checkUnique = $this->user_model->checkUniqueLoginAndNick();
 		if($checkUnique != null) {
 			if($checkUnique == $this->user_model->getLogin()) {
-				$status = 'Login not unique';
+				$status = 'Email not unique';
 			} else {
 				$status = 'Nick not unique';
 			}

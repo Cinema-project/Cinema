@@ -8,7 +8,7 @@
 class User_model extends CI_Model
 {
 	private $id;
-	private $login;
+	private $email;
 	private $nick;
 	private $password;
 	private $role;
@@ -32,10 +32,10 @@ class User_model extends CI_Model
 
 	public function save()
 	{
-		if ($this->login != null && $this->nick != null && $this->password != null)
+		if ($this->email != null && $this->nick != null && $this->password != null)
 		{
 			$data = array(
-				'Login' => $this->login,
+				'Email' => $this->email,
 				'Nick' => $this->nick,
 				'Password' => $this->hash_password($this->password),
 				'RoleId' => 2,
@@ -55,21 +55,25 @@ class User_model extends CI_Model
 		return $this->id;
 	}
 
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
 	/**
 	 * @return mixed
 	 */
-	public function getLogin()
-	{
-		return $this->login;
-	}
-
-	/**
-	 * @param mixed $login
-	 */
-	public function setLogin($login)
-	{
-		$this->login = $login;
-	}
 
 	/**
 	 * @return mixed
@@ -135,22 +139,22 @@ class User_model extends CI_Model
 		$this->avatar = $avatar;
 	}
 
-	public function checkLoginAndPassword($login, $password)
+	public function checkLoginAndPassword($email, $password)
 	{
 		$this->db->select('Password');
 		$this->db->from('users');
-		$this->db->where('Login', $login);
+		$this->db->where('Email', $email);
 		$hash = $this->db->get()->row('Password');
 		return $this->verify_password_hash($password, $hash);
 	}
 
 	public function checkUniqueLoginAndNick()
 	{
-		$this->db->where('Login', $this->login);
+		$this->db->where('Email', $this->email);
 		$user = $this->db->get('users')->result_array();
 		if(!empty($user))
 		{
-			return $this->login;
+			return $this->email;
 		}
 		$this->db->where('Nick', $this->nick);
 		$user = $this->db->get('users')->result_array();
@@ -190,7 +194,7 @@ class User_model extends CI_Model
 	private function setUser($user)
 	{
 		$this->id = $user[0]['UserId'];
-		$this->login = $user[0]['Login'];
+		$this->email = $user[0]['Email'];
 		$this->nick = $user[0]['Nick'];
 		$this->password = $user[0]['Password'];
 		$this->avatar = $user[0]['Avatar'];
@@ -199,10 +203,17 @@ class User_model extends CI_Model
 	}
 
 	public function getUserId($email){
-    $this->db->select('userId');
-    $this->db->from('users');
-    $this->db->where('Login', $email);
-    $querry = $this->db->get()->result()[0];
-    return $querry;
+        $this->db->select('UserId');
+        $this->db->from('users');
+        $this->db->where('Email', $email);
+        $querry = $this->db->get()->result()[0]->UserId;
+        return $querry;
   }
+    public function getUserNick($email){
+        $this->db->select('Nick');
+        $this->db->from('users');
+        $this->db->where('Email', $email);
+        $querry = $this->db->get()->result()[0]->Nick;
+        return $querry;
+    }
 }
