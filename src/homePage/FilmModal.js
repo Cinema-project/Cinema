@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import apiClient from "../api-client";
 import Iframe from "react-iframe";
+import styled from "styled-components"
 
 export default class FilmModal extends Component{
   constructor(props){
@@ -8,6 +9,7 @@ export default class FilmModal extends Component{
 
     this.state = {
       title: "",
+      overview: "",
       url: ""
     }
   }
@@ -16,8 +18,10 @@ export default class FilmModal extends Component{
     apiClient
       .get(`index.php/Home/getMovieDetails/PL/${this.props.id}`)
       .then(response => {
+        console.log("DETALE", response);
         this.setState({
-          title: response.data.title
+          title: response.data.title,
+          overview: response.data.overview
         })
       })
       .catch(error => {
@@ -41,16 +45,23 @@ export default class FilmModal extends Component{
     var url = this.state.url;
     url = url.replace("watch?v=", "embed/");
     return(
-      <div>
+      <div className="col-md-6 col-md-offset-3" style={{width: "100vw", height: "100vh"}}>
+        <Text className="col-md-12">{this.state.title}</Text>
         <Iframe url={url}
-        width="300px"
-        height="300px"
+        width="50%"
+        height="50%"
         id="myId"
-        className="myClassname"
+        className="col-md-12"
         display="initial"
         position="relative"
-        allowFullScreen/>
+        allowFullScreen
+      />
+      <Text className="col-md-6">{this.state.overview}</Text>
       </div>
     )
   }
 }
+
+const Text = styled.div`
+  overflow: auto;
+`

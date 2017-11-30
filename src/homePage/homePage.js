@@ -5,6 +5,7 @@ import ReactGridLayout from 'react-grid-layout'
 import styled from "styled-components"
 import Modal from "react-modal";
 import FilmModal from "./FilmModal"
+import Button from "../user-interface/Button"
 
 class homePage extends Component {
   constructor(props) {
@@ -40,12 +41,17 @@ class homePage extends Component {
   };
 
   toogleModal = number => {
-    console.log(number);
     this.setState({
       isModalActive: !this.state.isModalActive,
       modalId: this.state.id[number]
     });
   };
+
+  closeModal = () => {
+    this.setState({
+      isModalActive: !this.state.isModalActive
+    })
+  }
 
   render() {
     return (
@@ -56,6 +62,11 @@ class homePage extends Component {
               onRequestClose={this.toogleModal}
               className="col-md-4 col-md-offset-4"
               style={styledModal}>
+              <Button
+                onClick={this.closeModal}
+                label={"X"}
+                style={{marginLeft: "98vw", color: "black"}}
+              />
               <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
             </Modal>
             <div className="col-md-8 col-md-offset-2">
@@ -140,16 +151,19 @@ const styledModal = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(23, 23, 23, 0.9)"
+    backgroundColor: "rgba(23, 23, 23, 0.99)"
   },
   content: {
-    marginTop: "30vh",
-    borderRadius: "10px",
-    opacity: "0.7",
-    overflow: "auto",
+    position: "fixed",
+    top: "0px",
+    left: "-35vw",
+    right: "0px",
+    bottom: "0px",
+    opacity: "1",
     WebkitOverflowScrolling: "touch",
     outline: "none",
-    height: "400px",
+    height: "100%",
+    width: "100%",
     color: "rgb(201, 201, 201)"
   }
 };
