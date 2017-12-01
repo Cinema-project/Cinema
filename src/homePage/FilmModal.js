@@ -10,7 +10,11 @@ export default class FilmModal extends Component{
     this.state = {
       title: "",
       overview: "",
-      url: ""
+      budget: "",
+      genre: "",
+      url: "",
+      date: "",
+      time: ""
     }
   }
 
@@ -21,7 +25,12 @@ export default class FilmModal extends Component{
         console.log("DETALE", response);
         this.setState({
           title: response.data.title,
-          overview: response.data.overview
+          overview: response.data.overview,
+          budget: response.data.budget,
+          genre: response.data.genres[0].name,
+          production: response.data.production_companies[0].name,
+          date: response.data.release_date,
+          time: response.data.runtime
         })
       })
       .catch(error => {
@@ -47,27 +56,52 @@ export default class FilmModal extends Component{
       url = url.replace("watch?v=", "embed/");
 
     }
+    if(this.state.budget === 0){
+      this.setState({
+        budget: "nieznany"
+      })
+    }
+
     return(
       <div className="row">
-      <div className="col-md-6 col-md-offset-3" style={{width: "100vw", height: "100vh"}}>
-        <h1 className="col-md-12">{this.state.title}</h1>
-        <div className="col-md-12" style={{height: "52vh", paddingBottom: "3vh"}}>
+      <div className="col-md-12" style={{width: "100vw", height: "100vh"}}>
+        <Title className="col-md-6 col-md-offset-2">{this.state.title}</Title>
+        <div className="col-md-10 col-md-offset-2" style={{height: "55vh", paddingBottom: "3vh"}}>
         <Iframe url={url}
-        width="50%"
+        width="67%"
         height="100%"
         id="myId"
         display="initial"
         position="relative"
         allowFullScreen
       />
+      <Details className="col-md-3" style={{float: "right", marginRight: "5vw"}}>
+        {this.state.time}min <br/>
+        Budżet: {this.state.budget}$ <br/>
+        Gatunek: {this.state.genre} <br/>
+        Produkcja: {this.state.production} <br/>
+        Premiera: {this.state.date}
+      </Details>
     </div>
-      <Text className="col-md-6">{this.state.overview}</Text>
+      <Text className="col-md-6 col-md-offset-2">{this.state.overview}</Text>
       </div>
     </div>
     )
   }
 }
 
+const Title = styled.div`
+  font-family: 'Dosis', sans-serif;
+  font-size: 50px;
+`
+
 const Text = styled.div`
+  font-size: 15px;
   overflow: auto;
+`
+
+const Details = styled.div`
+  font-family: 'Oswald', sans-serif;
+  font-size: 18px;
+  color: rgb(198, 198, 184);
 `
