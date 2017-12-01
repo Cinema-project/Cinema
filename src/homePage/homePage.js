@@ -25,7 +25,7 @@ class homePage extends Component {
     const rand = Math.floor(1 + Math.random() * 100);
     apiClient
       .get(`index.php?/Home/getPopular/${rand}/PL`)
-      .then(response => {
+      .then(response => { console.log(response);
         {response.data.results.map(r =>
           this.setState(previousState =>({
             title: [...previousState.title, r.title],
