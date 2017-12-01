@@ -43,21 +43,27 @@ export default class FilmModal extends Component{
 
   render(){
     var url = this.state.url;
-    url = url.replace("watch?v=", "embed/");
+    if(url !== undefined){
+      url = url.replace("watch?v=", "embed/");
+
+    }
     return(
+      <div className="row">
       <div className="col-md-6 col-md-offset-3" style={{width: "100vw", height: "100vh"}}>
-        <Text className="col-md-12">{this.state.title}</Text>
+        <h1 className="col-md-12">{this.state.title}</h1>
+        <div className="col-md-12" style={{height: "52vh", paddingBottom: "3vh"}}>
         <Iframe url={url}
         width="50%"
-        height="50%"
+        height="100%"
         id="myId"
-        className="col-md-12"
         display="initial"
         position="relative"
         allowFullScreen
       />
+    </div>
       <Text className="col-md-6">{this.state.overview}</Text>
       </div>
+    </div>
     )
   }
 }
