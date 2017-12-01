@@ -9,8 +9,8 @@ class Token extends CI_Model {
     try {
       $encrypted = $this->jwt->decode($token, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', false);
 
-      $loggin_time = new DataTime($encrypted->issuedAt, 'DATE_ISO8601');
-      $expiries = $loggin_time->add(new DateInterval('PT' . $encrypted->ttl));
+      $loggin_time = new DateTime($encrypted->issuedAt, new DateTimeZone('Europe/Warsaw') );
+      $expiries = $loggin_time->add(new DateInterval('PT' . $encrypted->ttl . 'S'));
       $timeToExpire = time() - strtotime($expiries->getTimestamp());
       if ($timeToExpire <= 0){
         return -1;
