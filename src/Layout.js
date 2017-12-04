@@ -8,6 +8,7 @@ import homePageBackground from "./images/it.jpg";
 
 class Layout extends React.Component {
   render() {
+    console.log("login:", this.props.user.login);
     return (
       <div className="container-fluid">
         <Background className="row">
@@ -38,11 +39,12 @@ class Layout extends React.Component {
                 MyCinema
               </Link>
             </div>
-            <div className="col-md-4">
+            <Nick>{this.props.user.login}</Nick>
+            <Logout className="col-md-4">
               <a href="#">
                 <span class="glyphicon glyphicon-log-out" style={{float: "right", fontSize: "40px"}}></span>
               </a>
-            </div>
+            </Logout>
             </Searchbar>
           </div>
           <div className="col-md-12">
@@ -63,10 +65,16 @@ class Layout extends React.Component {
   }
 }
 
-export default connect()(Layout);
+const mapStateToProps = state => {
+  return {
+    user: state.session.user
+  };
+};
+
+export default connect(mapStateToProps)(Layout);
 
 const Background = styled.div `
-  background-color: black;
+background-color: black;
 background-image: url(${homePageBackground});
 box-shadow: inset 10px 0px 30px 30px #000000;
 background-repeat: no-repeat;
@@ -77,10 +85,23 @@ max-height: 40vh;
 min-width: 98.5vw;
 `
 
+const Nick = styled.div`
+  color: white;
+  font-size: 20px;
+  margin-left: 40vw;
+  font-weight: bold;
+  font-style: italic;
+  transform: translateX(20vw);
+`
+
+const Logout = styled.div`
+  transform: translateY(-3.5vh);
+`
+
 const StyledNavbar = styled.div`
   overflow: hidden;
   text-align: center;
-  margin-top: 10px;
+  transform: translateY(-3vh);
   a {
     margin-left: 75px;
     margin-right: 25px;

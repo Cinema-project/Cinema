@@ -78,10 +78,17 @@ export class SignIn extends React.Component {
         'password': this.state.password
       },
       success: function(data) {
+        console.log("LOGIN", data);
         this.state.loginCheck = data['status'];
         this.state.nick = data['status'];
         this.state.token = data['token'];
         if(this.state.loginCheck!=null && this.state.loginCheck!="notExist"){
+          this.props.dispatch({
+            type: "LOGIN",
+            data: {
+              login: data.status
+            }
+          });
         this.props.router.push("home_page");
         }else{
       callToast("Wprowadzono niepoprawny e-mail i hasło.");
