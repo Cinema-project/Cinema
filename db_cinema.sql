@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 28 Lis 2017, 01:10
+-- Czas generowania: 04 Gru 2017, 21:19
 -- Wersja serwera: 10.1.28-MariaDB
 -- Wersja PHP: 7.1.10
 
@@ -43,18 +43,18 @@ CREATE TABLE IF NOT EXISTS `cinemas` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `event`
+-- Struktura tabeli dla tabeli `events`
 --
 
-DROP TABLE IF EXISTS `event`;
-CREATE TABLE IF NOT EXISTS `event` (
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE IF NOT EXISTS `events` (
   `id_event` int(11) NOT NULL AUTO_INCREMENT,
   `time` time NOT NULL,
   `id_cinema` int(11) NOT NULL,
-  `id_movie` int(11) NOT NULL,
+  `movie_title` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id_event`),
   UNIQUE KEY `id_cinema` (`id_cinema`),
-  KEY `id_movie` (`id_movie`)
+  KEY `id_movie` (`movie_title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -124,41 +124,6 @@ CREATE TABLE IF NOT EXISTS `genres_movie` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `moviestmdb`
---
-
-DROP TABLE IF EXISTS `moviestmdb`;
-CREATE TABLE IF NOT EXISTS `moviestmdb` (
-  `MovieID` int(11) NOT NULL AUTO_INCREMENT,
-  `Title` varchar(255) NOT NULL,
-  `Description` text NOT NULL,
-  `Popularity` int(11) NOT NULL,
-  `Poster` text NOT NULL,
-  `Trailer` text NOT NULL,
-  `vote_average` double NOT NULL,
-  `Premiere_date` date NOT NULL,
-  PRIMARY KEY (`MovieID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktura tabeli dla tabeli `moviestmdb_event`
---
-
-DROP TABLE IF EXISTS `moviestmdb_event`;
-CREATE TABLE IF NOT EXISTS `moviestmdb_event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_movie_multi` int(11) NOT NULL,
-  `id_movie_tmdb` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_movie_multi` (`id_movie_multi`),
-  KEY `id_movie_tmdb` (`id_movie_tmdb`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `roles`
 --
 
@@ -178,6 +143,25 @@ CREATE TABLE IF NOT EXISTS `roles` (
 INSERT INTO `roles` (`RoleId`, `Name`) VALUES
 (1, 'Admin'),
 (2, 'User');
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `tmdbmovies`
+--
+
+DROP TABLE IF EXISTS `tmdbmovies`;
+CREATE TABLE IF NOT EXISTS `tmdbmovies` (
+  `MovieID` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(255) NOT NULL,
+  `Description` text NOT NULL,
+  `Popularity` int(11) NOT NULL,
+  `Poster` text NOT NULL,
+  `Trailer` text NOT NULL,
+  `vote_average` double NOT NULL,
+  `Premiere_date` date NOT NULL,
+  PRIMARY KEY (`MovieID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -208,7 +192,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `AccountName_UNIQUE` (`Email`),
   KEY `fk_Accounts_Roles1_idx` (`RoleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Zrzut danych tabeli `users`
@@ -227,37 +211,36 @@ INSERT INTO `users` (`UserId`, `Email`, `Nick`, `Password`, `RoleId`, `Avatar`) 
 --
 
 --
--- Ograniczenia dla tabeli `event`
+-- Ograniczenia dla tabeli `events`
 --
-ALTER TABLE `event`
-  ADD CONSTRAINT `event_ibfk_1` FOREIGN KEY (`id_cinema`) REFERENCES `cinemas` (`id_cinema`),
-  ADD CONSTRAINT `event_ibfk_2` FOREIGN KEY (`id_movie`) REFERENCES `moviestmdb` (`MovieID`);
+ALTER TABLE `events`
+  ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`id_cinema`) REFERENCES `cinemas` (`id_cinema`);
 
 --
 -- Ograniczenia dla tabeli `favorites`
 --
 ALTER TABLE `favorites`
   ADD CONSTRAINT `fk_Favorites_Accounts1` FOREIGN KEY (`AccountId`) REFERENCES `users` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Favorites_Movies1` FOREIGN KEY (`MovieId`) REFERENCES `moviestmdb` (`MovieID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_Favorites_Movies1` FOREIGN KEY (`MovieId`) REFERENCES `tmdbmovies` (`MovieID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ograniczenia dla tabeli `genres_movie`
 --
 ALTER TABLE `genres_movie`
-  ADD CONSTRAINT `genres_movie_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `moviestmdb` (`MovieID`),
+  ADD CONSTRAINT `genres_movie_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`),
   ADD CONSTRAINT `genres_movie_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`);
 
 --
--- Ograniczenia dla tabeli `moviestmdb`
+-- Ograniczenia dla tabeli `tmdbmovies`
 --
-ALTER TABLE `moviestmdb`
-  ADD CONSTRAINT `moviestmdb_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `moviestmdb_event` (`id_movie_tmdb`);
+ALTER TABLE `tmdbmovies`
+  ADD CONSTRAINT `tmdbmovies_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `moviestmdb_events` (`id_movie_tmdb`);
 
 --
 -- Ograniczenia dla tabeli `upcomming`
 --
 ALTER TABLE `upcomming`
-  ADD CONSTRAINT `upcomming_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `moviestmdb` (`MovieID`);
+  ADD CONSTRAINT `upcomming_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
 -- Ograniczenia dla tabeli `users`

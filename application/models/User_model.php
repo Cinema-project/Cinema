@@ -13,6 +13,7 @@ class User_model extends CI_Model
 	private $password;
 	private $role;
 	private $avatar;
+    private $favorites = array();
 
 	/**
 	 * User constructor.
@@ -27,6 +28,11 @@ class User_model extends CI_Model
 			{
 				$this->setUser($user);
 			}
+			$sql = "SELECT MovieId FROM favorites WHERE AccountId = ?";
+            $moviesId = $this->db->query($sql, $id)->result_array();
+            foreach ($moviesId as $id) {
+                $this->favorites[] = new Tmdbmovie_model($id);
+            }
 		}
 	}
 
