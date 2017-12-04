@@ -7,7 +7,7 @@ class Cinemas_model extends CI_Model
 	private $id_cinema;
 	private $name;
 	private $locationEW;
-	private $locationNS:
+	private $locationNS;
 	
 	public function __construct($id = null)
     {

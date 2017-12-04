@@ -6,13 +6,17 @@ class Event_model extends CI_Model
 	private $id_event;
 	private $time;
 	private $id_cinema;
-	private $id_movie;
+	private $movie_title;
 	
 	public function __construct($id = null)
     {
         if($id != null)
 		{
-			
+            $sql = "SELECT * FROM events WHERE id_event = ?";
+            $event = $this->db->query($sql, $id)->result_array()[0];
+            if(!empty($event)) {
+                $this->setEvent($event);
+            }
 		}
 	
 	
@@ -53,7 +57,12 @@ class Event_model extends CI_Model
     }
 	////////////////////////////////
 	
-	
+	public function setEvent($event)
+    {
+	    $this->time = $event[0]['time'];
+	    $this->id_cinema = $event[0]['id_cinema'];
+	    $this->id_movie = $event[0]['movie_title'];
+    }
 	
 }
 

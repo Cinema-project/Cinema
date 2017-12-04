@@ -11,6 +11,7 @@ class Genre_model extends CI_Model
     private $id;
     private $name;
 
+    private $filmsList = array();
     /**
      * Genre_model constructor.
      * @param $id
@@ -24,6 +25,11 @@ class Genre_model extends CI_Model
             {
                 $this->id = $genre[0]['id_genre'];
                 $this->name = $genre[0]['name'];
+            }
+            $sql = "SELECT id_movie FROM genres_movies WHERE id_genre = ?";
+            $moviesId = $this->db->query($sql, $id)->result_array();
+            foreach ($moviesId as $movieId) {
+                $this->filmsList[] = new Tmdbmovie_model($movieId);
             }
         }
 

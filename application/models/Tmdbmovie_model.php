@@ -17,6 +17,7 @@ class Tmdbmovie_model extends CI_Model
     private $voteAverage;
     private $premierDate;
 
+    private $genresList = array();
     /**
      * Tmdbmovie_model constructor.
      * @param $id
@@ -30,6 +31,12 @@ class Tmdbmovie_model extends CI_Model
             {
                 $this->setTmdbMovie($tmdbMovie);
             }
+            $sql = "SELECT id_genre FROM genres_movies WHERE id_movie = ?";
+            $genres = $this->db->query($sql, $id)->result_array();
+            foreach ($genres as $genre) {
+                $this->genresList[] = $genre;
+            }
+
         }
     }
 
