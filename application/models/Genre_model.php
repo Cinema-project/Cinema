@@ -35,6 +35,16 @@ class Genre_model extends CI_Model
 
     }
 
+    public function save()
+    {
+        if ($this->name != null)
+        {
+            $data = array(
+                'name' => $this->name
+            );
+            $this->db->insert('genres', $data);
+        }
+    }
 
     /**
      * @return mixed

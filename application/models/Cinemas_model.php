@@ -26,7 +26,17 @@ class Cinemas_model extends CI_Model
 	
 	}
 	
-	
+	public function save()
+    {
+	    if ($this->name != null) {
+	        $data = array(
+	            'name' => $this->name,
+                'locationEW' => $this->locationEW,
+                'locationNS' => $this->locationNS
+            );
+            $this->db->insert('cinemas', $data);
+        }
+    }
 	
 	public function getCinemaId()
     {

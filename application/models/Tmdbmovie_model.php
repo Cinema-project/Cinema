@@ -25,7 +25,7 @@ class Tmdbmovie_model extends CI_Model
     public function __construct($id = null)
     {
         if($id != null) {
-            $sql = "SELECT * FROM moviestmdb WHERE MovieID = ?";
+            $sql = "SELECT * FROM tmdbmovies WHERE MovieID = ?";
             $tmdbMovie = $this->db->query($sql, $id)->result_array()[0];
             if(!empty($tmdbMovie))
             {
@@ -40,6 +40,23 @@ class Tmdbmovie_model extends CI_Model
         }
     }
 
+    public function save()
+    {
+        if ($this->title != null && $this->description != null && $this->popularity != null && $this->poster != null
+            && $this->trailer != null && $this->voteAverage != null && $this->premierDate != null)
+        {
+            $data = array(
+                'Title' => $this->title,
+                'Description' => $this->description,
+                'Popularity' => $this->popularity,
+                'Poster' => $this->poster,
+                'Trailer' => $this->trailer,
+                'vote_average' => $this->voteAverage,
+                'Premiere_date' => $this->premierDate
+        );
+            $this->db->insert('tmdbmovies', $data);
+        }
+    }
 
     /**
      * @return mixed
