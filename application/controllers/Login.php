@@ -7,25 +7,14 @@ class Login extends CI_Controller {
         parent :: __construct();
         $this->load->helper('url');
         $this->load->model('user_model');
-        $this->load->library("jwt");
+        $this->load->model("token");
     }
-  private function generateToken($user_id){
-      $CONSUMER_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-      $CONSUMER_SECRET = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-      $CONSUMER_TTL = 86400;
-      return $this->jwt->encode(array(
-        'consumerKey'=>$CONSUMER_KEY,
-        'userId'=>$user_id,
-        'issuedAt'=>date(DATE_ISO8601, strtotime("now")),
-        'ttl'=>$CONSUMER_TTL
-      ), $CONSUMER_SECRET);
-  }
 	public function login() {
 		$email = $this->input->post('login');
 		$password = $this->input->post('password');
 
 		if($this->user_model->checkLoginAndPassword($email,$password)) {
-      		$status = array('token' => $this->generateToken($this->user_model->getUserId($email)),
+      		$status = array('token' => $this->token->generateToken($this->user_model->getUserId($email)),
                       'status' => $this->user_model->getUserNick($email));
 		}
 		else {
