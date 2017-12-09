@@ -6,7 +6,7 @@ class Event_model extends CI_Model
 	private $id_event;
 	private $time;
 	private $id_cinema;
-	private $movie_title;
+	private $movie_id;
 	
 	public function __construct($id = null)
     {
@@ -24,12 +24,12 @@ class Event_model extends CI_Model
 
 	public function save()
     {
-        if ($this->time != null && $this->id_cinema != null && $this->movie_title != null)
+        if ($this->time != null && $this->id_cinema != null && $this->movie_id != null)
         {
             $data = array(
                 'time' => $this->time,
                 'id_cinema' => $this->id_cinema,
-                'movie_title' => $this->movie_title
+                'movie_title' => $this->movie_id
             );
             $this->db->insert('events', $data);
         }
@@ -74,7 +74,7 @@ class Event_model extends CI_Model
     {
 	    $this->time = $event[0]['time'];
 	    $this->id_cinema = $event[0]['id_cinema'];
-	    $this->movie_title = $event[0]['movie_title'];
+	    $this->movie_id = $event[0]['movie_title'];
     }
 	
 }
