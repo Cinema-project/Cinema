@@ -73,29 +73,53 @@ try
 		$dlugosc = 1;
 		$szerokosc = 1;
 		
+		
+		
+		
 		foreach($cinemaNameResult as $cinemaName)
 		{
-			
-			
-			$zapytanie = "insert into cinemas (name, locationEW, locationNS)
-			values ('$cinemaName',$dlugosc, $szerokosc)
-			
-			
-			
-			";
-		
-		//$zapytanie = "select * from rezerwacja where"
-		
-			$result = $polaczenie->query($zapytanie);
-			
-			if(!$result)
+			try
 			{
-				throw new Exception($polaczenie->error);
+				$address = $cinemaName;
+				$addressCorrect = str_replace(' ','+',$address);
+				//echo $addressCorrect;
+				
+				$geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($addressCorrect).'&sensor=false');
+
+				$output= json_decode($geocode);
+
+				$lat = $output->results[0]->geometry->location->lat;
+				$long = $output->results[0]->geometry->location->lng;
+				
+				/*
+				echo $lat;
+				echo $long;
+				echo " ";
+				*/
+				
+				$zapytanie = "insert into cinemas (name, locationEW, locationNS)
+				values ('$cinemaName',$lat, $long)
+				
+				
+				
+				";
+			
+			//$zapytanie = "select * from rezerwacja where"
+			
+				$result = $polaczenie->query($zapytanie);
+				
+				if(!$result)
+				{
+					throw new Exception($polaczenie->error);
+				}
+				
+				
+				$dlugosc++;
+				$szerokosc++;
+			}catch(Exception $e)
+			{
+				echo 'Blad w foreach'.$e;
 			}
-			
-			
-			$dlugosc++;
-			$szerokosc++;
 		}
 		$polaczenie->close();
 	}
