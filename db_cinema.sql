@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_cinema`
 --
-CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `db_cinema`;
 
 -- --------------------------------------------------------
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `cinemamovies` (
   `tmdbmovie_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`movie_id`),
   KEY `cinemamovies_ibfk_1` (`tmdbmovie_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `cinemas` (
   `locationNS` double NOT NULL,
   PRIMARY KEY (`id_cinema`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   PRIMARY KEY (`id_event`),
   UNIQUE KEY `id_cinema` (`id_cinema`),
   KEY `id_movie` (`movie_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
   `id_genre` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id_genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `genres_movie` (
   `id_genre` int(11) NOT NULL,
   PRIMARY KEY (`id_movie`),
   KEY `id_genre` (`id_genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `tmdbmovies` (
   `vote_average` double NOT NULL,
   `Premiere_date` date NOT NULL,
   PRIMARY KEY (`MovieID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -188,7 +188,7 @@ DROP TABLE IF EXISTS `upcomming`;
 CREATE TABLE IF NOT EXISTS `upcomming` (
   `id_movie` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_movie`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
