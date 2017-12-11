@@ -2,28 +2,27 @@
 /**
  * Created by PhpStorm.
  * User: Mateusz
- * Date: 12.11.2017
- * Time: 17:11
+ * Date: 03.12.2017
+ * Time: 19:56
  */
+
 class Role_model extends CI_Model
 {
     private $id;
     private $name;
 
-    /**
-     * Role_model constructor.
-     * @param $id
-     */
     public function __construct($id = null)
     {
-        if ($id != null)
-        {
+        if($id != null) {
             $sql = "SELECT * FROM roles WHERE RoleId = ?";
             $role = $this->db->query($sql, $id)->result_array()[0];
-
-            $this->id = $role['RoleId'];
-            $this->name = $role['Name'];
+            if(!empty($role))
+            {
+                $this->id = $role[0]['RoleId'];
+                $this->name = $role[0]['Name'];
+            }
         }
+
     }
 
 
@@ -34,6 +33,7 @@ class Role_model extends CI_Model
     {
         return $this->id;
     }
+
 
     /**
      * @return mixed
@@ -50,6 +50,4 @@ class Role_model extends CI_Model
     {
         $this->name = $name;
     }
-
-
 }

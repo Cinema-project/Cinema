@@ -1,17 +1,16 @@
 <?php
 /**
-* Klasa jest czÄ™Å›ciowym wraperem dla API strony themoviedb.org
+* Klasa jest czêœciowym wraperem dla API strony themoviedb.org
 * @link https://api.themoviedb.org/3
 */
 class TheMovieDB extends CI_Model {
-
   /**
-   * Klucz identyfikujÄ…cy dla API w werji 3
+   * Klucz identyfikuj¹cy dla API w werji 3
    * @var string
    */
   private $authKeyV3 = '9a8e79615c34a10f3d14b49681855241';
   /**
-   * Klucz identyfikujÄ…cy dla API w wersji 4
+   * Klucz identyfikuj¹cy dla API w wersji 4
    * @var string
    */
   private $authKeyV4 =
@@ -22,7 +21,7 @@ class TheMovieDB extends CI_Model {
    */
   private $urlData = 'https://api.themoviedb.org/3';
   /**
-   * url do obrazÃ³w
+   * url do obrazów
    * @var string
    */
   private $urlImage = 'http://image.tmdb.org/t/p/w500';
@@ -31,21 +30,18 @@ class TheMovieDB extends CI_Model {
    * @var string
    */
   private $timeZone = 'Europe/Warsaw';
-
   public function __construct(){
 		parent :: __construct();
   }
-
   /**
-   * Dodaje jÄ™zyk do zapytania
+   * Dodaje jêzyk do zapytania
    * @method addLaguage
-   * @param string $language jÄ™zyk
-   * @return string zwraca jÄ™zyk w formacie zapytania
+   * @param string $language jêzyk
+   * @return string zwraca jêzyk w formacie zapytania
    */
   private function laguage($language) {
     return '&language=' . $language;
   }
-
   /**
    * Dodaje region do zapytania
    * @method addRegion
@@ -55,7 +51,6 @@ class TheMovieDB extends CI_Model {
   private function region($region){
     return '&region=' . $region;
   }
-
   /**
    * Dodaje strone do zapytania
    * @method page
@@ -65,7 +60,6 @@ class TheMovieDB extends CI_Model {
   private function page($page){
     return '&page=' . $page;
   }
-
   /**
   * Tworzy zapytanie do strony pod adresem $this->url
   * @method querry
@@ -80,23 +74,21 @@ class TheMovieDB extends CI_Model {
     $url = $this->urlData . $question . '?api_key=' . $this->authKeyV3 . $more;
     return file_get_contents( $url );
   }
-
   /**
   * Pyta o kategorie
   * @method getCategoryList
-  * @param string $language jÄ™zyk
-  * @return string zwraca dostÄ™pne kategorie w formacie JSON
+  * @param string $language jêzyk
+  * @return string zwraca dostêpne kategorie w formacie JSON
   * @link https://developers.themoviedb.org/3/genres/get-movie-list
   */
   public function getCategoryList($language){
     return $this->querry( '/genre/movie/list',
                           $this->laguage($language) );
   }
-
   /**
  * Pobiera filmy
  *
- * Dozwolone wartoÅ›ci dla parametru sortowania:
+ * Dozwolone wartoœci dla parametru sortowania:
  * popularity.asc, popularity.desc, release_date.asc,
  * release_date.desc, revenue.asc, revenue.desc,
  * primary_release_date.asc, primary_release_date.desc,
@@ -104,12 +96,12 @@ class TheMovieDB extends CI_Model {
  * vote_average.desc, vote_count.asc, vote_count.desc
  *
  * @method getMovies
- * @param string $language jÄ™zyk
+ * @param string $language jêzyk
  * @param int $categoryId id kategorii
  * @param int $page numer strony
- * @param string $sort sposÃ³b sortowania
+ * @param string $sort sposób sortowania
  * @param int $year rok produkcji
- * @return string zwraca listÄ™ filmÃ³w w formacie JSON
+ * @return string zwraca listê filmów w formacie JSON
  * @link https://developers.themoviedb.org/3/discover
  */
  public function getMovies($language, $categoryId, $page, $sort, $year ){
@@ -136,27 +128,25 @@ class TheMovieDB extends CI_Model {
    }
    return $this->querry( '/discover/movie', $more );
  }
-
   /**
-  * Pyta o szczegÃ³Å‚owe informacjÄ™ o filmie
+  * Pyta o szczegó³owe informacjê o filmie
   * @method getMovieDetails
-  * @param string $language jÄ™zyk
+  * @param string $language jêzyk
   * @param int $movieId  id filmu
-  * @return string Zwraca informacjÄ™ o filmie w formacie JSON
+  * @return string Zwraca informacjê o filmie w formacie JSON
   * @link https://developers.themoviedb.org/3/movies
   */
   public function getMovieDetails($language, $movieId){
     return $this->querry('/movie/' . $movieId,
                           $this->laguage($language));
   }
-
   /**
-  * Funkcja wybiera pierwszy plakat w jÄ™zyku domyÅ›lnym (zdefiniowany na poczÄ…tku pliku)
-  * JeÅ¼eli nie ma plakatu dla domyÅ›lnego jÄ™zyka to wybiera pierwszy plakat dla jÄ™zyka alternatywnego (zdefiniowany na poczÄ…tku pliku).
+  * Funkcja wybiera pierwszy plakat w jêzyku domyœlnym (zdefiniowany na pocz¹tku pliku)
+  * Je¿eli nie ma plakatu dla domyœlnego jêzyka to wybiera pierwszy plakat dla jêzyka alternatywnego (zdefiniowany na pocz¹tku pliku).
   * @method getMoviePosterPath
-  * @param string $language jÄ™zyk
+  * @param string $language jêzyk
   * @param int $movieId id filmu
-  * @param string $alternativeLanguage jÄ™zyk alternatywny
+  * @param string $alternativeLanguage jêzyk alternatywny
   * @return string Zwraca link do plakatu
   */
   public function getMoviePosterPath($language, $movieId, $alternativeLanguage = 'en'){
@@ -171,28 +161,25 @@ class TheMovieDB extends CI_Model {
       }
     }
     $result = $this->urlImage . $result->file_path;
-
     return $result;
   }
-
   /**
-   * SÅ‚owa kluczowe
+   * S³owa kluczowe
    * @link https://developers.themoviedb.org/3/movies/get-movie-keywords
    * @method getKeywords
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $id id filmu
-   * @return string zwraca sÅ‚owa kluczowe w formacie JSON
+   * @return string zwraca s³owa kluczowe w formacie JSON
    */
   public function getKeywords($language, $id){
     return $this->querry('/movie/' . $id . '/keywords',
                           $this->laguage($language));
   }
-
   /**
    * Ostatnie filmy
    * @link https://developers.themoviedb.org/3/movies/get-latest-movie
    * @method getLatest
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $page numer strony
    * @return string zwraca dane w formacie JSON
    */
@@ -201,13 +188,12 @@ class TheMovieDB extends CI_Model {
                           $this->page($page) .
                           $this->laguage($language));
   }
-
   /**
    * Aktualnie grane filmy w kinach
-   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionÃ³w
+   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
    * @link https://developers.themoviedb.org/3/movies/get-now-playing
    * @method getNowPlaying
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $page numer strony
    * @param string $region kod regionu
    * @return string zwraca dane w formacie JSON
@@ -218,13 +204,12 @@ class TheMovieDB extends CI_Model {
                           $this->region($region) .
                           $this->laguage($language));
   }
-
   /**
    * Popularne filmy
    * @link https://developers.themoviedb.org/3/movies/get-popular-movies
-   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionÃ³w
+   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
    * @method getPopular
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $page numer strony
    * @param int $region kod regionu
    * @return string zwraca dane w formacie JSON
@@ -235,13 +220,12 @@ class TheMovieDB extends CI_Model {
                           $this->region($region) .
                           $this->laguage($language));
   }
-
   /**
-   * NajwyÅ¼ej oceniane
+   * Najwy¿ej oceniane
    * @link https://developers.themoviedb.org/3/movies/get-top-rated-movies
-   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionÃ³w
+   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
    * @method getTopRated
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $page numer strony
    * @param int $region kod regionu
    * @return string zwraca dane w formacie JSON
@@ -252,13 +236,12 @@ class TheMovieDB extends CI_Model {
                           $this->region($region) .
                           $this->laguage($language));
   }
-
   /**
-   * Filmy, ktÃ³re nadchodzÄ…
+   * Filmy, które nadchodz¹
    * @link https://developers.themoviedb.org/3/movies/get-upcoming
-   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionÃ³w
+   * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
    * @method getUpcoming
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $page numer strony
    * @param int $region kod regionu
    * @return string zwraca dane w formacie JSON
@@ -269,14 +252,13 @@ class TheMovieDB extends CI_Model {
                           $this->region($region) .
                           $this->laguage($language));
   }
-
   /**
    * Pobiera trailer do filmu.
-   * JeÅ¼eli nie ma traileru w podanym jÄ™zyku
-   * to pobierany jest trailer w dowolnym innym jÄ™zyku.
+   * Je¿eli nie ma traileru w podanym jêzyku
+   * to pobierany jest trailer w dowolnym innym jêzyku.
    * @link https://developers.themoviedb.org/3/movies/get-movie-videos
    * @method getTrailerPath
-   * @param string $language jÄ™zyk
+   * @param string $language jêzyk
    * @param int $id id filmu
    * @return string zwraca dane w formacie JSON
    */
@@ -289,13 +271,10 @@ class TheMovieDB extends CI_Model {
                               $this->laguage('xx') );
       $decode = json_decode($json);
     }
-
     if (count($decode->results) == 0){
       return null;
     }
-
     $result = array();
-
     foreach ($decode->results as $item){
       if ( $item->site == 'YouTube' ) {
         $result[] = 'https://www.youtube.com/watch?v=' . $item->key;
@@ -303,7 +282,6 @@ class TheMovieDB extends CI_Model {
     }
     return json_encode($result);
   }
-
   /**
    * Obsada i ekipa filmu
    * @link https://developers.themoviedb.org/3/movies/get-movie-credits

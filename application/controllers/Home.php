@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+header('Access-Control-Allow-Origin: *');
 class Home extends CI_Controller {
     /**
      * Konstruktor ładuje potrzebne modele oraz biblioteki
@@ -13,6 +13,11 @@ class Home extends CI_Controller {
         $this->load->helper('url');
     }
 
+    public function initGeoCodeTable(){
+      $this->load->model('Cinemas_geocode_model', 'geo');
+      $this->geo->insertDataToDataBase();
+    }
+
     /**
      * Strona główna kontrolera
      * Wyświetla plik view/home.php
@@ -20,12 +25,7 @@ class Home extends CI_Controller {
      */
     public function index()
     {
-        $data['multikino'] = $this->multikino->getCinemaRepertoire(3);
-        $data['themoviedbLista'] = $this->themoviedb->getCategoryList('PL');
-        $data['themoviedbAkcja'] = $this->themoviedb->getMovies('PL', 18, 1, '', 2017);
-        $data['movieDetails'] = $this->themoviedb->getMovieDetails('PL', 290512);
-        $data['poster'] = $this->themoviedb->getMoviePosterPath('PL', 290512);
-        $this->load->view('home', $data);
+        redirect(base_url('/index.html'));
     }
 
     /**
@@ -206,6 +206,11 @@ class Home extends CI_Controller {
      */
     public function getCredits($id){
       echo $this->themoviedb->getCredits($id);
+    }
+
+    public function getCinemasLocalization(){
+      $this->load->model('Cinemas_model', 'cinemas');
+      echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
     }
 }
 ?>
