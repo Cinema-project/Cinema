@@ -207,5 +207,10 @@ class Home extends CI_Controller {
     public function getCredits($id){
       echo $this->themoviedb->getCredits($id);
     }
+
+    public function getCinemasLocalization(){
+      $this->load->model('Cinemas_model', 'cinemas');
+      echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
+    }
 }
 ?>
