@@ -21,7 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_cinema`
 --
-CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `db_cinema`;
 
 -- --------------------------------------------------------
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `cinemas` (
   `locationNS` double NOT NULL,
   PRIMARY KEY (`id_cinema`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
