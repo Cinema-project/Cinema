@@ -13,6 +13,11 @@ class Home extends CI_Controller {
         $this->load->helper('url');
     }
 
+    public function initGeoCodeTable(){
+      $this->load->model('Cinemas_geocode_model', 'geo');
+      $this->geo->insertDataToDataBase();
+    }
+
     /**
      * Strona główna kontrolera
      * Wyświetla plik view/home.php
