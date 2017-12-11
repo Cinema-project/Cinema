@@ -14,8 +14,30 @@ class Update_model extends CI_Model {
       }
     }
 
+    public function updateTmdbMovie($id){
+      $details = $this->themoviedb->getMovieDetails('PL', $id);
+      $details = json_decode($details);
+      $genres = $details->genres;
+      $overview = $details->overview;
+      $poster = $details->poster_path;
+      if ($poster != ''){
+        $poster = 'http://image.tmdb.org/t/p/w500' . $poster;
+      } else {
+        $poster = NULL;
+      }
+      $title = $details->title;
+      $vote = $details->vote_average;
+      $premiere = $details->release_date;
+      $trailer = $this->themoviedb->getTrailerPath('Pl', $id);
+      $popularity = $details->popularity;
+
+      $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere);
+      $this->tmdbmovie_model->save();
+      $this->addGenresToMovie($genres, $id);
+    }
+
     public function fullUpdateTmdbMovies(){
-      set_time_limit(0); 
+      set_time_limit(0);
       $day = 10;//date('d');
       $month = 12;//date('m');
       $year = 2017;//date('Y');
@@ -27,26 +49,7 @@ class Update_model extends CI_Model {
       $movies = 1000;
       foreach ($records as $record) {
         $id = $record['id'];
-        $popularity = $record['popularity'];
-        $details = $this->themoviedb->getMovieDetails('PL', $id);
-        $details = json_decode($details);
-        $genres = $details->genres;
-        $overview = $details->overview;
-        $poster = $details->poster_path;
-        if ($poster != ''){
-          $poster = 'http://image.tmdb.org/t/p/w500' . $poster;
-        } else {
-          $poster = NULL;
-        }
-        $title = $details->title;
-        $vote = $details->vote_average;
-        $premiere = $details->release_date;
-        $trailer = $this->themoviedb->getTrailerPath('Pl', $id);
-
-        $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere);
-        $this->tmdbmovie_model->save();
-        $this->addGenresToMovie($genres, $id);
-
+        $this->updateTmdbMovie($id);
         $ask--;
         if ( $ask == 0 ){
           $ask = 20;
