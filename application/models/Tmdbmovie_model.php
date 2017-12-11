@@ -40,12 +40,23 @@ class Tmdbmovie_model extends CI_Model
         }
     }
 
+    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere){
+      $this->setId($id);
+      $this->setTitle($title);
+      $this->setDescription($description);
+      $this->setPopularity($popularity);
+      $this->setPoster($poster);
+      $this->setTrailer($trailer);
+      $this->setVoteAverage($vote);
+      $this->setPremierDate($premiere);
+    }
+
     public function save()
     {
-        if ($this->title != null && $this->description != null && $this->popularity != null && $this->poster != null
-            && $this->trailer != null && $this->voteAverage != null && $this->premierDate != null)
+        if ( $this->id != null && $this->title != null)
         {
             $data = array(
+                'MovieID' => $this->id,
                 'Title' => $this->title,
                 'Description' => $this->description,
                 'Popularity' => $this->popularity,
@@ -57,6 +68,12 @@ class Tmdbmovie_model extends CI_Model
             $this->db->insert('tmdbmovies', $data);
         }
     }
+
+  public function insertToGenresMovies($genre, $movie){
+    $data = array('id_movie' => $movie,
+                  'id_genre' => $genre);
+    $this->db->insert('genres_movie', $data);
+  }
 
     /**
      * @return mixed
