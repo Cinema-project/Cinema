@@ -6,7 +6,7 @@ import locationImage from "../images/location.png";
 export class MapContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = { latitude: 0, longtitude: 0,cinemaLocation: [] };
+    this.state = { latitude: 0, longtitude: 0,cinemaLocation: [], showingInfoWindow: false,activeMarker: {},selectedPlace: {}};
     
     //ustawiam pozycje za pomoca wbudowanej w przegladarke funkcji, nie dodaje na razie warunkow
     //sprawdzajacych czy przegladraka obsluguje 
@@ -25,6 +25,15 @@ export class MapContainer extends Component {
       .catch(error => {
         console.log(error);
       });
+  }
+
+  onMarkerClick = (props,marker,e) => {
+    this.setState({
+      selectedPlace: props,
+      activeMarker: marker,
+      showingInfoWindow: true
+    })
+
   }
   render() {
     console.log(this.state.cinemaLocation);
@@ -47,16 +56,18 @@ export class MapContainer extends Component {
         {this.state.cinemaLocation.map((clocation)=>(
           
            <Marker title={clocation.name}
+           name={clocation.name}
           icon={{
           url:locationImage
-    }}
+    }}   onClick={this.onMarkerClick}
          position={{lat: clocation.locationNS, lng: clocation.locationEW}} />
         ))}
        
 
-        <InfoWindow onClose={this.onInfoWindowClose}>
+        <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>
-            <h1>"My Cinema"</h1>
+            <img src={locationImage}/> Kino
+            <h3>{this.state.selectedPlace.name}</h3>
           </div>
         </InfoWindow>
       </Map>
