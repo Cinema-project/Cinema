@@ -1,25 +1,21 @@
-<?php
+﻿<?php
 
 class Cinemas_geocode_model extends CI_Model
 {
-	public function insertDataToDataBase()
-	{
-		function getXMLFilePath()
+	
+		private function getXMLFilePath()
 		{
 			return 'https://apibeta.multikino.pl/repertoire.xml?cinema_id=xx';
 		}
-		function getXML($url)
+		private function getXML($url)
 		{
 			return simplexml_load_string( file_get_contents($url) , 'SimpleXMLElement', LIBXML_NOCDATA );
 		}
-		function getGeoCode($address)//zwraca tablice z szerokoscia i dlugoscia geograficzna podanego adresu
+		private function getGeoCode($address)//zwraca tablice z szerokoscia i dlugoscia geograficzna podanego adresu
 		{
 			$addressCorrect = str_replace(' ','+',$address);
 
-
-
 			$geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.urlencode($addressCorrect).'&sensor=false');
-
 
 
 			$output= json_decode($geocode, true);
@@ -33,9 +29,7 @@ class Cinemas_geocode_model extends CI_Model
 
 				if($lat && $long && $addressResponse)
 				{
-					//echo $addressResponse." ".$lat." ".$long;
-					//echo "\n";
-					//wstawiam dane do tablicy
+					
 					$data_array = array();
 
 					array_push
@@ -58,95 +52,150 @@ class Cinemas_geocode_model extends CI_Model
 				return false;
 			}
 		}
-		$xml = getXML(getXMLFilePath())->children();
-		$cinemaNameArray = array();
-		foreach($xml->children() as $a)
+		private function getConnection()
 		{
-			$child = $a->children();
-			$cinemaName = $child->cinema_name;
-			//echo $cinemaId;
-			//echo $cinemaName;
-
-			array_push($cinemaNameArray, $cinemaName);
-
-
-		}
-		$cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
-		//dane konifguracyjne do polaczenia z baza danych
-		$host = "localhost";
-		$db_user = "root";
-		$db_password = "";
-		$db_name = "db_cinema";
-		try
-		{
-			$polaczenie = new mysqli($host, $db_user, $db_password, $db_name);
-
-			if($polaczenie->connect_errno != 0)
+			//dane konifguracyjne do polaczenia z baza danych
+			$host = "localhost";
+			$db_user = "root";
+			$db_password = "";
+			$db_name = "db_cinema";
+			try
 			{
-				throw new Exception(mysqli_connect_errno());
+				$polaczenie = new mysqli($host, $db_user, $db_password, $db_name);
+				
+				if($polaczenie->connect_errno != 0)
+				{
+					throw new Exception(mysqli_connect_errno());
+				}
+				
+				if(!$polaczenie->set_charset("utf8"))
+				{
+					printf("Couldn't set utf8: ", $polaczenie->error);
+				}
+				else
+				{
+					return $polaczenie;
+				}
+				
+			}catch(Exception $e)
+			{
+				echo 'Blad serwera i polaczenia z baza danych'.$e;
 			}
-			else
+		}
+		public function insertDataToDataBaseSingle()
+		{
+			$xml = $this->getXML($this->getXMLFilePath())->children();
+			$cinemaNameArray = array();
+			foreach($xml->children() as $a)
 			{
-				$zapytanieDelete = "delete from cinemas where id_cinema > 0";
-				$zapytanieResetAutoIncrement = "alter table cinemas auto_increment = 1";
+				$child = $a->children();
+				$cinemaName = $child->cinema_name;
+				//echo $cinemaId;
+				//echo $cinemaName;
 
-				$result = $polaczenie->query($zapytanieDelete);
+				array_push($cinemaNameArray, $cinemaName);
 
+
+			}
+			$cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
+			//dane konifguracyjne do polaczenia z baza danych
+			$polaczenie = $this->getConnection();
+			if(isset($polaczenie))
+			{
+				$zapytanieZwrocRekordyCinemas = "select name from cinemas";
+				$result = $polaczenie->query($zapytanieZwrocRekordyCinemas);
 				if(!$result)
 				{
 					throw new Exception($polaczenie->error);
 				}
-
-				$result = $polaczenie->query($zapytanieResetAutoIncrement);
-
-				if(!$result)
+				$num_rows = $result->num_rows;//liczba zwroconyuhc rekordow
+				//echo $num_rows." ";
+				if($num_rows > 0)//jesli znajde kino o danej nazwie to go nie wstawiam jeszcze raz
 				{
-					throw new Exception($polaczenie->error);
-				}
-
-
-				foreach($cinemaNameResult as $cinemaName)
-				{
-					$address = $cinemaName;
-					$dataArray = array();
-					$dataArray = getGeoCode($address);
-
-					if($dataArray)
+					//echo $result;
+					$cinamasNameArray = array();
+					while($row = mysqli_fetch_array($result))  
 					{
-						$lat = $dataArray[0];
-						$long = $dataArray[1];
-
-						try
+						//$cinemaNameFromDataBase = $row['name'];
+						array_push($cinamasNameArray, $row['name']);
+					}
+					//print_r($cinamasNameArray);
+					//echo " ";
+					foreach($cinemaNameResult as $cinemaName)
+					{
+						if(!(in_array($cinemaName, $cinamasNameArray)))//jesli NIE znajdzie w tablicy
 						{
-							$zapytanie = "insert into cinemas (name, locationEW, locationNS)
-							values ('$cinemaName','$long', '$lat')
-
-
-
-							";
-
-
-							$result = $polaczenie->query($zapytanie);
-
-							if(!$result)
-							{
-								throw new Exception($polaczenie->error);
-							}
-						}catch(Exception $e)
-						{
-							echo 'Blad w foreach'.$e;
+							$address = $cinemaName;
+							//echo $address." ".',';
+							$this->insertDataCheck($address, $polaczenie);
 						}
+					}	
+				}
+				else
+				{
+					foreach($cinemaNameResult as $cinemaName)
+					{
+						$address = $cinemaName;
+						$this->insertDataCheck($address, $polaczenie);
+		
 					}
 				}
-
 				$polaczenie->close();
 			}
-
-
-		}catch(Exception $e)
-		{
-			echo 'Blad serwera i polaczenia z baza danych'.$e;
 		}
-	}
+		private function insertDataCheck($address, $polaczenie)
+		{
+			$dataArray = array();
+			$dataArray = $this->getGeoCode($address);
+			if($dataArray)
+			{
+				$lat = $dataArray[0];
+				$long = $dataArray[1];
+
+				try
+				{
+					$zapytanie = "insert into `cinemas` (`name`, `locationEW`, `locationNS`)
+					values ('$address','$long', '$lat')";
+
+					$result = $polaczenie->query($zapytanie);
+					
+					if(!$result)
+					{
+						throw new Exception($polaczenie->error);
+					}
+				}catch(Exception $e)
+				{
+					echo 'Blad w foreach'.$e;
+				}
+			}
+		}
+		public function insertDataToDataBase()//bedzie wstawial rekordy az beda wszystkie kina
+		{
+			$polaczenie = $this->getConnection();
+			if(isset($polaczenie))
+			{
+				$done = false;
+				
+				while(!$done)
+				{
+					$zapytanieZwrocRekordyCinemas = "select * from cinemas";
+					$result = $polaczenie->query($zapytanieZwrocRekordyCinemas);
+					if(!$result)
+					{
+						throw new Exception($polaczenie->error);
+					}
+					$num_rows = $result->num_rows;//liczba zwroconyuhc rekordow
+					echo $num_rows." ";
+					if($num_rows >= 33)//33 bo 33
+					{
+						$done = true;
+					}
+					else
+					{
+						$this->insertDataToDataBaseSingle();
+					}
+				}
+			}
+		}
 }
 ?>
