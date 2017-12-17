@@ -6,9 +6,14 @@
  * Time: 12:59
  */
 
-class TmdbMovieList_model extends CI_Model
+class Movielist_model extends CI_Model
 {
     private $movieList = array();
+
+    public function __construct()
+    {
+        $this->load->model('tmdbmovie_model');
+    }
 
     /**
      * @return array
@@ -30,19 +35,20 @@ class TmdbMovieList_model extends CI_Model
     {
         if($genreName != null)
         {
+            $offset = $offset*20;
             $sql = "SELECT id_genre FROM genres WHERE name = ?";
             $genreId = $this->db->query($sql, $genreName)->result_array()[0];
             if($genreId != null)
             {
                 if($sortBy == null)
                 {
-                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? LIMIT 20 OFFSET ?";
-                    $movies = $this->db->query($sql, $genreId, $offset*20)->result_array();
+                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? LIMIT $offset,20";
+                    $movies = $this->db->query($sql, $genreId)->result_array();
                 }
                 else
                 {
-                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? ORDER BY ? LIMIT 20 OFFSET ?";
-                    $movies = $this->db->query($sql, $genreId, $sortBy, $offset*20)->result_array();
+                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? ORDER BY $sortBy LIMIT $offset,20";
+                    $movies = $this->db->query($sql, $genreId)->result_array();
                 }
                 foreach ($movies as $movie) {
                     $movieModel = new Tmdbmovie_model();
@@ -59,12 +65,12 @@ class TmdbMovieList_model extends CI_Model
         {
             if($sortBy == null)
             {
-                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN ? AND ? LIMIT 20 OFFSET ?";
-                $movies = $this->db->query($sql, $startTime, $endTime, $offset*20)->result_array();
+                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) LIMIT $offset,20";
+                $movies = $this->db->query($sql)->result_array();
             }
             else {
-                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN ? AND ? ORDER BY ? LIMIT 20 OFFSET ?";
-                $movies = $this->db->query($sql, $startTime, $endTime, $sortBy, $offset*20)->result_array();
+                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) ORDER BY $sortBy LIMIT $offset,20";
+                $movies = $this->db->query($sql)->result_array();
             }
             if($movies != null)
             {
