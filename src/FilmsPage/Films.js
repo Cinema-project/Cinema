@@ -113,7 +113,6 @@ class Films extends Component {
   }
 
   render() {
-    console.log("kategoria", this.state.category);
     return (
       <div className="container-fluid">
         <div className="col-md-12" style={{ paddingTop: "5vh", paddingLeft: "5vh" }}>

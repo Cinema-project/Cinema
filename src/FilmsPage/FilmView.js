@@ -14,7 +14,8 @@ export default class FilmView extends Component {
       rating: [],
       id: [],
       isModalActive: false,
-      modalId: ""
+      modalId: "",
+      hover: false
     };
   }
 
@@ -39,7 +40,6 @@ export default class FilmView extends Component {
 
   componentWillReceiveProps = () => {
     const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
-    console.log("PATHHHHH", path);
     this.setState({
       title: [],
       poster: [],
@@ -71,6 +71,36 @@ export default class FilmView extends Component {
     });
   };
 
+  mouseOver = () => {
+        this.setState({
+          hover: true
+        });
+    }
+
+    mouseOut = () => {
+        this.setState({
+          hover: false
+        });
+    }
+
+    showStar = () => {
+        if(this.state.hover === false){
+          return(
+            <img
+              src={require("../images/whiteStar.png")}
+              style={{ width: "64px" }}
+            />
+          )
+        } else if(this.state.hover === true){
+          return(
+            <img
+              src={require("../images/yellowStar.png")}
+              style={{ width: "64px" }}
+            />
+          )
+        }
+    }
+
   viewFilm = i => {
     return(
       <Film className="col-md-8 col-md-offset-2" onClick = {this.toogleModal.bind(this, i)}>
@@ -90,15 +120,17 @@ export default class FilmView extends Component {
           <div className="col-md-2" style={{marginTop: "4vh"}}>
             <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[i]}`} alt="logo"/>
           </div>
-          <div className="col-md-4" style={{fontSize: "30px", color: "white", paddingTop: "12vh"}}>{this.state.title[i]}</div>
-          <div className="col-md-2" style={{fontSize: "30px", color: "white", paddingTop: "12vh"}}>{this.state.rating[i]}</div>
+          <Title className="col-md-6">{this.state.title[i]}</Title>
+          <Rating className="col-md-2">{this.state.rating[i]}</Rating>
+          <Star className="col-md-2" onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
+            {this.showStar()}
+          </Star>
         </div>
       </Film>
     )
   }
 
   render() {
-    console.log("ID", this.state.modalId);
     return(
       <div>
         <div>{this.viewFilm(0)}</div>
@@ -135,6 +167,25 @@ const Film = styled.div`
     cursor: pointer;
     background-color: rgba(93, 93, 93, 0.28);
   }
+`
+
+const Title = styled.div`
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  padding-top: 12vh;
+`
+
+const Rating = styled.div`
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  padding-top: 12vh;
+`
+
+const Star = styled.div`
+  text-align: center;
+  margin-top: 10vh;
 `
 
 const styledModal = {
