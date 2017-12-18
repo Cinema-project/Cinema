@@ -104,12 +104,10 @@ class TheMovieDB extends CI_Model {
  * @return string zwraca list� film�w w formacie JSON
  * @link https://developers.themoviedb.org/3/discover
  */
- public function getMovies($language, $categoryId, $page, $sort, $year ){
+ public function getMovies($language, $categoryId, $page){
    $language = trim($language);
    $categoryId = trim($categoryId);
    $page = trim($page);
-   $sort = trim($sort);
-   $year = trim($year);
    $more = '';
    if ($language != ''){
      $more .= $this->laguage($language);
@@ -119,12 +117,6 @@ class TheMovieDB extends CI_Model {
    }
    if ($page != '' && is_numeric($page)){
      $more .= $this->page($page);
-   }
-   if ($sort != '') {
-     $more .= '&sort_by=' . $sort;
-   }
-   if ($year != '' && is_numeric($year)){
-     $more .= '&year=' . $year;
    }
    return $this->querry( '/discover/movie', $more );
  }

@@ -203,14 +203,25 @@ class Tmdbmovie_model extends CI_Model
         $this->premierDate = $premierDate;
     }
 
+    public function exist($id){
+      $query = $this->db->get_where('tmdbmovies', array('MovieID' => $id ));
+      $count = $query->num_rows();
+      if ($count === 0) {
+          return false;
+      } else {
+        return true;
+      }
+    }
+
     public function setTmdbMovie($tmdbMovie)
     {
-        $this->id = $tmdbMovie[0]['MovieID'];
-        $this->title = $tmdbMovie[0]['Title'];
-        $this->description = $tmdbMovie[0]['Description'];
-        $this->popularity = $tmdbMovie[0]['Popularity'];
-        $this->Trailer = $tmdbMovie[0]['Trailer'];
-        $this->voteAverage = $tmdbMovie[0]['vote_average'];
-        $this->premierDate = $tmdbMovie[0]['Premiere_date'];
+      //var_dump($tmdbMovie);die();
+        $this->id = $tmdbMovie['MovieID'];
+        $this->title = $tmdbMovie['Title'];
+        $this->description = $tmdbMovie['Description'];
+        $this->popularity = $tmdbMovie['Popularity'];
+        $this->Trailer = $tmdbMovie['Trailer'];
+        $this->voteAverage = $tmdbMovie['vote_average'];
+        $this->premierDate = $tmdbMovie['Premiere_date'];
     }
 }

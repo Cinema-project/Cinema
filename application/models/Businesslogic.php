@@ -5,9 +5,34 @@ class BusinessLogic extends CI_Model{
     parent::__construct();
     $this->load->model('themoviedb');
     $this->load->model('tmdbmovie_model', 'movies');
+    $this->load->model('Movielist_model', 'list');
+    $this->load->model('Update_model', 'update');
   }
 
-  public function getMovies($categoryId, $page, $sort, $year){
+  public function getMovies($language, $categoryId, $page, $onPage){
+    if ($page < 0){
+      return null;
+    }
+    ini_set('max_execution_time', 300);
+    $this->list->selectMovies($categoryId, $page, $onPage);
+    $list = $this->list->getMovieList();
+    $currentPage = $page;
+    while (count($list) < $onPage){
+      $insert = $this->themoviedb->getMovies($language, $categoryId, $currentPage);
+      $insert = json_decode($insert);
+
+      foreach ($insert->results as $movie) {
+        $this->update->updateTmdbMovie($movie->id);
+      }
+      
+      $this->list->selectMovies($categoryId, $page, $onPage);
+      $list = $this->list->getMovieList();
+      $currentPage--;
+      if ($currentPage <= 0){
+        break;
+      }
+    }
+    return $list;
   }
   public function getCategoryList(){
   }
