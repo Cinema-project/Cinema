@@ -58,6 +58,12 @@ class Tmdbmovie_model extends CI_Model
         }
     }
 
+    public function insertToGenresMovies($genre, $movie){
+        $data = array('id_movie' => $movie,
+            'id_genre' => $genre);
+        $this->db->insert('genres_movie', $data);
+    }
+
     /**
      * @return mixed
      */
@@ -186,7 +192,7 @@ class Tmdbmovie_model extends CI_Model
         $this->premierDate = $premierDate;
     }
 
-    private function setTmdbMovie($tmdbMovie)
+    public function setTmdbMovie($tmdbMovie)
     {
         $this->id = $tmdbMovie[0]['MovieID'];
         $this->title = $tmdbMovie[0]['Title'];
