@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import apiClient from "../api-client";
 import { DropdownButton, MenuItem, Button } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
+import FilmView from "./FilmView"
 
 class Films extends Component {
   constructor(props) {
@@ -9,12 +10,12 @@ class Films extends Component {
     this.state = {
       genres: [],
       category: "",
-      dropdownTitle: "Wybierz kategorie"
+      dropdownTitle: "Wybierz kategorie",
+      page: 1
       };
   }
 
   componentWillMount = () => {
-    console.log("MOUNT");
     apiClient
       .get("index.php/Home/getCategoryList/PL")
       .then(response => {
@@ -27,7 +28,6 @@ class Films extends Component {
 
   loadMovies = e => {
     this.state.category = e;
-    console.log(this.state.category);
     if(this.state.category === 28){
       this.setState((state) => ({dropdownTitle: "Akcja"}))
     }
@@ -103,38 +103,28 @@ class Films extends Component {
     if(this.state.category === 37){
       this.setState((state) => ({dropdownTitle: "Western"}))
     }
-    apiClient
-      .get('index.php?/Home/getMovies/PL/'+this.state.category)
-      .then(response => {
-       console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }
 
-
   handlePageClick = e => {
-    const page = e.selected+1; //bo paginacja  od zera bierze a kino dopiero od 1
-    apiClient
-      .get('index.php?/Home/getMovies/PL/'+this.state.category+"/"+page)
-      .then(response => {
-       console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    const page = e.selected + 1; //bo paginacja  od zera bierze a kino dopiero od 1
+    this.setState({
+      page: page
+    })
   }
 
   render() {
+    console.log("kategoria", this.state.category);
     return (
       <div className="container-fluid">
         <div className="col-md-12" style={{ paddingTop: "5vh", paddingLeft: "5vh" }}>
-          <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies}>
-            {this.state.genres.map((genre) => (
-              <MenuItem eventKey={genre.id}>{genre.name} </MenuItem>
-            ))}
-          </DropdownButton>
+          <div className = "col-md-12">
+            <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies}>
+              {this.state.genres.map((genre) => (
+                <MenuItem eventKey={genre.id}>{genre.name} </MenuItem>
+              ))}
+            </DropdownButton>
+          </div>
+          <FilmView className="col-md-12" categoryId={this.state.category} pageNumber={this.state.page}/>
           <div className="col-md-12" style={{textAlign:"center"}}>
             <ReactPaginate previousLabel={"wstecz"}
                        nextLabel={"następny"}
