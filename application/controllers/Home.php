@@ -13,6 +13,11 @@ class Home extends CI_Controller {
         $this->load->helper('url');
     }
 
+    public function initGeoCodeTable(){
+      $this->load->model('Cinemas_geocode_model', 'geo');
+      $this->geo->insertDataToDataBase();
+    }
+
     /**
      * Strona główna kontrolera
      * Wyświetla plik view/home.php
@@ -201,6 +206,11 @@ class Home extends CI_Controller {
      */
     public function getCredits($id){
       echo $this->themoviedb->getCredits($id);
+    }
+
+    public function getCinemasLocalization(){
+      $this->load->model('Cinemas_model', 'cinemas');
+      echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
     }
 }
 ?>
