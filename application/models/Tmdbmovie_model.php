@@ -17,7 +17,7 @@ class Tmdbmovie_model extends CI_Model
     public $voteAverage;
     public $premierDate;
 
-    private $genresList = array();
+    public $genresList = array();
     /**
      * Tmdbmovie_model constructor.
      * @param $id
@@ -224,6 +224,12 @@ class Tmdbmovie_model extends CI_Model
         $this->poster = $tmdbMovie['Poster'];
         $this->voteAverage = $tmdbMovie['vote_average'];
         $this->premierDate = $tmdbMovie['Premiere_date'];
+
+        $sql = "SELECT id_genre FROM genres_movie WHERE id_movie = ?";
+        $genres = $this->db->query($sql, $this->id)->result_array();
+        foreach ($genres as $genre) {
+          $this->genresList[] = $genre['id_genre'];
+        }
         //var_dump($this);die();
     }
 }
