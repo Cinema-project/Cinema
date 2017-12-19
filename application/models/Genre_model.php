@@ -35,6 +35,10 @@ class Genre_model extends CI_Model
 
     }
 
+    public function get(){
+      return $this->db->get('genres')->result();
+    }
+
     public function save()
     {
         if ($this->name != null)

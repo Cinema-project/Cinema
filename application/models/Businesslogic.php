@@ -7,6 +7,7 @@ class BusinessLogic extends CI_Model{
     $this->load->model('tmdbmovie_model', 'movies');
     $this->load->model('Movielist_model', 'list');
     $this->load->model('Update_model', 'update');
+    $this->load->model('genre_model', 'genre');
   }
 
   public function getMovies($language, $categoryId, $page, $onPage){
@@ -26,7 +27,7 @@ class BusinessLogic extends CI_Model{
 
     $this->list->selectMovies($categoryId, $page, $onPage);
     $list = $this->list->getMovieList();
-  
+
     $currentPage = $page;
     while (count($list) < $onPage){
       $insert = $this->themoviedb->getMovies($language, $categoryId, $currentPage);
@@ -47,8 +48,16 @@ class BusinessLogic extends CI_Model{
 
     return $list;
   }
-  public function getCategoryList(){
-
+  public function getCategoryList($language){
+    if (strtolower($language) != 'pl'){
+      return json_decode($this->themoviedb->getCategoryList($language));
+    }
+    $genres = $this->genre->get();
+    if (count($genres) == 0){
+      $this->update->updateGenres();
+      $genres = $this->genre->get();
+    }
+    return $genres;
   }
   public function getMovieDetails($id){
   }

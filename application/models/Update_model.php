@@ -40,32 +40,6 @@ class Update_model extends CI_Model {
       return true;
     }
 
-    public function fullUpdateTmdbMovies(){
-      set_time_limit(0);
-      $day = 10;//date('d');
-      $month = 12;//date('m');
-      $year = 2017;//date('Y');
-      $fileName = './file/movie_ids_'.$month.'_'.$day.'_'.$year.'.json';
-      $str = file_get_contents($fileName);
-      $records = json_decode($str, true);
-
-      $ask = 20;
-      $movies = 1000;
-      foreach ($records as $record) {
-        $id = $record['id'];
-        $this->updateTmdbMovie($id);
-        $ask--;
-        if ( $ask == 0 ){
-          $ask = 20;
-          sleep(1);
-        }
-        $movies--;
-        if ($movies == 0){
-          return;
-        }
-      }
-    }
-
     public function updateGenres(){
       $genres = json_decode($this->themoviedb->getCategoryList('PL'))->genres;
       foreach ($genres as $genre) {

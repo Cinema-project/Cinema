@@ -36,7 +36,8 @@ class Home extends CI_Controller {
      * @return string Zwraca repertuar dla Multikina w formacie JSON
      */
     public function getCinemaRepertoire($id){
-        echo $this->multikino->getCinemaRepertoire($id);
+      header('Content-Type: application/json');
+      echo $this->multikino->getCinemaRepertoire($id);
     }
 
     /**
@@ -45,8 +46,9 @@ class Home extends CI_Controller {
      * @param string $language język
      * @return string zwraca listę kategorii w formacie JSON.
      */
-    public function getCategoryList($language){
-        echo $this->themoviedb->getCategoryList($language);
+    public function getCategoryList($language = 'PL'){
+      header('Content-Type: application/json');
+      echo json_encode($this->logic->getCategoryList($language));
     }
 
     /**

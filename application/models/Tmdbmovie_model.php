@@ -31,12 +31,6 @@ class Tmdbmovie_model extends CI_Model
             {
                 $this->setTmdbMovie($tmdbMovie);
             }
-            $sql = "SELECT id_genre FROM genres_movies WHERE id_movie = ?";
-            $genres = $this->db->query($sql, $id)->result_array();
-            foreach ($genres as $genre) {
-                $this->genresList[] = $genre;
-            }
-
         }
     }
 
@@ -215,7 +209,6 @@ class Tmdbmovie_model extends CI_Model
 
     public function setTmdbMovie($tmdbMovie)
     {
-        //var_dump($tmdbMovie);die();
         $this->id = $tmdbMovie['MovieID'];
         $this->title = $tmdbMovie['Title'];
         $this->description = $tmdbMovie['Description'];
@@ -230,6 +223,5 @@ class Tmdbmovie_model extends CI_Model
         foreach ($genres as $genre) {
           $this->genresList[] = $genre['id_genre'];
         }
-        //var_dump($this);die();
     }
 }
