@@ -87,7 +87,7 @@ class Home extends CI_Controller {
      */
     public function getMovieDetails($language, $id){
         header('Content-Type: application/json');
-        echo $this->themoviedb->getMovieDetails($language, $id);
+        echo json_encode($this->logic->getMovieDetails($language, $id));
     }
 
     /**

@@ -72,7 +72,8 @@ class TheMovieDB extends CI_Model {
       $more = '';
     }
     $url = $this->urlData . $question . '?api_key=' . $this->authKeyV3 . $more;
-    return file_get_contents( $url );
+    $result = file_get_contents( $url );
+    return $result == NULL ? 'Can not find a url: ' . $url : $result ;
   }
   /**
   * Pyta o kategorie

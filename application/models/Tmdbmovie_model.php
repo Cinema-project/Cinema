@@ -26,10 +26,10 @@ class Tmdbmovie_model extends CI_Model
     {
         if($id != null) {
             $sql = "SELECT * FROM tmdbmovies WHERE MovieID = ?";
-            $tmdbMovie = $this->db->query($sql, $id)->result_array()[0];
+            $tmdbMovie = $this->db->query($sql, $id)->result_array();
             if(!empty($tmdbMovie))
             {
-                $this->setTmdbMovie($tmdbMovie);
+                $this->setTmdbMovie($tmdbMovie[0]);
             }
         }
     }

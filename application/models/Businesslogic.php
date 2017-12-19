@@ -59,7 +59,18 @@ class BusinessLogic extends CI_Model{
     }
     return $genres;
   }
-  public function getMovieDetails($id){
+  public function getMovieDetails($language, $id){
+    if (strtolower($language) != 'pl'){
+      $this->themoviedb->getMovieDetails($language, $id);
+    } else {
+    $movie = new Tmdbmovie_model($id);
+      if ($movie->id == NULL){
+        $this->update->updateTmdbMovie($id);
+        return new Tmdbmovie_model($id);
+      } else {
+        return $movie;
+      }
+    }
   }
   public function getLastest(){
   }
