@@ -8,14 +8,14 @@
 
 class Tmdbmovie_model extends CI_Model
 {
-    private $id;
-    private $title;
-    private $description;
-    private $popularity;
-    private $poster;
-    private $trailer;
-    private $voteAverage;
-    private $premierDate;
+    public $id;
+    public $title;
+    public $description;
+    public $popularity;
+    public $poster;
+    public $trailer;
+    public $voteAverage;
+    public $premierDate;
 
     private $genresList = array();
     /**
@@ -215,13 +215,15 @@ class Tmdbmovie_model extends CI_Model
 
     public function setTmdbMovie($tmdbMovie)
     {
-      //var_dump($tmdbMovie);die();
+        //var_dump($tmdbMovie);die();
         $this->id = $tmdbMovie['MovieID'];
         $this->title = $tmdbMovie['Title'];
         $this->description = $tmdbMovie['Description'];
         $this->popularity = $tmdbMovie['Popularity'];
-        $this->Trailer = $tmdbMovie['Trailer'];
+        $this->trailer = $tmdbMovie['Trailer'];
+        $this->poster = $tmdbMovie['Poster'];
         $this->voteAverage = $tmdbMovie['vote_average'];
         $this->premierDate = $tmdbMovie['Premiere_date'];
+        //var_dump($this);die();
     }
 }

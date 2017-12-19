@@ -32,13 +32,14 @@ class Movielist_model extends CI_Model
     }
 
     public function selectMovies($genreId, $page, $count) {
-      if ( $page > 0 && $count > 0 && $genreId > 0){
-        $offset = $page * $count;
+      $page = $page - 1;
+      if ( $page >= 0 && $count > 0){
         if ($genreId != null){
-          $sql = "SELECT tmdbmovies.* FROM tmdbmovies JOIN genres_movie ON genres_movie.id_movie = tmdbmovies.MovieID WHERE id_genre = $genreId LIMIT $offset, $count";
-        } else {
-          $sql = "SELECT tmdbmovies.* FROM tmdbmovies LIMIT $offset, $count";
+          return $this->selectByGenre($genreId, null, $page, $count);
         }
+
+        $offset = $page * $count;
+        $sql = "SELECT tmdbmovies.* FROM tmdbmovies LIMIT $offset, $count";
         $movies = $this->db->query($sql)->result_array();
         foreach ($movies as $movie) {
             $movieModel = new Tmdbmovie_model();

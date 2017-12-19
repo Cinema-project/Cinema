@@ -13,9 +13,20 @@ class BusinessLogic extends CI_Model{
     if ($page < 0){
       return null;
     }
+
+    if (!is_numeric($categoryId)){
+      $categoryId = null;
+    }
+
+    if (strtolower($language) != 'pl'){
+      return json_decode($this->themoviedb->getMovies($language, $categoryId, $page));
+    }
+
     ini_set('max_execution_time', 300);
+
     $this->list->selectMovies($categoryId, $page, $onPage);
     $list = $this->list->getMovieList();
+  
     $currentPage = $page;
     while (count($list) < $onPage){
       $insert = $this->themoviedb->getMovies($language, $categoryId, $currentPage);
@@ -24,17 +35,20 @@ class BusinessLogic extends CI_Model{
       foreach ($insert->results as $movie) {
         $this->update->updateTmdbMovie($movie->id);
       }
-      
+
       $this->list->selectMovies($categoryId, $page, $onPage);
       $list = $this->list->getMovieList();
+
       $currentPage--;
       if ($currentPage <= 0){
         break;
       }
     }
+
     return $list;
   }
   public function getCategoryList(){
+
   }
   public function getMovieDetails($id){
   }

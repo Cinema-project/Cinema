@@ -16,7 +16,7 @@ class Update_model extends CI_Model {
 
     public function updateTmdbMovie($id){
       if ( $this->tmdbmovie_model->exist($id) == true ){
-        return;
+        return false;
       }
       $details = $this->themoviedb->getMovieDetails('PL', $id);
       $details = json_decode($details);
@@ -37,6 +37,7 @@ class Update_model extends CI_Model {
       $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere);
       $this->tmdbmovie_model->save();
       $this->addGenresToMovie($genres, $id);
+      return true;
     }
 
     public function fullUpdateTmdbMovies(){
