@@ -81,7 +81,7 @@ class BusinessLogic extends CI_Model{
   public function getTopRated($page, $region){
   }
   public function getUpcoming($page, $region){
-
+    
   }
 }
 
