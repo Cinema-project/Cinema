@@ -35,9 +35,9 @@ class Home extends CI_Controller {
      * @param int $id id kina sieci multikino.
      * @return string Zwraca repertuar dla Multikina w formacie JSON
      */
-    public function getCinemaRepertoire($id){
+    public function getCinemaRepertoire(){
       header('Content-Type: application/json');
-      echo $this->multikino->getCinemaRepertoire($id);
+      echo json_encode($this->logic->getCinemaRepertoire(), JSON_PRETTY_PRINT);
     }
 
     /**

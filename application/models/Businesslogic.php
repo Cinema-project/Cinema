@@ -81,7 +81,11 @@ class BusinessLogic extends CI_Model{
   public function getTopRated($page, $region){
   }
   public function getUpcoming($page, $region){
-    
+
+  }
+  public function getCinemaRepertoire(){
+    $this->load->model('multikino');
+    return $this->multikino->getCinemaRepertoire();
   }
 }
 
