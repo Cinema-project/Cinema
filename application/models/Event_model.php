@@ -2,12 +2,12 @@
 
 class Event_model extends CI_Model
 {
-	
+
 	private $id_event;
 	private $time;
 	private $id_cinema;
 	private $movie_id;
-	
+
 	public function __construct($id = null)
     {
         if($id != null)
@@ -18,8 +18,8 @@ class Event_model extends CI_Model
                 $this->setEvent($event);
             }
 		}
-	
-	
+
+
 	}
 
 	public function save()
@@ -40,12 +40,12 @@ class Event_model extends CI_Model
         return $this->id_event;
     }
 	////////////////////
-	
+
 	public function getTime()
     {
         return $this->time;
     }
-	
+
     public function setTime($time)
     {
         $this->time = $time;
@@ -66,17 +66,17 @@ class Event_model extends CI_Model
 	}
 	public function setIdMovie($id_movie)
     {
-        $this->id_movie = $id_movie;
+        $this->movie_id = $id_movie;
     }
 	////////////////////////////////
-	
+
 	public function setEvent($event)
     {
 	    $this->time = $event[0]['time'];
 	    $this->id_cinema = $event[0]['id_cinema'];
 	    $this->movie_id = $event[0]['movie_id'];
     }
-	
+
 }
 
 

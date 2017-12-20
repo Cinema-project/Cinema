@@ -48,5 +48,16 @@ class Update_model extends CI_Model {
         $this->genre_model->save();
       }
     }
+
+    public function updateCinemaRepertoire($repertoire){
+      $this->load->model('event_model', 'event');
+      ini_set('max_execution_time', 300);
+      foreach ($repertoire as $event) {
+        $this->event->setTime($event['time']);
+        $this->event->setIdMovie($event['movieId']);
+        $this->event->setIdCinema($event['cinemaId']);
+        $this->event->save();
+      }
+    }
 }
 ?>

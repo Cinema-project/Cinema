@@ -85,7 +85,9 @@ class BusinessLogic extends CI_Model{
   }
   public function getCinemaRepertoire(){
     $this->load->model('multikino');
-    return $this->multikino->getCinemaRepertoire();
+    $repertoire = $this->multikino->getCinemaRepertoire();
+    $this->update->updateCinemaRepertoire($repertoire);
+    return $repertoire;
   }
 }
 
