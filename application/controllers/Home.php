@@ -11,6 +11,7 @@ class Home extends CI_Controller {
         $this->load->model('multikino');
         $this->load->model('themoviedb');
         $this->load->helper('url');
+        $this->load->model('BusinessLogic', 'logic');
     }
 
     public function initGeoCodeTable(){
@@ -34,8 +35,9 @@ class Home extends CI_Controller {
      * @param int $id id kina sieci multikino.
      * @return string Zwraca repertuar dla Multikina w formacie JSON
      */
-    public function getCinemaRepertoire($id){
-        echo $this->multikino->getCinemaRepertoire($id);
+    public function getCinemaRepertoire(){
+      header('Content-Type: application/json');
+      echo json_encode($this->logic->getCinemaRepertoire(), JSON_PRETTY_PRINT);
     }
 
     /**
@@ -44,8 +46,9 @@ class Home extends CI_Controller {
      * @param string $language język
      * @return string zwraca listę kategorii w formacie JSON.
      */
-    public function getCategoryList($language){
-        echo $this->themoviedb->getCategoryList($language);
+    public function getCategoryList($language = 'PL'){
+      header('Content-Type: application/json');
+      echo json_encode($this->logic->getCategoryList($language));
     }
 
     /**
@@ -65,12 +68,13 @@ class Home extends CI_Controller {
      * @param string $language język
      * @param int $categoryId	id kategorii filmów
      * @param int $page	numer strony
-     * @param string $sort sposób sortowania
-     * @param int $year rok produkcji
+     * @param int $onPage liczba filmów na stronie
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $sort = '', $year = ''){
-        echo $this->themoviedb->getMovies($language, $categoryId, $page, $sort, $year);
+    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '') {
+        header('Content-Type: application/json');
+        $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage));
+        echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -82,7 +86,8 @@ class Home extends CI_Controller {
      * @return string zwraca informacje o filmie w formacie JSON.
      */
     public function getMovieDetails($language, $id){
-        echo $this->themoviedb->getMovieDetails($language, $id);
+        header('Content-Type: application/json');
+        echo json_encode($this->logic->getMovieDetails($language, $id));
     }
 
     /**
@@ -94,6 +99,7 @@ class Home extends CI_Controller {
      * @return string zwraca ścieżkę do plakatu danego filmu.
      */
     public function getMoviePoster($language, $id){
+        header('Content-Type: application/json');
         echo $this->themoviedb->getMoviePosterPath($language, $id);
     }
 
@@ -107,6 +113,7 @@ class Home extends CI_Controller {
      * @return string zwraca słowa kluczowe w formacie JSON
      */
     public function getKeywords($language, $id){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getKeywords($language, $id);
     }
 
@@ -120,6 +127,7 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getLatest($language, $page){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getLatest($language, $page);
     }
 
@@ -136,6 +144,7 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getNowPlaying($page, $region){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getNowPlaying($region, $page, $region);
     }
 
@@ -150,6 +159,7 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getPopular($page, $region){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getPopular($region, $page, $region);
     }
 
@@ -164,6 +174,7 @@ class Home extends CI_Controller {
      * @return string             zwraca dane w formacie JSON
      */
     public function getTopRated($page, $region){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getTopRated($region, $page, $region);
     }
 
@@ -178,6 +189,7 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getUpcoming($page, $region){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getUpcoming($region, $page, $region);
     }
 
@@ -193,6 +205,7 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getTrailerPath($language, $id){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getTrailerPath($language, $id);
     }
 
@@ -205,11 +218,13 @@ class Home extends CI_Controller {
      * @return string zwraca dane w formacie JSON
      */
     public function getCredits($id){
+      header('Content-Type: application/json');
       echo $this->themoviedb->getCredits($id);
     }
 
     public function getCinemasLocalization(){
       $this->load->model('Cinemas_model', 'cinemas');
+      header('Content-Type: application/json');
       echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
     }
 }

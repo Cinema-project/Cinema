@@ -1,7 +1,7 @@
 <?php
 require_once('class/Movie.php');
 /**
-* Klasa jest czêœciowym wraperem dla API strony Multikina
+* Klasa jest czï¿½ï¿½ciowym wraperem dla API strony Multikina
 * @link https://apibeta.multikino.pl/
 */
 class Multikino extends CI_Model {
@@ -10,7 +10,7 @@ class Multikino extends CI_Model {
   }
  /**
   * @method getXMLFilePath
-  * @return string Zwraca œcie¿kê do pliku XML z repertuarem
+  * @return string Zwraca ï¿½cieï¿½kï¿½ do pliku XML z repertuarem
   */
   private function getXMLFilePath(){
     return 'https://apibeta.multikino.pl/repertoire.xml';
@@ -38,7 +38,7 @@ class Multikino extends CI_Model {
   * Pobiera repertuar dla konkretnego kina z zakresu czasu w formacie XML
   * @method getXMLByDateAndID
   * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
-  * @param    string    $dateFrom pocz¹tek okresu (format yyyymmdd)
+  * @param    string    $dateFrom poczï¿½tek okresu (format yyyymmdd)
   * @param    string    $dateTo   koniec okresu (format yyyymmdd)
   * @param    int       $id       id kina
   * @return   string              zwraca repertuar w formacie XML
@@ -53,24 +53,26 @@ class Multikino extends CI_Model {
   * @param    int       $id       id kina
   * @return   string              zwraca repertuar kin w formacie JSON
   */
-  public function getCinemaRepertoire($id){
-    $xml = $this->getXMLByCinemaId($id)->children();
+  public function getCinemaRepertoire(){
+    $xml = $this->getXML($this->getXMLFilePath())->children();
+    $movies = $this->xmlToArray($xml);
+    return $movies;
+  }
+
+  private function xmlToArray($xml){
     $movies = array();
     foreach ($xml->children() as $movie) {
       $child = $movie->children();
-      $id = $child->film_id;
-      $title = $child->film_title;
-      $time = $child->event_time;
-      $version = $child->version_name;
-      $reservation_link = $child->direct_link;
-      $movies[] = new Movie($id, $title, $time, $version, $reservation_link);
+      $id = $child->film_id->__toString();
+      $title = $child->film_title->__toString();
+      $time = $child->event_time->__toString();
+      $version = $child->version_name->__toString();
+      $reservation_link = $child->direct_link->__toString();
+      $cinemaId = $child->cinema_id->__toString();
+      $release = $child->release_date->__toString();
+      $movies[] = (new Movie($id, $title, $time, $version, $reservation_link, $cinemaId, $release))->toArray();
     }
-    $result = '{"movies":[';
-    foreach ($movies as $movie) {
-      $result .= $movie->toJson() . ', ';
-    }
-    $result = substr($result, 0, -2) . ']}';
-    return $result;
+    return $movies;
   }
 }
 ?>

@@ -31,32 +31,47 @@ class Movielist_model extends CI_Model
         $this->movieList = $movieList;
     }
 
-    public function selectByGenre($genreName = null, $sortBy = null, $offset = 0)
-    {
-        if($genreName != null)
-        {
-            $offset = $offset*20;
-            $sql = "SELECT id_genre FROM genres WHERE name = ?";
-            $genreId = $this->db->query($sql, $genreName)->result_array()[0];
-            if($genreId != null)
-            {
-                if($sortBy == null)
-                {
-                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? LIMIT $offset,20";
-                    $movies = $this->db->query($sql, $genreId)->result_array();
-                }
-                else
-                {
-                    $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? ORDER BY $sortBy LIMIT $offset,20";
-                    $movies = $this->db->query($sql, $genreId)->result_array();
-                }
-                foreach ($movies as $movie) {
-                    $movieModel = new Tmdbmovie_model();
-                    $movieModel->setTmdbMovie($movie);
-                    $this->movieList[] = $movieModel;
-                }
-            }
+    public function selectMovies($genreId, $page, $count) {
+      $page = $page - 1;
+      if ( $page >= 0 && $count > 0){
+        if ($genreId != null){
+          return $this->selectByGenre($genreId, null, $page, $count);
         }
+
+        $offset = $page * $count;
+        $sql = "SELECT tmdbmovies.* FROM tmdbmovies LIMIT $offset, $count";
+        $movies = $this->db->query($sql)->result_array();
+        foreach ($movies as $movie) {
+            $movieModel = new Tmdbmovie_model();
+            $movieModel->setTmdbMovie($movie);
+            $this->movieList[] = $movieModel;
+        }
+      }
+    }
+
+    public function selectByGenre($genreId = null, $sortBy = null, $page = 0, $count = 20)
+    {
+      $offset = $page*$count;
+      $sql = "SELECT id_genre FROM genres WHERE name = ?";
+
+      if($genreId != null)
+      {
+          if($sortBy == null)
+          {
+              $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? LIMIT $offset,20";
+              $movies = $this->db->query($sql, $genreId)->result_array();
+          }
+          else
+          {
+              $sql = "SELECT * FROM tmdbmovies JOIN genres_movie ON tmdbmovies.MovieID = genres_movie.id_movie WHERE id_genre = ? ORDER BY $sortBy LIMIT $offset,20";
+              $movies = $this->db->query($sql, $genreId)->result_array();
+          }
+          foreach ($movies as $movie) {
+              $movieModel = new Tmdbmovie_model();
+              $movieModel->setTmdbMovie($movie);
+              $this->movieList[] = $movieModel;
+          }
+      }
     }
 
     public function selectByTime($startTime = null, $endTime = null, $sortBy = null, $offset = 0)
