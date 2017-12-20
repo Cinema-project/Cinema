@@ -56,13 +56,7 @@ class Multikino extends CI_Model {
   public function getCinemaRepertoire(){
     $xml = $this->getXML($this->getXMLFilePath())->children();
     $movies = $this->xmlToArray($xml);
-
-    $result = array();
-    foreach ($movies as $movie) {
-      $result[] = $movie->toArray();
-    }
-
-    return $result;
+    return $movies;
   }
 
   private function xmlToArray($xml){
@@ -76,7 +70,7 @@ class Multikino extends CI_Model {
       $reservation_link = $child->direct_link->__toString();
       $cinemaId = $child->cinema_id->__toString();
       $release = $child->release_date->__toString();
-      $movies[] = new Movie($id, $title, $time, $version, $reservation_link, $cinemaId, $release);
+      $movies[] = (new Movie($id, $title, $time, $version, $reservation_link, $cinemaId, $release))->toArray();
     }
     return $movies;
   }

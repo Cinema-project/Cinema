@@ -23,7 +23,7 @@ class BusinessLogic extends CI_Model{
       return json_decode($this->themoviedb->getMovies($language, $categoryId, $page));
     }
 
-    ini_set('max_execution_time', 300);
+    ini_set('max_execution_time', 0);
 
     $this->list->selectMovies($categoryId, $page, $onPage);
     $list = $this->list->getMovieList();
@@ -32,7 +32,7 @@ class BusinessLogic extends CI_Model{
     while (count($list) < $onPage){
       $insert = $this->themoviedb->getMovies($language, $categoryId, $currentPage);
       $insert = json_decode($insert);
-
+    
       foreach ($insert->results as $movie) {
         $this->update->updateTmdbMovie($movie->id);
       }
@@ -81,12 +81,11 @@ class BusinessLogic extends CI_Model{
   public function getTopRated($page, $region){
   }
   public function getUpcoming($page, $region){
-
   }
   public function getCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
-    $this->update->updateCinemaRepertoire($repertoire);
+    //$this->update->updateCinemaRepertoire($repertoire);
     return $repertoire;
   }
 }
