@@ -16,6 +16,14 @@ class Multikino extends CI_Model {
     return 'https://apibeta.multikino.pl/repertoire.xml';
   }
   /**
+  * @method getXMLFilms
+  * @return string Zwraca ścieżkę do pliku XML z filmami
+  */
+  private function getXMLFilms(){
+    return 'https://apibeta.multikino.pl/xml/filmsxml';
+  }
+
+  /**
   * Pobiera repertuar ze strony
   * @method getXML
   * @param  string   $url  link do strony
