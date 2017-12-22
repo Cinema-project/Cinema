@@ -6,6 +6,16 @@ class Update extends CI_Controller {
     parent::__construct();
     $this->load->model('update_model');
   }
+  public function update(){
+    $this->updateGenres();
+    $this->updateCinemaMovies();
+    $this->updateCinemaRepertoire();
+    $this->initGeoCodeTable();
+  }
+  public function initGeoCodeTable(){
+    $this->load->model('Cinemas_geocode_model', 'geo');
+    $this->geo->insertDataToDataBase();
+  }
   public function updateGenres(){
     $this->update_model->updateGenres();
   }
