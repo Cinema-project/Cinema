@@ -101,7 +101,7 @@ class Multikino extends CI_Model {
     $movies = array();
     foreach ($xml->children() as $movie) {
       $child = $movie->children();
-      $id = $child->film_id->__toString();
+      $id = $child->movie_id->__toString();
       $title = $child->film_title->__toString();
       $time = $child->event_time->__toString();
       $version = $child->version_name->__toString();
