@@ -33,8 +33,9 @@ class Update_model extends CI_Model {
       $premiere = $details->release_date;
       $trailer = $this->themoviedb->getTrailerPath('Pl', $id);
       $popularity = $details->popularity;
+      $runtime = $details->runtime;
 
-      $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere);
+      $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere, $runtime);
       $this->tmdbmovie_model->save();
       $this->addGenresToMovie($genres, $id);
       return true;
@@ -47,6 +48,93 @@ class Update_model extends CI_Model {
         $this->genre_model->setName($genre->name);
         $this->genre_model->save();
       }
+    }
+
+    private function compareMovies($multi, $tmdb){
+      $res = false;
+
+      if ($multi['title'] == $tmdb->Title){
+        $res = true;
+        /*if ($multi['runtime'] != NULL && $multi['runtime'] != '' && $tmdb->runtime != NULL ){
+          if ( $multi['runtime'] != $tmdb->runtime ){
+            $res = false;
+          }
+        }*/
+        if ( $multi['premierDate'] != "" && $multi['premierDate'] != NULL && $tmdb->Premiere_date != NULL ){
+          if ( date("Y", strtotime($multi['premierDate'])) != date("Y", strtotime($tmdb->Premiere_date)) ){
+            $res = false;
+          }
+        }
+      }
+      return $res;
+    }
+
+    private function findMovie($movie, $tmdb){
+      foreach ($tmdb as $tmdbMovie) {
+        if ( $this->compareMovies($movie, $tmdbMovie) ) {
+          return $tmdbMovie->MovieID;
+        }
+      }
+      return NULL;
+    }
+
+    public function isInDb($id, $db){
+      foreach ($db as $row) {
+        if ( $row->movie_id == $id ){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    private function mergeMultikinoTmdbMovies($movies){
+      $this->load->model('Cinemasmovie_model', 'movie');
+      $inDb = $this->movie->getAll();
+      $result = array();
+      $result['notFound'] = array();
+      $result['updated'] = array();
+      $result['skipped'] = array();
+      foreach ($movies as $movie) {
+        if ($this->isInDb($movie['id'], $inDb)){
+          $result['skipped'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
+          continue;
+        }
+        $tmdb = $this->tmdbmovie_model->getByTitle($movie['title']);
+        $tmdbId = NULL;
+        if (count($tmdb) != 0){
+            $tmdbId = $this->findMovie($movie, $tmdb);
+        }
+
+        if ($tmdbId == NULL){
+          $year = $movie['premierDate'];
+          $year = $year == '' ? NULL : date("Y", strtotime($year));
+          $tmdb = $this->themoviedb->searchMovie($movie['title'], 'pl', $year);
+          foreach ($tmdb as $mTmdb) {
+            $this->updateTmdbMovie($mTmdb->id);
+          }
+          $tmdb = $this->tmdbmovie_model->getByTitle($movie['title']);
+          $tmdbId = $this->findMovie($movie, $tmdb);
+        }
+
+        if ($tmdbId != NULL){
+          $this->movie->setMovieId($movie['id']);
+          $this->movie->setTitle($movie['title']);
+          $this->movie->setTmdbmovieId($tmdbId);
+          $this->movie->save();
+          $result['updated'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
+        } else {
+          $result['notFound'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
+        }
+      }
+      return $result;
+    }
+
+    public function updateCinemaMovies(){
+      ini_set('max_execution_time', 0);
+      $this->load->model('multikino');
+      $movies = $this->multikino->getCinemaFilms();
+      //Sprawdzenie ostatniej aktualizacji z tabelą config $movies['created'];
+      return $this->mergeMultikinoTmdbMovies($movies['movies']);
     }
 
     public function updateCinemaRepertoire($repertoire){

@@ -2,7 +2,7 @@
 
 class Cinemas_geocode_model extends CI_Model
 {
-	
+
 		private function getXMLFilePath()
 		{
 			return 'https://apibeta.multikino.pl/repertoire.xml?cinema_id=xx';
@@ -29,7 +29,7 @@ class Cinemas_geocode_model extends CI_Model
 
 				if($lat && $long && $addressResponse)
 				{
-					
+
 					$data_array = array();
 
 					array_push
@@ -62,12 +62,12 @@ class Cinemas_geocode_model extends CI_Model
 			try
 			{
 				$polaczenie = new mysqli($host, $db_user, $db_password, $db_name);
-				
+
 				if($polaczenie->connect_errno != 0)
 				{
 					throw new Exception(mysqli_connect_errno());
 				}
-				
+
 				if(!$polaczenie->set_charset("utf8"))
 				{
 					printf("Couldn't set utf8: ", $polaczenie->error);
@@ -76,7 +76,7 @@ class Cinemas_geocode_model extends CI_Model
 				{
 					return $polaczenie;
 				}
-				
+
 			}catch(Exception $e)
 			{
 				echo 'Blad serwera i polaczenia z baza danych'.$e;
@@ -114,7 +114,7 @@ class Cinemas_geocode_model extends CI_Model
 				{
 					//echo $result;
 					$cinamasNameArray = array();
-					while($row = mysqli_fetch_array($result))  
+					while($row = mysqli_fetch_array($result))
 					{
 						//$cinemaNameFromDataBase = $row['name'];
 						array_push($cinamasNameArray, $row['name']);
@@ -129,7 +129,7 @@ class Cinemas_geocode_model extends CI_Model
 							//echo $address." ".',';
 							$this->insertDataCheck($address, $polaczenie);
 						}
-					}	
+					}
 				}
 				else
 				{
@@ -137,7 +137,7 @@ class Cinemas_geocode_model extends CI_Model
 					{
 						$address = $cinemaName;
 						$this->insertDataCheck($address, $polaczenie);
-		
+
 					}
 				}
 				$polaczenie->close();
@@ -158,7 +158,7 @@ class Cinemas_geocode_model extends CI_Model
 					values ('$address','$long', '$lat')";
 
 					$result = $polaczenie->query($zapytanie);
-					
+
 					if(!$result)
 					{
 						throw new Exception($polaczenie->error);
@@ -171,11 +171,12 @@ class Cinemas_geocode_model extends CI_Model
 		}
 		public function insertDataToDataBase()//bedzie wstawial rekordy az beda wszystkie kina
 		{
+			ini_set('max_execution_time', 300);
 			$polaczenie = $this->getConnection();
 			if(isset($polaczenie))
 			{
 				$done = false;
-				
+
 				while(!$done)
 				{
 					$zapytanieZwrocRekordyCinemas = "select * from cinemas";

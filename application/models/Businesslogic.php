@@ -32,7 +32,7 @@ class BusinessLogic extends CI_Model{
     while (count($list) < $onPage){
       $insert = $this->themoviedb->getMovies($language, $categoryId, $currentPage);
       $insert = json_decode($insert);
-    
+
       foreach ($insert->results as $movie) {
         $this->update->updateTmdbMovie($movie->id);
       }
@@ -85,7 +85,7 @@ class BusinessLogic extends CI_Model{
   public function getCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
-    //$this->update->updateCinemaRepertoire($repertoire);
+    $this->update->updateCinemaRepertoire($repertoire['movies']);
     return $repertoire;
   }
 }

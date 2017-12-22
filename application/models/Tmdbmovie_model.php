@@ -16,8 +16,10 @@ class Tmdbmovie_model extends CI_Model
     public $trailer;
     public $voteAverage;
     public $premierDate;
+    public $runtime;
 
     public $genresList = array();
+    public $eventList = array();
     /**
      * Tmdbmovie_model constructor.
      * @param $id
@@ -34,7 +36,7 @@ class Tmdbmovie_model extends CI_Model
         }
     }
 
-    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere){
+    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere, $runtime){
       $this->setId($id);
       $this->setTitle($title);
       $this->setDescription($description);
@@ -43,6 +45,7 @@ class Tmdbmovie_model extends CI_Model
       $this->setTrailer($trailer);
       $this->setVoteAverage($vote);
       $this->setPremierDate($premiere);
+      $this->runtime = $runtime;
     }
 
     public function save()
@@ -57,10 +60,15 @@ class Tmdbmovie_model extends CI_Model
                 'Poster' => $this->poster,
                 'Trailer' => $this->trailer,
                 'vote_average' => $this->voteAverage,
-                'Premiere_date' => $this->premierDate
+                'Premiere_date' => $this->premierDate,
+                'runtime' => $this->runtime
         );
             $this->db->insert('tmdbmovies', $data);
         }
+    }
+
+    public function getByTitle($title){
+      return $this->db->get_where('tmdbmovies', array('Title' => $title))->result();
     }
 
     public function insertToGenresMovies($genre, $movie){
@@ -217,11 +225,15 @@ class Tmdbmovie_model extends CI_Model
         $this->poster = $tmdbMovie['Poster'];
         $this->voteAverage = $tmdbMovie['vote_average'];
         $this->premierDate = $tmdbMovie['Premiere_date'];
+        $this->runtime = $tmdbMovie['runtime'];
 
         $sql = "SELECT id_genre FROM genres_movie WHERE id_movie = ?";
         $genres = $this->db->query($sql, $this->id)->result_array();
         foreach ($genres as $genre) {
           $this->genresList[] = $genre['id_genre'];
         }
+
+        $sql = "SELECT events.time, cinemas.name AS cinema, cinemas.locationEW, cinemas.locationNS FROM events JOIN cinemas ON events.id_cinema = cinemas.id_cinema JOIN cinemamovies ON cinemamovies.movie_id = events.movie_id WHERE cinemamovies.tmdbmovie_id = ?";
+        $this->eventList = $this->db->query($sql, $this->id)->result_array();
     }
 }

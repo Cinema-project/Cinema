@@ -16,6 +16,14 @@ class Multikino extends CI_Model {
     return 'https://apibeta.multikino.pl/repertoire.xml';
   }
   /**
+  * @method getXMLFilms
+  * @return string Zwraca ścieżkę do pliku XML z filmami
+  */
+  private function getXMLFilms(){
+    return 'https://apibeta.multikino.pl/xml/filmsxml';
+  }
+
+  /**
   * Pobiera repertuar ze strony
   * @method getXML
   * @param  string   $url  link do strony
@@ -54,8 +62,38 @@ class Multikino extends CI_Model {
   * @return   string              zwraca repertuar kin w formacie JSON
   */
   public function getCinemaRepertoire(){
-    $xml = $this->getXML($this->getXMLFilePath())->children();
-    $movies = $this->xmlToArray($xml);
+    $xml = $this->getXML($this->getXMLFilePath());
+    $result = array();
+    $result['created'] = $xml->attributes()->created->__toString();
+    $result['movies'] = $this->xmlToArray($xml->children());
+    return $result;
+  }
+
+  public function getCinemaFilms(){
+    $xml = $this->getXML($this->getXMLFilms());
+    $movies = array();
+    $movies['created'] = $xml->attributes()->created->__toString();
+    $movies['movies'] = $this->xmlFilmsToArray($xml->children());
+    return $movies;
+  }
+
+  private function xmlFilmsToArray($xml){
+    $movies = array();
+    foreach ($xml as $movie) {
+      $child = $movie->children();
+      $id = $child->id->__toString();
+      $title = $child->title->__toString();
+      $description = $child->description->__toString();
+      $runtime = $child->runtime->__toString();
+      $country = $child->country->__toString();
+      $premiere = $child->{'premiere-date'}->__toString();
+      $movies[] = array('id' => $id,
+                          'title' => $title,
+                          'description' => $description,
+                          'runtime' => $runtime,
+                          'country' => $country,
+                          'premierDate' => $premiere);
+    }
     return $movies;
   }
 
@@ -63,7 +101,7 @@ class Multikino extends CI_Model {
     $movies = array();
     foreach ($xml->children() as $movie) {
       $child = $movie->children();
-      $id = $child->film_id->__toString();
+      $id = $child->movie_id->__toString();
       $title = $child->film_title->__toString();
       $time = $child->event_time->__toString();
       $version = $child->version_name->__toString();

@@ -6,11 +6,26 @@ class Update extends CI_Controller {
     parent::__construct();
     $this->load->model('update_model');
   }
-  public function updateMoviesTable(){
-    $this->update_model->fullUpdateTmdbMovies();
+  public function update(){
+    $this->updateGenres();
+    $this->updateCinemaMovies();
+    $this->updateCinemaRepertoire();
+    $this->initGeoCodeTable();
+  }
+  public function initGeoCodeTable(){
+    $this->load->model('Cinemas_geocode_model', 'geo');
+    $this->geo->insertDataToDataBase();
   }
   public function updateGenres(){
     $this->update_model->updateGenres();
+  }
+  public function updateCinemaMovies(){
+    echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
+  }
+  public function updateCinemaRepertoire(){
+    $this->load->model('multikino');
+    $repertoire = $this->multikino->getCinemaRepertoire();
+    $this->update_model->updateCinemaRepertoire($repertoire['movies']);
   }
 }
 ?>
