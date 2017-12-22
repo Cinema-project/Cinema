@@ -1,4 +1,5 @@
 <?php
+require_once('class/tmdbMovie.php');
 /**
 * Klasa jest cz��ciowym wraperem dla API strony themoviedb.org
 * @link https://api.themoviedb.org/3
@@ -70,6 +71,8 @@ class TheMovieDB extends CI_Model {
   private function querry( $question, $more = null ){
     if ($more == null){
       $more = '';
+    } else {
+      //$more = htmlentities($more);
     }
     $url = $this->urlData . $question . '?api_key=' . $this->authKeyV3 . $more;
     $result = file_get_contents( $url );
@@ -288,6 +291,26 @@ class TheMovieDB extends CI_Model {
    */
   public function getCredits($id) {
     return $this->querry( '/movie/' . $id . '/credits');
+  }
+
+  public function searchMovie($title, $language, $year = NULL) {
+    $query = $this->querry('/search/movie', $this->laguage($language) . '&query='.urlencode($title) . ($year != NULL ? '&year=' . $year : '' ) );
+    $query = json_decode($query)->results;
+    /*$result = array();
+    foreach ($query as $movie) {
+      $movie = json_decode($this->getMovieDetails($language, $movie->id));
+
+      $result[] = new tmdbMovie($movie->id,
+                              $movie->title,
+                              $movie->overview,
+                              $movie->popularity,
+                              $movie->poster_path,
+                              NULL,
+                              $movie->vote_average,
+                              $movie->release_date,
+                              $movie->runtime);
+    }*/
+    return $query;
   }
 }
 ?>

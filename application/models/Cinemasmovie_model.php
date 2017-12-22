@@ -10,8 +10,9 @@ class Cinemasmovie_model extends CI_Model
      * Cinemasmovie_model constructor.
      * @param $movie_id
      */
-    public function __construct($id)
+    public function __construct($id = null)
     {
+      parent::__construct();
         if($id != null)
         {
             $sql = "SELECT * FROM cinemamovies WHERE movie_id = ?";
@@ -22,6 +23,10 @@ class Cinemasmovie_model extends CI_Model
         }
     }
 
+    public function getAll(){
+      return $this->db->get('cinemamovies')->result();
+    }
+
     public function save()
     {
         if ($this->title != null) {
@@ -30,7 +35,7 @@ class Cinemasmovie_model extends CI_Model
                 'title' => $this->title,
                 'tmdbmovie_id' => $this->tmdbmovie_id
             );
-            $this->db->insert('cinemasmovies', $data);
+            $this->db->insert('cinemamovies', $data);
         }
     }
     /**

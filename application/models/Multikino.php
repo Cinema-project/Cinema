@@ -62,8 +62,37 @@ class Multikino extends CI_Model {
   * @return   string              zwraca repertuar kin w formacie JSON
   */
   public function getCinemaRepertoire(){
-    $xml = $this->getXML($this->getXMLFilePath())->children();
-    $movies = $this->xmlToArray($xml);
+    $xml = $this->getXML($this->getXMLFilePath());
+    $movies = $this->xmlToArray($xml->children());
+    $movies['created'] = $xml->attributes()->created->__toString();
+    return $movies;
+  }
+
+  public function getCinemaFilms(){
+    $xml = $this->getXML($this->getXMLFilms());
+    $movies = array();
+    $movies['created'] = $xml->attributes()->created->__toString();
+    $movies['movies'] = $this->xmlFilmsToArray($xml->children());
+    return $movies;
+  }
+
+  private function xmlFilmsToArray($xml){
+    $movies = array();
+    foreach ($xml as $movie) {
+      $child = $movie->children();
+      $id = $child->id->__toString();
+      $title = $child->title->__toString();
+      $description = $child->description->__toString();
+      $runtime = $child->runtime->__toString();
+      $country = $child->country->__toString();
+      $premiere = $child->{'premiere-date'}->__toString();
+      $movies[] = array('id' => $id,
+                          'title' => $title,
+                          'description' => $description,
+                          'runtime' => $runtime,
+                          'country' => $country,
+                          'premierDate' => $premiere);
+    }
     return $movies;
   }
 
