@@ -40,11 +40,6 @@ class Home extends CI_Controller {
       echo json_encode($this->logic->getCinemaRepertoire(), JSON_PRETTY_PRINT);
     }
 
-    public function getCinemaMovies(){
-      header('Content-Type: application/json');
-      echo json_encode($this->logic->getCinemaMovies(), JSON_PRETTY_PRINT);
-    }
-
     /**
      * Przykład użycia: http://localhost/index.php/Home/getCategoryList/PL
      * @method getCategoryList

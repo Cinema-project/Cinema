@@ -6,11 +6,16 @@ class Update extends CI_Controller {
     parent::__construct();
     $this->load->model('update_model');
   }
-  public function updateMoviesTable(){
-    $this->update_model->fullUpdateTmdbMovies();
-  }
   public function updateGenres(){
     $this->update_model->updateGenres();
+  }
+  public function updateCinemaMovies(){
+    echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
+  }
+  public function updateCinemaRepertoire(){
+    $this->load->model('multikino');
+    $repertoire = $this->multikino->getCinemaRepertoire();
+    $this->update_model->updateCinemaRepertoire($repertoire['movies']);
   }
 }
 ?>

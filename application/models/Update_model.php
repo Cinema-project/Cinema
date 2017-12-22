@@ -87,13 +87,16 @@ class Update_model extends CI_Model {
       return false;
     }
 
-    public function updateCinemaMovies($movies){
-      ini_set('max_execution_time', 0);
+    private function mergeMultikinoTmdbMovies($movies){
       $this->load->model('Cinemasmovie_model', 'movie');
       $inDb = $this->movie->getAll();
-      $notFound = array();
+      $result = array();
+      $result['notFound'] = array();
+      $result['updated'] = array();
+      $result['skipped'] = array();
       foreach ($movies as $movie) {
         if ($this->isInDb($movie['id'], $inDb)){
+          $result['skipped'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
           continue;
         }
         $tmdb = $this->tmdbmovie_model->getByTitle($movie['title']);
@@ -118,11 +121,20 @@ class Update_model extends CI_Model {
           $this->movie->setTitle($movie['title']);
           $this->movie->setTmdbmovieId($tmdbId);
           $this->movie->save();
+          $result['updated'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
         } else {
-          $notFound[] = array('title' => $movie['title'], 'id' => $movie['id'] );
+          $result['notFound'][] = array('title' => $movie['title'], 'id' => $movie['id'] );
         }
       }
-      var_dump($notFound);
+      return $result;
+    }
+
+    public function updateCinemaMovies(){
+      ini_set('max_execution_time', 0);
+      $this->load->model('multikino');
+      $movies = $this->multikino->getCinemaFilms();
+      //Sprawdzenie ostatniej aktualizacji z tabelą config $movies['created'];
+      return $this->mergeMultikinoTmdbMovies($movies['movies']);
     }
 
     public function updateCinemaRepertoire($repertoire){
