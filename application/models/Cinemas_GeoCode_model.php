@@ -2,7 +2,46 @@
 
 class Cinemas_geocode_model extends CI_Model
 {
-		private $cinemasNumber = 1;
+		private $cinemasNumber;
+		
+		private $cinemaNameResult = array();
+		private $cinemaIdResult = array();
+		
+		private $cinemaDataResult = array();
+		
+		public function __construct()
+		{
+			$xml = $this->getXML($this->getXMLFilePath())->children();
+			$cinemaNameArray = array();
+			$cinemaIdArray = array();
+			$cinemaData = array();
+			foreach($xml->children() as $a)
+			{
+				$child = $a->children();
+				$cinemaName = $child->cinema_name;
+				$cinemaId = $child->ig_cinema_id;
+				
+				array_push($cinemaNameArray, $cinemaName);
+				array_push($cinemaIdArray, $cinemaId);
+				
+			}
+			$this->cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
+			$this->cinemaIdResult = array_unique($cinemaIdArray);
+			
+			$this->cinemaDataResult = array_combine($this->cinemaIdResult, $this->cinemaNameResult);//tworzy array , 1 parametr to klucze a 2 to wartosci
+			
+			//echo count($cinemaIdResult);
+			//echo count($cinemaNameResult);
+			$this->setCinemasNumber(count($this->cinemaIdResult));
+			
+			//print($this->cinemasNumber);
+			/*
+			foreach($this->cinemaDataResult as $cinemaId => $cinemaName)
+			{
+				echo $cinemaId . " " . $cinemaName . " ";
+			}
+			*/
+		}
 		
 		private function setCinemasNumber($cinemasNumber)
 		{
@@ -91,33 +130,6 @@ class Cinemas_geocode_model extends CI_Model
 		
 		public function insertDataToDataBaseSingle()
 		{
-			$xml = $this->getXML($this->getXMLFilePath())->children();
-			$cinemaNameArray = array();
-			$cinemaIdArray = array();
-			$cinemaData = array();
-			foreach($xml->children() as $a)
-			{
-				$child = $a->children();
-				$cinemaName = $child->cinema_name;
-				$cinemaId = $child->ig_cinema_id;
-				//echo $cinemaId;
-				//echo $cinemaName;
-
-				array_push($cinemaNameArray, $cinemaName);
-				array_push($cinemaIdArray, $cinemaId);
-				
-			}
-			$cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
-			$cinemaIdResult = array_unique($cinemaIdArray);
-			
-			$cinemaDataResult = array_combine($cinemaIdResult, $cinemaNameResult);//tworzy array , 1 parametr to klucze a 2 to wartosci
-			
-			//echo count($cinemaIdResult);
-			//echo count($cinemaNameResult);
-			//$this->setCinemasNumber(count($cinemaIdResult));
-			
-			//print($this->cinemasNumber);
-			
 			//dane konifguracyjne do polaczenia z baza danych
 			$polaczenie = $this->getConnection();
 			if(isset($polaczenie))
@@ -141,7 +153,7 @@ class Cinemas_geocode_model extends CI_Model
 					}
 					//print_r($cinamasNameArray);
 					//echo " ";
-					foreach($cinemaDataResult as $cinemaId => $cinemaName)
+					foreach($this->cinemaDataResult as $cinemaId => $cinemaName)
 					{
 						if(!(in_array($cinemaName, $cinamasNameArray)))//jesli NIE znajdzie w tablicy
 						{
@@ -154,7 +166,7 @@ class Cinemas_geocode_model extends CI_Model
 				}
 				else
 				{
-					foreach($cinemaDataResult as $cinemaId => $cinemaName)
+					foreach($this->cinemaDataResult as $cinemaId => $cinemaName)
 					{
 
 						//$result = $polaczenie->query($zapytanie);
@@ -207,8 +219,8 @@ class Cinemas_geocode_model extends CI_Model
 						throw new Exception($polaczenie->error);
 					}
 					$num_rows = $result->num_rows;//liczba zwroconyuhc rekordow
-					echo $num_rows." ";
-					if($num_rows >= 2)//jesli jest tyle rekordow w tabeli ile kin to przerwij wstawianie
+					//echo $num_rows." ";
+					if($num_rows >= $this->cinemasNumber)//jesli jest tyle rekordow w tabeli ile kin to przerwij wstawianie
 					{
 						$done = true;
 					}
