@@ -1,6 +1,12 @@
 <?php
-
+/**
+ * BusinessLogic - logika aplikacji
+ */
 class BusinessLogic extends CI_Model{
+  /**
+   * Ładowanie potrzebnych modeli
+   * @method __construct
+   */
   public function __construct(){
     parent::__construct();
     $this->load->model('themoviedb');
@@ -9,7 +15,16 @@ class BusinessLogic extends CI_Model{
     $this->load->model('Update_model', 'update');
     $this->load->model('genre_model', 'genre');
   }
-
+  /**
+   * Pobiera listę filmów z bazy lokalnej a w razie potrzeby odwołuje się do bazy TMDB
+   * @method getMovies
+   * @param  string $language język danych
+   * @param  int $categoryId id kategorii
+   * @param  int $page strona
+   * @param  int $onPage ile filmów ma być na stronie
+   * @param  string $sort sortowanie po kolumnie
+   * @return array tablica filmów
+   */
   public function getMovies($language, $categoryId, $page, $onPage, $sort){
     if ($page < 0){
       return null;
@@ -48,6 +63,13 @@ class BusinessLogic extends CI_Model{
 
     return $list;
   }
+  /**
+   * Pobiera listę kategorii z bazy.
+   * W razie potrzeby aktualizuje bazę.
+   * @method getCategoryList
+   * @param  string $language tłumaczenie kategorii
+   * @return array tablica kategorii
+   */
   public function getCategoryList($language){
     if (strtolower($language) != 'pl'){
       return json_decode($this->themoviedb->getCategoryList($language));
@@ -59,6 +81,14 @@ class BusinessLogic extends CI_Model{
     }
     return $genres;
   }
+  /**
+   * Odpytuje bazę i zwraca film o podanym id.
+   * Jeżeli nie ma go w bazie odpytuje bazę TMDB i zpapisuje go w bazie lokalnej a następnie zwraca.
+   * @method getMovieDetails
+   * @param  string $language język danych
+   * @param  int $id id filmu
+   * @return array Film
+   */
   public function getMovieDetails($language, $id){
     if (strtolower($language) != 'pl'){
       $this->themoviedb->getMovieDetails($language, $id);
@@ -82,12 +112,22 @@ class BusinessLogic extends CI_Model{
   }
   public function getUpcoming($page, $region){
   }
+  /**
+   * Aktualizuje i zwraca repertuar kin
+   * @method getCinemaRepertoire
+   * @return array
+   */
   public function getCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
     $this->update->updateCinemaRepertoire($repertoire['movies']);
     return $repertoire;
   }
+  /**
+   * Zwraca listę kin a w razie potrzeby dodaje je do bazy.
+   * @method getCinemas
+   * @return array
+   */
   public function getCinemas(){
     $this->load->model('Cinemas_model', 'cinemas');
     $result = $this->cinemas->getCinemas();
