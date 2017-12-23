@@ -48,16 +48,16 @@ class Home extends CI_Controller {
 
     /**
      * Pobiera filmy
-     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/release_date.asc/2017,
+     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/20/Premier_date.DESC,
      *                  http://localhost/index.php/Home/getMovies
      *
      * Dozwolone wartości dla parametru sortowania:
-     * popularity.asc, popularity.desc, release_date.asc,
-     * release_date.desc, revenue.asc, revenue.desc,
-     * primary_release_date.asc, primary_release_date.desc,
-     * original_title.asc, original_title.desc, vote_average.asc,
-     * vote_average.desc, vote_count.asc, vote_count.desc
-     * Domyślnie - popularity.desc
+     * Title.DESC, Title.ASC, Popularity.DESC, Popularity.ASC,
+     * vote_average.DESC, vote_average.ASC, Premier_date.DESC,
+     * Premier_date.ASC, runtime.DESC, runtime.ASC
+     * Domyślnie - Premier_date.DESC
+     * DESC - malejąco
+     * ASC - rosnąco
      *
      * @method getMovies
      * @param string $language język
@@ -67,9 +67,9 @@ class Home extends CI_Controller {
      * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premier_date DESC') {
+    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premier_date.DESC') {
         header('Content-Type: application/json');
-        $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage));
+        $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage, $sort));
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
