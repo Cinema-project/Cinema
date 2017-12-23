@@ -10,7 +10,7 @@ class BusinessLogic extends CI_Model{
     $this->load->model('genre_model', 'genre');
   }
 
-  public function getMovies($language, $categoryId, $page, $onPage){
+  public function getMovies($language, $categoryId, $page, $onPage, $sort){
     if ($page < 0){
       return null;
     }
@@ -87,6 +87,16 @@ class BusinessLogic extends CI_Model{
     $repertoire = $this->multikino->getCinemaRepertoire();
     $this->update->updateCinemaRepertoire($repertoire['movies']);
     return $repertoire;
+  }
+  public function getCinemas(){
+    $this->load->model('Cinemas_model', 'cinemas');
+    $result = $this->cinemas->getCinemas();
+    if (count( $result ) == 0){
+      $this->load->model('Cinemas_geocode_model', 'geo');
+      $this->geo->insertDataToDataBase();
+      $result = $this->cinemas->getCinemas();
+    }
+    return $result;
   }
 }
 

@@ -64,9 +64,10 @@ class Home extends CI_Controller {
      * @param int $categoryId	id kategorii filmów
      * @param int $page	numer strony
      * @param int $onPage liczba filmów na stronie
+     * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '') {
+    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premier_date DESC') {
         header('Content-Type: application/json');
         $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage));
         echo json_encode($result, JSON_PRETTY_PRINT);
@@ -217,10 +218,16 @@ class Home extends CI_Controller {
       echo $this->themoviedb->getCredits($id);
     }
 
+    /**
+    * Lokalizacje kin
+    * Przykład użycia: http://localhost/Cinema/index.php/Home/getCinemasLocalization
+    * @method getCinemasLocalization
+    * @return string zwraca dane w formacie JSON
+    */
     public function getCinemasLocalization(){
       $this->load->model('Cinemas_model', 'cinemas');
       header('Content-Type: application/json');
-      echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
+      echo json_encode( array( 'result' => $this->logic->getCinemas()));
     }
 }
 ?>
