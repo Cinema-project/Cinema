@@ -53,9 +53,9 @@ class Home extends CI_Controller {
      *
      * Dozwolone wartości dla parametru sortowania:
      * Title.DESC, Title.ASC, Popularity.DESC, Popularity.ASC,
-     * vote_average.DESC, vote_average.ASC, Premier_date.DESC,
-     * Premier_date.ASC, runtime.DESC, runtime.ASC
-     * Domyślnie - Premier_date.DESC
+     * vote_average.DESC, vote_average.ASC, Premiere_date.DESC,
+     * Premiere_date.ASC, runtime.DESC, runtime.ASC
+     * Domyślnie - Premiere_date.DESC
      * DESC - malejąco
      * ASC - rosnąco
      *
@@ -67,7 +67,8 @@ class Home extends CI_Controller {
      * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premier_date.DESC') {
+    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premiere_date.DESC') {
+        $sort = str_replace('.', ' ', $sort);
         header('Content-Type: application/json');
         $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage, $sort));
         echo json_encode($result, JSON_PRETTY_PRINT);

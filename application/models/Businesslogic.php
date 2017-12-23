@@ -40,7 +40,7 @@ class BusinessLogic extends CI_Model{
 
     ini_set('max_execution_time', 0);
 
-    $this->list->selectMovies($categoryId, $page, $onPage);
+    $this->list->selectMovies($categoryId, $page, $onPage, $sort);
     $list = $this->list->getMovieList();
 
     $currentPage = $page;
@@ -52,7 +52,7 @@ class BusinessLogic extends CI_Model{
         $this->update->updateTmdbMovie($movie->id);
       }
 
-      $this->list->selectMovies($categoryId, $page, $onPage);
+      $this->list->selectMovies($categoryId, $page, $onPage, $sort);
       $list = $this->list->getMovieList();
 
       $currentPage--;

@@ -31,15 +31,15 @@ class Movielist_model extends CI_Model
         $this->movieList = $movieList;
     }
 
-    public function selectMovies($genreId, $page, $count) {
+    public function selectMovies($genreId, $page, $count, $sort) {
       $page = $page - 1;
       if ( $page >= 0 && $count > 0){
         if ($genreId != null){
-          return $this->selectByGenre($genreId, 'Premiere_date DESC', $page, $count);
+          return $this->selectByGenre($genreId, $sort, $page, $count);
         }
 
         $offset = $page * $count;
-        $sql = "SELECT tmdbmovies.* FROM tmdbmovies ORDER BY Premiere_date DESC LIMIT $offset, $count";
+        $sql = "SELECT tmdbmovies.* FROM tmdbmovies ORDER BY $sort LIMIT $offset, $count";
         $movies = $this->db->query($sql)->result_array();
         foreach ($movies as $movie) {
             $movieModel = new Tmdbmovie_model();
