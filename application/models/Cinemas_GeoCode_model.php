@@ -2,7 +2,13 @@
 
 class Cinemas_geocode_model extends CI_Model
 {
-
+		private $cinemasNumber = 1;
+		
+		private function setCinemasNumber($cinemasNumber)
+		{
+			$this->cinemasNumber = $cinemasNumber;
+		}
+		
 		private function getXMLFilePath()
 		{
 			return 'https://apibeta.multikino.pl/repertoire.xml?cinema_id=xx';
@@ -82,22 +88,36 @@ class Cinemas_geocode_model extends CI_Model
 				echo 'Blad serwera i polaczenia z baza danych'.$e;
 			}
 		}
+		
 		public function insertDataToDataBaseSingle()
 		{
 			$xml = $this->getXML($this->getXMLFilePath())->children();
 			$cinemaNameArray = array();
+			$cinemaIdArray = array();
+			$cinemaData = array();
 			foreach($xml->children() as $a)
 			{
 				$child = $a->children();
 				$cinemaName = $child->cinema_name;
+				$cinemaId = $child->ig_cinema_id;
 				//echo $cinemaId;
 				//echo $cinemaName;
 
 				array_push($cinemaNameArray, $cinemaName);
-
-
+				array_push($cinemaIdArray, $cinemaId);
+				
 			}
 			$cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
+			$cinemaIdResult = array_unique($cinemaIdArray);
+			
+			$cinemaDataResult = array_combine($cinemaIdResult, $cinemaNameResult);//tworzy array , 1 parametr to klucze a 2 to wartosci
+			
+			//echo count($cinemaIdResult);
+			//echo count($cinemaNameResult);
+			//$this->setCinemasNumber(count($cinemaIdResult));
+			
+			//print($this->cinemasNumber);
+			
 			//dane konifguracyjne do polaczenia z baza danych
 			$polaczenie = $this->getConnection();
 			if(isset($polaczenie))
@@ -121,29 +141,32 @@ class Cinemas_geocode_model extends CI_Model
 					}
 					//print_r($cinamasNameArray);
 					//echo " ";
-					foreach($cinemaNameResult as $cinemaName)
+					foreach($cinemaDataResult as $cinemaId => $cinemaName)
 					{
 						if(!(in_array($cinemaName, $cinamasNameArray)))//jesli NIE znajdzie w tablicy
 						{
-							$address = $cinemaName;
+							//$address = $cinemaName;
+							
 							//echo $address." ".',';
-							$this->insertDataCheck($address, $polaczenie);
+							$this->insertDataCheck($cinemaId, $cinemaName, $polaczenie);
 						}
 					}
 				}
 				else
 				{
-					foreach($cinemaNameResult as $cinemaName)
+					foreach($cinemaDataResult as $cinemaId => $cinemaName)
 					{
-						$address = $cinemaName;
-						$this->insertDataCheck($address, $polaczenie);
 
+						//$result = $polaczenie->query($zapytanie);
+
+						$this->insertDataCheck($cinemaId, $cinemaName, $polaczenie);
 					}
 				}
 				$polaczenie->close();
 			}
+			
 		}
-		private function insertDataCheck($address, $polaczenie)
+		private function insertDataCheck($idCinema, $address, $polaczenie)
 		{
 			$dataArray = array();
 			$dataArray = $this->getGeoCode($address);
@@ -154,11 +177,9 @@ class Cinemas_geocode_model extends CI_Model
 
 				try
 				{
-					$zapytanie = "insert into `cinemas` (`name`, `locationEW`, `locationNS`)
-					values ('$address','$long', '$lat')";
-
+					$zapytanie = "insert into `cinemas` (`id_cinema`, `name`, `locationEW`, `locationNS`)
+					values ('$idCinema', '$address', '$long', '$lat')";
 					$result = $polaczenie->query($zapytanie);
-
 					if(!$result)
 					{
 						throw new Exception($polaczenie->error);
@@ -187,7 +208,7 @@ class Cinemas_geocode_model extends CI_Model
 					}
 					$num_rows = $result->num_rows;//liczba zwroconyuhc rekordow
 					echo $num_rows." ";
-					if($num_rows >= 33)//33 bo 33
+					if($num_rows >= 2)//jesli jest tyle rekordow w tabeli ile kin to przerwij wstawianie
 					{
 						$done = true;
 					}

@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_cinema`
 --
+drop database if exists `db_cinema`;
 CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `db_cinema`;
 
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `cinemamovies` (
 
 DROP TABLE IF EXISTS `cinemas`;
 CREATE TABLE IF NOT EXISTS `cinemas` (
-  `id_cinema` int(11) NOT NULL AUTO_INCREMENT,
+  `id_cinema` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `locationEW` double NOT NULL,
   `locationNS` double NOT NULL,
