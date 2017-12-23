@@ -22,7 +22,6 @@ class Multikino extends CI_Model {
   private function getXMLFilms(){
     return 'https://apibeta.multikino.pl/xml/filmsxml';
   }
-
   /**
   * Pobiera repertuar ze strony
   * @method getXML
@@ -55,11 +54,10 @@ class Multikino extends CI_Model {
     return $this->getXML( $this->getXMLFilePath() . '?cinema_id=' . $id . 'date_from=' . $dateFrom . 'date_to' . $dateTo );
   }
   /**
-  * Pobiera repertuar dla konkretnego kina w formacie JSON
+  * Pobiera repertuar dla konkretnego kina
   * @method getCinemaRepertoire
   * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
-  * @param    int       $id       id kina
-  * @return   string              zwraca repertuar kin w formacie JSON
+  * @return array zwraca repertuar kin sieci Multikino oraz datę ostatniej aktualizacji
   */
   public function getCinemaRepertoire(){
     $xml = $this->getXML($this->getXMLFilePath());
@@ -68,7 +66,11 @@ class Multikino extends CI_Model {
     $result['movies'] = $this->xmlToArray($xml->children());
     return $result;
   }
-
+  /**
+   * Pobiera filmy grane obecnie w Multikinie
+   * @method getCinemaFilms
+   * @return array tablica filmów w poolu 'movies' oraz data ostatniej aktualizacji w polu 'created'
+   */
   public function getCinemaFilms(){
     $xml = $this->getXML($this->getXMLFilms());
     $movies = array();
@@ -76,7 +78,12 @@ class Multikino extends CI_Model {
     $movies['movies'] = $this->xmlFilmsToArray($xml->children());
     return $movies;
   }
-
+/**
+ * Konwertuje dane filmów w postaci XML do tablicy
+ * @method xmlFilmsToArray
+ * @param XML $xml XML z filmami
+ * @return array tablica filmów
+ */
   private function xmlFilmsToArray($xml){
     $movies = array();
     foreach ($xml as $movie) {
@@ -96,7 +103,12 @@ class Multikino extends CI_Model {
     }
     return $movies;
   }
-
+  /**
+   * Konwertuje XML z repertuarem do tablicy
+   * @method xmlToArray
+   * @param XML $xml XML z repertuarem
+   * @return array tablica repertuaru
+   */
   private function xmlToArray($xml){
     $movies = array();
     foreach ($xml->children() as $movie) {
