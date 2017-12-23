@@ -292,24 +292,17 @@ class TheMovieDB extends CI_Model {
   public function getCredits($id) {
     return $this->querry( '/movie/' . $id . '/credits');
   }
-
+  /**
+   * Wyszukuje film w bazie TMDB
+   * @method searchMovie
+   * @param  string $title tytuł filmu
+   * @param  string $language język danych
+   * @param  int $year rok
+   * @return array[object] tablica proponowanych filmów dla danego wyszukiwania
+   */
   public function searchMovie($title, $language, $year = NULL) {
     $query = $this->querry('/search/movie', $this->laguage($language) . '&query='.urlencode($title) . ($year != NULL ? '&year=' . $year : '' ) );
     $query = json_decode($query)->results;
-    /*$result = array();
-    foreach ($query as $movie) {
-      $movie = json_decode($this->getMovieDetails($language, $movie->id));
-
-      $result[] = new tmdbMovie($movie->id,
-                              $movie->title,
-                              $movie->overview,
-                              $movie->popularity,
-                              $movie->poster_path,
-                              NULL,
-                              $movie->vote_average,
-                              $movie->release_date,
-                              $movie->runtime);
-    }*/
     return $query;
   }
 }
