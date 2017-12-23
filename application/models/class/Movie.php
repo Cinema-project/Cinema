@@ -2,11 +2,6 @@
 
 /**
 * Klasa opisuje film
-* @param int      $id                   id filmu
-* @param string   $title                tytuł filmu
-* @param string   $time                 data i czas rozpoczęcia filmu
-* @param string   $version              format filmu
-* @param string   $reservation_link     link do rezerwacji na strinie Multikina
 */
 class Movie {
 
@@ -18,6 +13,8 @@ class Movie {
   * @param string   $time                 data i czas rozpoczęcia filmu
   * @param string   $version              format filmu
   * @param string   $reservation_link     link do rezerwacji na strinie Multikina
+  * @param int      $cinemaId             id kina
+  * @param string   $release              data premiery filmu
   */
   public function __construct($id, $title, $time, $version, $reservation_link, $cinemaId, $release){
     $this->id = $id;
