@@ -48,27 +48,29 @@ class Home extends CI_Controller {
 
     /**
      * Pobiera filmy
-     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/release_date.asc/2017,
+     * Przykład użycia: http://localhost/index.php/Home/getMovies/PL/35/1/20/Premier_date.DESC,
      *                  http://localhost/index.php/Home/getMovies
      *
      * Dozwolone wartości dla parametru sortowania:
-     * popularity.asc, popularity.desc, release_date.asc,
-     * release_date.desc, revenue.asc, revenue.desc,
-     * primary_release_date.asc, primary_release_date.desc,
-     * original_title.asc, original_title.desc, vote_average.asc,
-     * vote_average.desc, vote_count.asc, vote_count.desc
-     * Domyślnie - popularity.desc
+     * Title.DESC, Title.ASC, Popularity.DESC, Popularity.ASC,
+     * vote_average.DESC, vote_average.ASC, Premiere_date.DESC,
+     * Premiere_date.ASC, runtime.DESC, runtime.ASC
+     * Domyślnie - Premiere_date.DESC
+     * DESC - malejąco
+     * ASC - rosnąco
      *
      * @method getMovies
      * @param string $language język
      * @param int $categoryId	id kategorii filmów
      * @param int $page	numer strony
      * @param int $onPage liczba filmów na stronie
+     * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '') {
+    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premiere_date.DESC') {
+        $sort = str_replace('.', ' ', $sort);
         header('Content-Type: application/json');
-        $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage));
+        $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage, $sort));
         echo json_encode($result, JSON_PRETTY_PRINT);
     }
 
@@ -217,10 +219,16 @@ class Home extends CI_Controller {
       echo $this->themoviedb->getCredits($id);
     }
 
+    /**
+    * Lokalizacje kin
+    * Przykład użycia: http://localhost/Cinema/index.php/Home/getCinemasLocalization
+    * @method getCinemasLocalization
+    * @return string zwraca dane w formacie JSON
+    */
     public function getCinemasLocalization(){
       $this->load->model('Cinemas_model', 'cinemas');
       header('Content-Type: application/json');
-      echo json_encode( array( 'result' => $this->cinemas->getCinemas()));
+      echo json_encode( array( 'result' => $this->logic->getCinemas()));
     }
 }
 ?>

@@ -5,6 +5,12 @@ class Token extends CI_Model {
     parent::__construct();
     $this->load->library("jwt");
   }
+  /**
+   * Sprawdza czy token jest ważny
+   * @method tokenIsValid
+   * @param  string $token token użytkownika
+   * @return mixed jeżeli token jest ważny to zwraca id użytkownika zawarte w tokenie w preciwnym razie zwraca -1
+   */
   public function tokenIsValid($token){
     try {
       $encrypted = $this->jwt->decode($token, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', false);
@@ -22,7 +28,11 @@ class Token extends CI_Model {
       return -1;
     }
   }
-
+  /**
+   * Generuje token dla użytkownika o podanym id
+   * @param  int $user_id id użytkownika
+   * @return string token
+   */
   public function generateToken($user_id){
       $CONSUMER_KEY = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
       $CONSUMER_SECRET = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
