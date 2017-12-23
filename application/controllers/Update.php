@@ -12,16 +12,33 @@ class Update extends CI_Controller {
     $this->updateCinemaRepertoire();
     $this->initGeoCodeTable();
   }
+  /**
+   * Inicjalizuje tabelę cinemas
+   * @method initGeoCodeTable
+   */
   public function initGeoCodeTable(){
     $this->load->model('Cinemas_geocode_model', 'geo');
     $this->geo->insertDataToDataBase();
   }
+  /**
+   * Inicjalizuje tabelę genres
+   * @method updateGenres
+   */
   public function updateGenres(){
     $this->update_model->updateGenres();
   }
+  /**
+   * Aktualizuje filmy Multikina
+   * @method updateCinemaMovies
+   * @return array lista filmów
+   */
   public function updateCinemaMovies(){
     echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
   }
+  /**
+   * Aktualizuje repertuar Multikina
+   * @method updateCinemaRepertoire
+   */
   public function updateCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
