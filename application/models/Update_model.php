@@ -7,13 +7,23 @@ class Update_model extends CI_Model {
       $this->load->model('genre_model');
       $this->load->model('tmdbmovie_model');
     }
-
+    /**
+     * Dodaje kategorię do filmu
+     * @method addGenresToMovie
+     * @param array $genres kategorie filmu
+     * @param int $movie id filmu
+     */
     private function addGenresToMovie($genres, $movie){
       foreach ($genres as $genre) {
         $this->tmdbmovie_model->insertToGenresMovies($genre->id, $movie);
       }
     }
-
+    /**
+     * Dodaje film z TMDB do bazy lokalnej
+     * @method updateTmdbMovie
+     * @param int $id id filmu
+     * @return bool czy update filmu się udał
+     */
     public function updateTmdbMovie($id){
       if ( $this->tmdbmovie_model->exist($id) == true ){
         return false;
@@ -40,7 +50,10 @@ class Update_model extends CI_Model {
       $this->addGenresToMovie($genres, $id);
       return true;
     }
-
+    /**
+     * Pibiera listę kategorii z TMDB i wstawia je do bazy lokalnej
+     * @method updateGenres
+     */
     public function updateGenres(){
       $genres = json_decode($this->themoviedb->getCategoryList('PL'))->genres;
       foreach ($genres as $genre) {
@@ -49,7 +62,13 @@ class Update_model extends CI_Model {
         $this->genre_model->save();
       }
     }
-
+    /**
+     * Porównuje filmy z Multikina i TMDB
+     * @method compareMovies
+     * @param array $multi film z multikina
+     * @param  object $tmdb film z tmdb
+     * @return bool true jeśli filmy sobie odpowiadają w przeciwnym wypadku false
+     */
     private function compareMovies($multi, $tmdb){
       $res = false;
 
@@ -68,7 +87,13 @@ class Update_model extends CI_Model {
       }
       return $res;
     }
-
+    /**
+     * Odszukuje film z TMDB odpowiadający filmowi z Multikina
+     * @method findMovie
+     * @param array $movie dane filmu z Multikina
+     * @param  array $tmdb tablica obiektów filmów z TMDB
+     * @return object zwraca film z TMDB odpowiadający filmowi z Multikina podanego w parametrze $multi
+     */
     private function findMovie($movie, $tmdb){
       foreach ($tmdb as $tmdbMovie) {
         if ( $this->compareMovies($movie, $tmdbMovie) ) {
@@ -77,7 +102,13 @@ class Update_model extends CI_Model {
       }
       return NULL;
     }
-
+    /**
+     * Sprawdza czy film istnieje w bazie danych
+     * @method isInDb
+     * @param int  $id id filmu
+     * @param  array $db filmy z bazy danych
+     * @return boolean true jeśli film istnieje w bazie false w przeciwnym wypadku
+     */
     public function isInDb($id, $db){
       foreach ($db as $row) {
         if ( $row->movie_id == $id ){
@@ -86,7 +117,12 @@ class Update_model extends CI_Model {
       }
       return false;
     }
-
+    /**
+     * Wyszukuje filmy w bazie TMDB i łączy je z filmami z Multikina
+     * @method mergeMultikinoTmdbMovies
+     * @param array $movies filmy z Multikina
+     * @return array[] zwraca filmy pominięte, zaktualizowane, i nie znalezione w bazie TMDB
+     */
     private function mergeMultikinoTmdbMovies($movies){
       $this->load->model('Cinemasmovie_model', 'movie');
       $inDb = $this->movie->getAll();
@@ -128,7 +164,11 @@ class Update_model extends CI_Model {
       }
       return $result;
     }
-
+    /**
+     * Aktualizuje tabelę cinemamovies
+     * @method updateCinemaMovies
+     * @return array[] zwraca filmy pominięte, zaktualizowane, i nie znalezione w bazie TMDB
+     */
     public function updateCinemaMovies(){
       ini_set('max_execution_time', 0);
       $this->load->model('multikino');
@@ -136,7 +176,11 @@ class Update_model extends CI_Model {
       //Sprawdzenie ostatniej aktualizacji z tabelą config $movies['created'];
       return $this->mergeMultikinoTmdbMovies($movies['movies']);
     }
-
+    /**
+     * Aktualizuje repertuar dla kin. Skrypt może trwać do 5 minut.
+     * @method updateCinemaRepertoire
+     * @param  array $repertoire tablica wydarzeń
+     */
     public function updateCinemaRepertoire($repertoire){
       $this->load->model('event_model', 'event');
       ini_set('max_execution_time', 300);
