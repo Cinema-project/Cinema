@@ -7,6 +7,7 @@ class Event_model extends CI_Model
 	private $time;
 	private $id_cinema;
 	private $movie_id;
+	private $link;
 
 	public function __construct($id = null)
     {
@@ -21,6 +22,26 @@ class Event_model extends CI_Model
 
 
 	}
+	public function setLink($link){
+		$this->link = $link;
+	}
+	/**
+	 * Pobiera filmy grane w Multikinie
+	 * @method getNowPlaying
+	 * @param  int $count ilość filmów na stronie
+	 * @param  int $page strona
+	 * @return array filmy
+	 */
+	public function getNowPlaying($count, $page){
+		return $this->db->select('tmdbmovies.*, events.movie_id')->
+											from('events')->
+											join('cinemamovies', 'events.movie_id = cinemamovies.movie_id')->
+											join('tmdbmovies', 'cinemamovies.tmdbmovie_id = tmdbmovies.MovieID')->
+											group_by('events.movie_id')->
+											limit($count, $page*$count)->
+											get()->
+											result();
+	}
 
 	public function save()
     {
@@ -29,7 +50,8 @@ class Event_model extends CI_Model
             $data = array(
                 'time' => $this->time,
                 'id_cinema' => $this->id_cinema,
-                'movie_id' => $this->movie_id
+                'movie_id' => $this->movie_id,
+								'link' => $this->link
             );
             $this->db->insert('events', $data);
         }
@@ -75,6 +97,7 @@ class Event_model extends CI_Model
 	    $this->time = $event[0]['time'];
 	    $this->id_cinema = $event[0]['id_cinema'];
 	    $this->movie_id = $event[0]['movie_id'];
+			$this->link = $event[0]['link'];
     }
 
 }

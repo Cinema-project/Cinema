@@ -102,15 +102,74 @@ class BusinessLogic extends CI_Model{
       }
     }
   }
-  public function getLastest(){
+  /**
+   * Dla języka polskiego PL zwraca dane z bazy lokalnej.
+   * Jeżeli jest inaczej odwołuje się do bazy TMDB.
+   * @method getLastest
+   * @param  string $language język
+   * @param  int $page numer strony
+   * @param  int $onPage ilość filmów na stronie
+   * @return array filmy
+   */
+  public function getLastest($language, $page, $onPage){
+    return $this->getMovies($language, 'xx', $page, $onPage, 'Premiere_date DESC');
   }
-  public function getNowPlaying($page, $region){
+  /**
+   * Pobiera obecnie grane filmy na podstawie tabeli lokalnej events
+   * @method getNowPlaying
+   * @param  int $count ilość filmów na stronie
+   * @param  int $page numer strony
+   * @return array filmy
+   */
+  public function getNowPlaying($count, $page){
+    $this->load->model('Event_model', 'events');
+    return $this->events->getNowPlaying($count, $page);
   }
-  public function getPopular($page, $region){
+  /**
+   * @method getPopular
+   * @param string $language kod języku.
+   * @param int $count liczba filmów na stronie
+   * @param int $page numer strony
+   * @return array filmy
+   */
+  public function getPopular($language, $count, $page){
+    if (strtolower($language) == 'pl'){
+      return $this->getMovies($language,'xx',$page,$count,'Popularity DESC');
+    } else {
+      return json_decode( $this->themoviedb->getPopular($language,$page, $language) );
+    }
   }
-  public function getTopRated($page, $region){
+  /**
+   * @method getTopRated
+   * @param  string $language język
+   * @param  int $count na stronie
+   * @param  int $page strona
+   * @return array filmy
+   */
+  public function getTopRated($language, $count, $page){
+    if (strtolower($language) == 'pl'){
+      return $this->getMovies($language,'xx',$page,$count,'vote_average DESC');
+    } else {
+      return json_decode($this->themoviedb->getTopRated($language, $page +1, $language));
+    }
   }
-  public function getUpcoming($page, $region){
+  /**
+   * Filmy nadchodzące.
+   * @method getUpcoming
+   * @param string $language [description]
+   * @param int $count na stronie
+   * @param int $page strona
+   * @return array filmy
+   */
+  public function getUpcoming($language, $count, $page){
+    if (strtolower($language) != 'pl'){
+      return json_decode($this->themoviedb->getUpcoming($language,$page + 1, $language));
+    }
+    $start = date('Y-m-d');
+    $end = date('Y');
+    $end = ($end + 1) . date('-m-d');
+    $this->list->selectByTime($start, $end, 'Premiere_date ASC', $count, $page );
+    return $this->list->getMovieList();
   }
   /**
    * Aktualizuje i zwraca repertuar kin

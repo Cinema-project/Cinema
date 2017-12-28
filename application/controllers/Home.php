@@ -32,7 +32,7 @@ class Home extends CI_Controller {
      */
     public function getCinemaRepertoire(){
       header('Content-Type: application/json');
-      echo json_encode($this->logic->getCinemaRepertoire(), JSON_PRETTY_PRINT);
+      echo json_encode($this->logic->getCinemaRepertoire());
     }
 
     /**
@@ -67,11 +67,11 @@ class Home extends CI_Controller {
      * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premiere_date.DESC') {
+    public function getMovies($language = 'PL', $categoryId = 'xx', $page = '0', $onPage = '20', $sort = 'Premiere_date.DESC') {
         $sort = str_replace('.', ' ', $sort);
         header('Content-Type: application/json');
         $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage, $sort));
-        echo json_encode($result, JSON_PRETTY_PRINT);
+        echo json_encode($result);
     }
 
     /**
@@ -121,73 +121,72 @@ class Home extends CI_Controller {
      * @method getLatest
      * @param string $language język
      * @param int $page numer strony
+     * @param int $onPage na stronie
      * @return string zwraca dane w formacie JSON
      */
-    public function getLatest($language, $page){
+    public function getLastest($language = 'PL', $page = 0, $onPage = 10){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getLatest($language, $page);
+      echo json_encode(array( 'movies' => $this->logic->getLastest($language, $page, $onPage)));
     }
 
     /**
      * Aktualnie grane filmy w kinach
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/1/PL
-     * Kod dla Polski PL
-     * $region = XX - obojętnie gdzie grany film
-     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
-     * @link https://developers.themoviedb.org/3/movies/get-now-playing
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/20/1
      * @method getNowPlaying
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param string $region kod regionu - w formacie xx
      * @return string zwraca dane w formacie JSON
      */
-    public function getNowPlaying($page, $region){
+    public function getNowPlaying($count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getNowPlaying($region, $page, $region);
+      echo json_encode(array( 'movies' => $this->logic->getNowPlaying($count, $page)));
     }
 
     /**
      * Popularne filmy
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/PL/20/1
      * @link https://developers.themoviedb.org/3/movies/get-popular-movies
      * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getPopular
+     * @param string $language język
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param int $region kod regionu
      * @return string zwraca dane w formacie JSON
      */
-    public function getPopular($page, $region){
+    public function getPopular($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getPopular($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getPopular($language, $count, $page)));
     }
 
     /**
      * Najwyżej oceniane
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/PL/20/1
      * @link https://developers.themoviedb.org/3/movies/get-top-rated-movies
      * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getTopRated
+     * @param string $language język
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param int $region kod regionu
-     * @return string             zwraca dane w formacie JSON
+     * @return string zwraca dane w formacie JSON
      */
-    public function getTopRated($page, $region){
+    public function getTopRated($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getTopRated($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getTopRated($language, $count, $page)));
     }
 
     /**
      * Filmy, które nadchodzą
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/PL/20/0
      * @link https://developers.themoviedb.org/3/movies/get-upcoming
-     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getUpcoming
+     * @param string $language język
      * @param int $page numer strony
-     * @param int $region kod regionu
+     * @param int $count na stronie
      * @return string zwraca dane w formacie JSON
      */
-    public function getUpcoming($page, $region){
+    public function getUpcoming($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getUpcoming($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getUpcoming($language, $count, $page)));
     }
 
     /**

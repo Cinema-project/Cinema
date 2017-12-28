@@ -233,7 +233,7 @@ class Tmdbmovie_model extends CI_Model
           $this->genresList[] = $genre['id_genre'];
         }
 
-        $sql = "SELECT events.time, cinemas.name AS cinema, cinemas.locationEW, cinemas.locationNS FROM events JOIN cinemas ON events.id_cinema = cinemas.id_cinema JOIN cinemamovies ON cinemamovies.movie_id = events.movie_id WHERE cinemamovies.tmdbmovie_id = ?";
+        $sql = "SELECT events.time, cinemas.name AS cinema, cinemas.locationEW, cinemas.locationNS, events.link FROM events JOIN cinemas ON events.id_cinema = cinemas.id_cinema JOIN cinemamovies ON cinemamovies.movie_id = events.movie_id WHERE cinemamovies.tmdbmovie_id = ?";
         $this->eventList = $this->db->query($sql, $this->id)->result_array();
     }
 }

@@ -188,6 +188,7 @@ class Update_model extends CI_Model {
         $this->event->setTime($event['time']);
         $this->event->setIdMovie($event['movieId']);
         $this->event->setIdCinema($event['cinemaId']);
+        $this->event->setLink($event['link']);
         $this->event->save();
       }
     }

@@ -6,11 +6,15 @@ class Update extends CI_Controller {
     parent::__construct();
     $this->load->model('update_model');
   }
+  /**
+   * Aktualizuje tabele
+   * @method update
+   */
   public function update(){
+    $this->initGeoCodeTable();
     $this->updateGenres();
     $this->updateCinemaMovies();
     $this->updateCinemaRepertoire();
-    $this->initGeoCodeTable();
   }
   /**
    * Inicjalizuje tabelę cinemas
@@ -33,6 +37,7 @@ class Update extends CI_Controller {
    * @return array lista filmów
    */
   public function updateCinemaMovies(){
+    header('Content-Type: application/json');
     echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
   }
   /**

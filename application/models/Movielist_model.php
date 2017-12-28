@@ -32,7 +32,6 @@ class Movielist_model extends CI_Model
     }
 
     public function selectMovies($genreId, $page, $count, $sort) {
-      $page = $page - 1;
       if ( $page >= 0 && $count > 0){
         if ($genreId != null){
           return $this->selectByGenre($genreId, $sort, $page, $count);
@@ -74,17 +73,18 @@ class Movielist_model extends CI_Model
       }
     }
 
-    public function selectByTime($startTime = null, $endTime = null, $sortBy = null, $offset = 0)
+    public function selectByTime($startTime = null, $endTime = null, $sortBy = null, $count = 20, $page = 0)
     {
+        $offset = $page * $count;
         if($startTime != null && $endTime != null)
         {
             if($sortBy == null)
             {
-                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) LIMIT $offset,20";
+                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) LIMIT $count OFFSET $offset";
                 $movies = $this->db->query($sql)->result_array();
             }
             else {
-                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) ORDER BY $sortBy LIMIT $offset,20";
+                $sql = "SELECT * FROM tmdbmovies WHERE Premiere_date BETWEEN CAST('$startTime' AS DATE) AND CAST('$endTime' AS DATE) ORDER BY $sortBy LIMIT $count OFFSET $offset";
                 $movies = $this->db->query($sql)->result_array();
             }
             if($movies != null)
