@@ -121,6 +121,7 @@ class Home extends CI_Controller {
      * @method getLatest
      * @param string $language język
      * @param int $page numer strony
+     * @param int $onPage na stronie
      * @return string zwraca dane w formacie JSON
      */
     public function getLastest($language = 'PL', $page = 1, $onPage = 10){
@@ -147,8 +148,9 @@ class Home extends CI_Controller {
      * @link https://developers.themoviedb.org/3/movies/get-popular-movies
      * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getPopular
+     * @param string $language język
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param int $region kod regionu
      * @return string zwraca dane w formacie JSON
      */
     public function getPopular($language = 'PL', $count = 20, $page = 1){
@@ -158,17 +160,18 @@ class Home extends CI_Controller {
 
     /**
      * Najwyżej oceniane
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getTopRated/PL/20/1
      * @link https://developers.themoviedb.org/3/movies/get-top-rated-movies
      * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getTopRated
+     * @param string $language język
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param int $region kod regionu
-     * @return string             zwraca dane w formacie JSON
+     * @return string zwraca dane w formacie JSON
      */
-    public function getTopRated($page, $region){
+    public function getTopRated($language = 'PL', $count = 20, $page = 1){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getTopRated($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getTopRated($language, $count, $page)), JSON_PRETTY_PRINT);
     }
 
     /**

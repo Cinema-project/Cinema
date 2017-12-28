@@ -139,7 +139,19 @@ class BusinessLogic extends CI_Model{
       return json_decode( $this->themoviedb->getPopular($language,$page, $language) );
     }
   }
-  public function getTopRated($page, $region){
+  /**
+   * getTopRated
+   * @param  string $language język
+   * @param  int $count na stronie
+   * @param  int $page strona
+   * @return array filmy
+   */
+  public function getTopRated($language, $count, $page){
+    if (strtolower($language) == 'pl'){
+      return $this->getMovies($language,'xx',$page,$count,'vote_average DESC');
+    } else {
+      return json_decode($this->themoviedb->getTopRated($language, $page, $language));
+    }
   }
   public function getUpcoming($page, $region){
   }
