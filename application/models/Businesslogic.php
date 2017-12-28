@@ -150,10 +150,26 @@ class BusinessLogic extends CI_Model{
     if (strtolower($language) == 'pl'){
       return $this->getMovies($language,'xx',$page,$count,'vote_average DESC');
     } else {
-      return json_decode($this->themoviedb->getTopRated($language, $page, $language));
+      return json_decode($this->themoviedb->getTopRated($language, $page +1, $language));
     }
   }
-  public function getUpcoming($page, $region){
+  /**
+   * Filmy nadchodzące.
+   * getUpcoming
+   * @param string $language [description]
+   * @param int $count na stronie
+   * @param int $page strona
+   * @return array filmy
+   */
+  public function getUpcoming($language, $count, $page){
+    if (strtolower($language) != 'pl'){
+      return json_decode($this->themoviedb->getUpcoming($language,$page + 1, $language));
+    }
+    $start = date('Y-m-d');
+    $end = date('Y');
+    $end = ($end + 1) . date('-m-d');
+    $this->list->selectByTime($start, $end, null, $count, $page );
+    return $this->list->getMovieList();
   }
   /**
    * Aktualizuje i zwraca repertuar kin

@@ -32,7 +32,7 @@ class Home extends CI_Controller {
      */
     public function getCinemaRepertoire(){
       header('Content-Type: application/json');
-      echo json_encode($this->logic->getCinemaRepertoire(), JSON_PRETTY_PRINT);
+      echo json_encode($this->logic->getCinemaRepertoire());
     }
 
     /**
@@ -67,11 +67,11 @@ class Home extends CI_Controller {
      * @param string $sort sortowanie po kolumnie w bazie danych. ASC - rosnąco, DESC malejąco
      * @return string zwraca listę filmów w formacie JSON.
      */
-    public function getMovies($language = '', $categoryId = '', $page = '', $onPage = '', $sort = 'Premiere_date.DESC') {
+    public function getMovies($language = 'PL', $categoryId = 'xx', $page = '0', $onPage = '20', $sort = 'Premiere_date.DESC') {
         $sort = str_replace('.', ' ', $sort);
         header('Content-Type: application/json');
         $result = array('results' => $this->logic->getMovies($language, $categoryId, $page, $onPage, $sort));
-        echo json_encode($result, JSON_PRETTY_PRINT);
+        echo json_encode($result);
     }
 
     /**
@@ -124,7 +124,7 @@ class Home extends CI_Controller {
      * @param int $onPage na stronie
      * @return string zwraca dane w formacie JSON
      */
-    public function getLastest($language = 'PL', $page = 1, $onPage = 10){
+    public function getLastest($language = 'PL', $page = 0, $onPage = 10){
       header('Content-Type: application/json');
       echo json_encode(array( 'movies' => $this->logic->getLastest($language, $page, $onPage)));
     }
@@ -137,9 +137,9 @@ class Home extends CI_Controller {
      * @param int $page numer strony
      * @return string zwraca dane w formacie JSON
      */
-    public function getNowPlaying($count = 20, $page = 1){
+    public function getNowPlaying($count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo json_encode(array( 'movies' => $this->logic->getNowPlaying($count, $page)), JSON_PRETTY_PRINT);
+      echo json_encode(array( 'movies' => $this->logic->getNowPlaying($count, $page)));
     }
 
     /**
@@ -153,9 +153,9 @@ class Home extends CI_Controller {
      * @param int $page numer strony
      * @return string zwraca dane w formacie JSON
      */
-    public function getPopular($language = 'PL', $count = 20, $page = 1){
+    public function getPopular($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo json_encode(array('movies' => $this->logic->getPopular($language, $count, $page)), JSON_PRETTY_PRINT);
+      echo json_encode(array('movies' => $this->logic->getPopular($language, $count, $page)));
     }
 
     /**
@@ -169,24 +169,24 @@ class Home extends CI_Controller {
      * @param int $page numer strony
      * @return string zwraca dane w formacie JSON
      */
-    public function getTopRated($language = 'PL', $count = 20, $page = 1){
+    public function getTopRated($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo json_encode(array('movies' => $this->logic->getTopRated($language, $count, $page)), JSON_PRETTY_PRINT);
+      echo json_encode(array('movies' => $this->logic->getTopRated($language, $count, $page)));
     }
 
     /**
      * Filmy, które nadchodzą
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getUpcoming/PL/20/0
      * @link https://developers.themoviedb.org/3/movies/get-upcoming
-     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getUpcoming
+     * @param string $language język
      * @param int $page numer strony
-     * @param int $region kod regionu
+     * @param int $count na stronie
      * @return string zwraca dane w formacie JSON
      */
-    public function getUpcoming($page, $region){
+    public function getUpcoming($language = 'PL', $count = 20, $page = 0){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getUpcoming($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getUpcoming($language, $count, $page)));
     }
 
     /**
