@@ -123,26 +123,22 @@ class Home extends CI_Controller {
      * @param int $page numer strony
      * @return string zwraca dane w formacie JSON
      */
-    public function getLatest($language, $page){
+    public function getLastest($language = 'PL', $page = 1, $onPage = 10){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getLatest($language, $page);
+      echo json_encode(array( 'movies' => $this->logic->getLastest($language, $page, $onPage)));
     }
 
     /**
      * Aktualnie grane filmy w kinach
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/1/PL
-     * Kod dla Polski PL
-     * $region = XX - obojętnie gdzie grany film
-     * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
-     * @link https://developers.themoviedb.org/3/movies/get-now-playing
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getNowPlaying/20/1
      * @method getNowPlaying
+     * @param int $count liczba filmów na stronie
      * @param int $page numer strony
-     * @param string $region kod regionu - w formacie xx
      * @return string zwraca dane w formacie JSON
      */
-    public function getNowPlaying($page, $region){
+    public function getNowPlaying($count = 20, $page = 1){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getNowPlaying($region, $page, $region);
+      echo json_encode(array( 'movies' => $this->logic->getNowPlaying($count, $page)), JSON_PRETTY_PRINT);
     }
 
     /**

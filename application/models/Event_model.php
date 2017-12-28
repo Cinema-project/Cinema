@@ -21,6 +21,23 @@ class Event_model extends CI_Model
 
 
 	}
+	/**
+	 * Pobiera filmy grane w Multikinie
+	 * getNowPlaying
+	 * @param  int $count ilość filmów na stronie
+	 * @param  int $page strona
+	 * @return array filmy
+	 */
+	public function getNowPlaying($count, $page){
+		return $this->db->select('tmdbmovies.*, events.movie_id')->
+											from('events')->
+											join('cinemamovies', 'events.movie_id = cinemamovies.movie_id')->
+											join('tmdbmovies', 'cinemamovies.tmdbmovie_id = tmdbmovies.MovieID')->
+											group_by('events.movie_id')->
+											limit($count, $page*$count)->
+											get()->
+											result();
+	}
 
 	public function save()
     {

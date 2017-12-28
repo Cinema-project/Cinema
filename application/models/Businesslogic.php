@@ -102,9 +102,12 @@ class BusinessLogic extends CI_Model{
       }
     }
   }
-  public function getLastest(){
+  public function getLastest($language, $page, $onPage){
+    return $this->getMovies($language, 'xx', $page, $onPage, 'Premiere_date DESC');
   }
-  public function getNowPlaying($page, $region){
+  public function getNowPlaying($count, $page){
+    $this->load->model('Event_model', 'events');
+    return $this->events->getNowPlaying($count, $page);
   }
   public function getPopular($page, $region){
   }
