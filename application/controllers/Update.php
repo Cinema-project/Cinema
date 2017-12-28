@@ -7,10 +7,15 @@ class Update extends CI_Controller {
     $this->load->model('update_model');
   }
   public function update(){
-    $this->updateGenres();
-    $this->updateCinemaMovies();
-    $this->updateCinemaRepertoire();
+    echo "initGeoCodeTable ";
     $this->initGeoCodeTable();
+    echo "updateGenres ";
+    $this->updateGenres();
+    echo "updateCinemaMovies ";
+    $this->updateCinemaMovies();
+    echo "updateCinemaRepertoire ";
+    $this->updateCinemaRepertoire();
+    echo "end ";
   }
   /**
    * Inicjalizuje tabelę cinemas
@@ -33,6 +38,7 @@ class Update extends CI_Controller {
    * @return array lista filmów
    */
   public function updateCinemaMovies(){
+    header('Content-Type: application/json');
     echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
   }
   /**

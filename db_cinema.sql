@@ -245,13 +245,6 @@ ALTER TABLE `cinemamovies`
   ADD CONSTRAINT `cinemamovies_ibfk_1` FOREIGN KEY (`tmdbmovie_id`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
--- Ograniczenia dla tabeli `events`
---
-ALTER TABLE `events`
-  ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`id_cinema`) REFERENCES `cinemas` (`id_cinema`),
-  ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`movie_id`) REFERENCES `cinemamovies` (`movie_id`);
-
---
 -- Ograniczenia dla tabeli `favorites`
 --
 ALTER TABLE `favorites`
