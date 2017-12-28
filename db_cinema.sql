@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `events` (
   `time` timestamp NOT NULL,
   `id_cinema` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_event`),
   KEY `movie_id` (`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
