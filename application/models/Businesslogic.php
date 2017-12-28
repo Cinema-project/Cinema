@@ -102,14 +102,42 @@ class BusinessLogic extends CI_Model{
       }
     }
   }
+  /**
+   * Dla języka polskiego PL zwraca dane z bazy lokalnej.
+   * Jeżeli jest inaczej odwołuje się do bazy TMDB.
+   * getLastest
+   * @param  string $language język
+   * @param  int $page numer strony
+   * @param  int $onPage ilość filmów na stronie
+   * @return array filmy
+   */
   public function getLastest($language, $page, $onPage){
     return $this->getMovies($language, 'xx', $page, $onPage, 'Premiere_date DESC');
   }
+  /**
+   * Pobiera obecnie grane filmy na podstawie tabeli lokalnej events
+   * getNowPlaying
+   * @param  int $count ilość filmów na stronie
+   * @param  int $page numer strony
+   * @return array filmy
+   */
   public function getNowPlaying($count, $page){
     $this->load->model('Event_model', 'events');
     return $this->events->getNowPlaying($count, $page);
   }
-  public function getPopular($page, $region){
+  /**
+   * getPopular
+   * @param string $language kod języku.
+   * @param int $count liczba filmów na stronie
+   * @param int $page numer strony
+   * @return array filmy
+   */
+  public function getPopular($language, $count, $page){
+    if (strtolower($language) == 'pl'){
+      return $this->getMovies($language,'xx',$page,$count,'Popularity DESC');
+    } else {
+      return json_decode( $this->themoviedb->getPopular($language,$page, $language) );
+    }
   }
   public function getTopRated($page, $region){
   }

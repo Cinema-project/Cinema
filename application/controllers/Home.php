@@ -143,7 +143,7 @@ class Home extends CI_Controller {
 
     /**
      * Popularne filmy
-     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/1/PL
+     * Przykład użycia: http://localhost/Cinema/index.php?/Home/getPopular/PL/20/1
      * @link https://developers.themoviedb.org/3/movies/get-popular-movies
      * @link https://pl.wikipedia.org/wiki/ISO_3166-1 Kody regionów
      * @method getPopular
@@ -151,9 +151,9 @@ class Home extends CI_Controller {
      * @param int $region kod regionu
      * @return string zwraca dane w formacie JSON
      */
-    public function getPopular($page, $region){
+    public function getPopular($language = 'PL', $count = 20, $page = 1){
       header('Content-Type: application/json');
-      echo $this->themoviedb->getPopular($region, $page, $region);
+      echo json_encode(array('movies' => $this->logic->getPopular($language, $count, $page)), JSON_PRETTY_PRINT);
     }
 
     /**
