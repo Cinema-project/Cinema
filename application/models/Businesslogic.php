@@ -168,7 +168,7 @@ class BusinessLogic extends CI_Model{
     $start = date('Y-m-d');
     $end = date('Y');
     $end = ($end + 1) . date('-m-d');
-    $this->list->selectByTime($start, $end, null, $count, $page );
+    $this->list->selectByTime($start, $end, 'Premiere_date ASC', $count, $page );
     return $this->list->getMovieList();
   }
   /**
