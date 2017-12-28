@@ -105,7 +105,7 @@ class BusinessLogic extends CI_Model{
   /**
    * Dla języka polskiego PL zwraca dane z bazy lokalnej.
    * Jeżeli jest inaczej odwołuje się do bazy TMDB.
-   * getLastest
+   * @method getLastest
    * @param  string $language język
    * @param  int $page numer strony
    * @param  int $onPage ilość filmów na stronie
@@ -116,7 +116,7 @@ class BusinessLogic extends CI_Model{
   }
   /**
    * Pobiera obecnie grane filmy na podstawie tabeli lokalnej events
-   * getNowPlaying
+   * @method getNowPlaying
    * @param  int $count ilość filmów na stronie
    * @param  int $page numer strony
    * @return array filmy
@@ -126,7 +126,7 @@ class BusinessLogic extends CI_Model{
     return $this->events->getNowPlaying($count, $page);
   }
   /**
-   * getPopular
+   * @method getPopular
    * @param string $language kod języku.
    * @param int $count liczba filmów na stronie
    * @param int $page numer strony
@@ -140,7 +140,7 @@ class BusinessLogic extends CI_Model{
     }
   }
   /**
-   * getTopRated
+   * @method getTopRated
    * @param  string $language język
    * @param  int $count na stronie
    * @param  int $page strona
@@ -155,7 +155,7 @@ class BusinessLogic extends CI_Model{
   }
   /**
    * Filmy nadchodzące.
-   * getUpcoming
+   * @method getUpcoming
    * @param string $language [description]
    * @param int $count na stronie
    * @param int $page strona

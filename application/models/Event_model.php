@@ -27,7 +27,7 @@ class Event_model extends CI_Model
 	}
 	/**
 	 * Pobiera filmy grane w Multikinie
-	 * getNowPlaying
+	 * @method getNowPlaying
 	 * @param  int $count ilość filmów na stronie
 	 * @param  int $page strona
 	 * @return array filmy

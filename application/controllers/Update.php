@@ -6,16 +6,15 @@ class Update extends CI_Controller {
     parent::__construct();
     $this->load->model('update_model');
   }
+  /**
+   * Aktualizuje tabele
+   * @method update
+   */
   public function update(){
-    echo "initGeoCodeTable ";
     $this->initGeoCodeTable();
-    echo "updateGenres ";
     $this->updateGenres();
-    echo "updateCinemaMovies ";
     $this->updateCinemaMovies();
-    echo "updateCinemaRepertoire ";
     $this->updateCinemaRepertoire();
-    echo "end ";
   }
   /**
    * Inicjalizuje tabelę cinemas
