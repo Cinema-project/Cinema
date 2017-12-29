@@ -21,8 +21,7 @@ class Update extends CI_Controller {
    * @method initGeoCodeTable
    */
   public function initGeoCodeTable(){
-    $this->load->model('Cinemas_geocode_model', 'geo');
-    $this->geo->insertDataToDataBase();
+    $this->update_model->initGeoCodeTable();
   }
   /**
    * Inicjalizuje tabelę genres
@@ -38,7 +37,7 @@ class Update extends CI_Controller {
    */
   public function updateCinemaMovies(){
     header('Content-Type: application/json');
-    echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
+    echo json_encode($this->update_model->updateCinemaMovies());
   }
   /**
    * Aktualizuje repertuar Multikina
@@ -47,7 +46,7 @@ class Update extends CI_Controller {
   public function updateCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
-    $this->update_model->updateCinemaRepertoire($repertoire['movies']);
+    $this->update_model->updateCinemaRepertoire($repertoire);
   }
 }
 ?>

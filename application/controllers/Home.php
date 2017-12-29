@@ -23,18 +23,6 @@ class Home extends CI_Controller {
     {
         redirect(base_url('/index.html'));
     }
-
-    /**
-     * Przykład użycia: http://localhost/index.php/Home/getCinemaRepertoire/3
-     * @method getCinemaRepertoire
-     * @param int $id id kina sieci multikino.
-     * @return string Zwraca repertuar dla Multikina w formacie JSON
-     */
-    public function getCinemaRepertoire(){
-      header('Content-Type: application/json');
-      echo json_encode($this->logic->getCinemaRepertoire());
-    }
-
     /**
      * Przykład użycia: http://localhost/index.php/Home/getCategoryList/PL
      * @method getCategoryList
