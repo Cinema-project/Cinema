@@ -58,6 +58,14 @@ class Config_model extends CI_Model {
     }
     return false;
   }
+  public function checkIfExist($name, $date){
+    $last_update = $this->get($name);
+    if (count($last_update) != 0){
+      return true;
+    }
+    $this->insert($name, $date);
+    return false;
+  }
 }
 
 ?>

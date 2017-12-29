@@ -56,6 +56,12 @@ class Update_model extends CI_Model {
      * @method updateGenres
      */
     public function updateGenres(){
+      if ( $this->c->checkIfExist('GENRES_UPDATE', date('Y-m-d H:i:s')) ){
+        return 'Genres are up to date';
+      }
+
+      $this->c->insert('GENRES_UPDATE', date('Y-m-d'));
+
       $genres = json_decode($this->themoviedb->getCategoryList('PL'))->genres;
       foreach ($genres as $genre) {
         $this->genre_model->setId($genre->id);
@@ -188,7 +194,7 @@ class Update_model extends CI_Model {
      */
     public function updateCinemaRepertoire($repertoire){
       $this->load->model('event_model', 'event');
-      
+
       if (!$this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
         return 'Repertoire is up to date';
       }
