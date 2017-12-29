@@ -40,6 +40,7 @@ class Config_model extends CI_Model {
     return $this->db->update('config');
   }
   /**
+   * Sprawdza czy zmienna istnieje a jeżeli nie to wstawia ją
    * @method checkIfUpdate
    * @param string $var nazwa zmiennej
    * @param  string $date data do aktualizacji
@@ -50,7 +51,7 @@ class Config_model extends CI_Model {
     if (count($last_update) != 0){
       $created = strtotime($date);
       $updated = strtotime($last_update[0]->date);
-      if ( $updated >= $created ){
+      if ( $updated > $created ){
         return true;
       }
     } else {

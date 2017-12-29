@@ -60,8 +60,6 @@ class Update_model extends CI_Model {
         return 'Genres are up to date';
       }
 
-      $this->c->insert('GENRES_UPDATE', date('Y-m-d'));
-
       $genres = json_decode($this->themoviedb->getCategoryList('PL'))->genres;
       foreach ($genres as $genre) {
         $this->genre_model->setId($genre->id);
@@ -181,7 +179,7 @@ class Update_model extends CI_Model {
       $this->load->model('multikino');
       $movies = $this->multikino->getCinemaFilms();
 
-      if (!$this->c->checkIfUpdate('CINEMA_MOVIES_UPDATE', $movies['created'])){
+      if ($this->c->checkIfUpdate('CINEMA_MOVIES_UPDATE', $movies['created'])){
         return 'Movies are up to date';
       }
 
@@ -193,7 +191,7 @@ class Update_model extends CI_Model {
      * @param  array $repertoire tablica wydarzeń
      */
     public function updateCinemaRepertoire($repertoire){
-      if (!$this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
+      if ($this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
         return 'Repertoire is up to date';
       }
 

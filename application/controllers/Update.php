@@ -37,7 +37,7 @@ class Update extends CI_Controller {
    */
   public function updateCinemaMovies(){
     header('Content-Type: application/json');
-    echo json_encode($this->update_model->updateCinemaMovies(), JSON_PRETTY_PRINT);
+    echo json_encode($this->update_model->updateCinemaMovies());
   }
   /**
    * Aktualizuje repertuar Multikina
