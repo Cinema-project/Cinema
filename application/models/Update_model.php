@@ -193,13 +193,13 @@ class Update_model extends CI_Model {
      * @param  array $repertoire tablica wydarzeń
      */
     public function updateCinemaRepertoire($repertoire){
-      $this->load->model('event_model', 'event');
-
       if (!$this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
         return 'Repertoire is up to date';
       }
 
       ini_set('max_execution_time', 300);
+
+      $this->load->model('event_model', 'event');
       foreach ($repertoire['movies'] as $event) {
         $this->event->setTime($event['time']);
         $this->event->setIdMovie($event['movieId']);
@@ -207,6 +207,18 @@ class Update_model extends CI_Model {
         $this->event->setLink($event['link']);
         $this->event->save();
       }
+    }
+    /**
+     * Inicjalizuje tabelę cinemas jeżeli jest pusta
+     * @method initGeoCodeTable
+     */
+    public function initGeoCodeTable(){
+      if ( $this->c->checkIfExist('GEO_CODE', date('Y-m-d H:i:s')) ){
+        return 'Geo codes are up to date';
+      }
+
+      $this->load->model('Cinemas_geocode_model', 'geo');
+      $this->geo->insertDataToDataBase();
     }
 }
 ?>

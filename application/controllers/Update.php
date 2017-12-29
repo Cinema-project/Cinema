@@ -21,14 +21,7 @@ class Update extends CI_Controller {
    * @method initGeoCodeTable
    */
   public function initGeoCodeTable(){
-    $this->load->model('config_model', 'c');
-    if ( $this->c->checkIfExist('GEO_CODE', date('Y-m-d H:i:s')) ){
-      echo 'Geo codes are up to date';
-      return;
-    }
-
-    $this->load->model('Cinemas_geocode_model', 'geo');
-    $this->geo->insertDataToDataBase();
+    $this->update_model->initGeoCodeTable();
   }
   /**
    * Inicjalizuje tabelę genres

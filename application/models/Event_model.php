@@ -99,6 +99,14 @@ class Event_model extends CI_Model
 	    $this->movie_id = $event[0]['movie_id'];
 			$this->link = $event[0]['link'];
     }
+	public function getRepertoire(){
+		return $this->db->slect('events.time, events.link, cinemas.name, tmdbmovies.*')->
+											from('events')->
+											join('cinemas', 'cinemas.id_cinema = events.id_cinema')->
+											join('cinemamovies', 'events.movie_id = cinemamovies.movie_id')->
+											join('tmdbmovies', 'tmdbmovies.MovieId = cinemamovies.tmdbmovie_id')->
+											get()->result();
+	}
 
 }
 

@@ -14,6 +14,7 @@ class BusinessLogic extends CI_Model{
     $this->load->model('Movielist_model', 'list');
     $this->load->model('Update_model', 'update');
     $this->load->model('genre_model', 'genre');
+    $this->load->model('event_model', 'event');
   }
   /**
    * Pobiera listę filmów z bazy lokalnej a w razie potrzeby odwołuje się do bazy TMDB
@@ -29,11 +30,9 @@ class BusinessLogic extends CI_Model{
     if ($page < 0){
       return null;
     }
-
     if (!is_numeric($categoryId)){
       $categoryId = null;
     }
-
     if (strtolower($language) != 'pl'){
       return json_decode($this->themoviedb->getMovies($language, $categoryId, $page));
     }
@@ -172,29 +171,14 @@ class BusinessLogic extends CI_Model{
     return $this->list->getMovieList();
   }
   /**
-   * Aktualizuje i zwraca repertuar kin
-   * @method getCinemaRepertoire
-   * @return array
-   */
-  public function getCinemaRepertoire(){
-    $this->load->model('multikino');
-    $repertoire = $this->multikino->getCinemaRepertoire();
-    $this->update->updateCinemaRepertoire($repertoire['movies']);
-    return $repertoire;
-  }
-  /**
    * Zwraca listę kin a w razie potrzeby dodaje je do bazy.
    * @method getCinemas
    * @return array
    */
   public function getCinemas(){
+    $this->update->initGeoCodeTable();
     $this->load->model('Cinemas_model', 'cinemas');
     $result = $this->cinemas->getCinemas();
-    if (count( $result ) == 0){
-      $this->load->model('Cinemas_geocode_model', 'geo');
-      $this->geo->insertDataToDataBase();
-      $result = $this->cinemas->getCinemas();
-    }
     return $result;
   }
 }
