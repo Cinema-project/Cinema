@@ -166,9 +166,8 @@ CREATE TABLE IF NOT EXISTS `config` (
 INSERT INTO `config` (`id`, `name`, `date`) VALUES
 (1, 'GEO_CODE', '2017-12-29 12:44:47'),
 (2, 'GENRES_UPDATE', '2017-12-29 12:45:28'),
-(3, 'GENRES_UPDATE', '2017-12-29 00:00:00'),
-(4, 'CINEMA_MOVIES_UPDATE', '2017-12-29 12:33:37'),
-(5, 'CINEMA_REPERTOIRE_UPDATE', '2017-12-29 12:13:17');
+(3, 'CINEMA_MOVIES_UPDATE', '2017-12-29 12:33:37'),
+(4, 'CINEMA_REPERTOIRE_UPDATE', '2017-12-29 12:13:17');
 
 -- --------------------------------------------------------
 
