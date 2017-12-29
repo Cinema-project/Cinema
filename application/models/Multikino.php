@@ -118,7 +118,7 @@ class Multikino extends CI_Model {
       $time = $child->event_time->__toString();
       $version = $child->version_name->__toString();
       $reservation_link = $child->direct_link->__toString();
-      $cinemaId = $child->cinema_id->__toString();
+      $cinemaId = $child->ig_cinema_id->__toString();
       $release = $child->release_date->__toString();
       $movies[] = (new Movie($id, $title, $time, $version, $reservation_link, $cinemaId, $release))->toArray();
     }
