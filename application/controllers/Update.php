@@ -47,7 +47,7 @@ class Update extends CI_Controller {
   public function updateCinemaRepertoire(){
     $this->load->model('multikino');
     $repertoire = $this->multikino->getCinemaRepertoire();
-    $this->update_model->updateCinemaRepertoire($repertoire['movies']);
+    $this->update_model->updateCinemaRepertoire($repertoire);
   }
 }
 ?>

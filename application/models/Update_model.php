@@ -6,6 +6,7 @@ class Update_model extends CI_Model {
       $this->load->model('themoviedb');
       $this->load->model('genre_model');
       $this->load->model('tmdbmovie_model');
+      $this->load->model('config_model', 'c');
     }
     /**
      * Dodaje kategorię do filmu
@@ -173,7 +174,11 @@ class Update_model extends CI_Model {
       ini_set('max_execution_time', 0);
       $this->load->model('multikino');
       $movies = $this->multikino->getCinemaFilms();
-      //Sprawdzenie ostatniej aktualizacji z tabelą config $movies['created'];
+
+      if (!$this->c->checkIfUpdate('CINEMA_MOVIES_UPDATE', $movies['created'])){
+        return 'Movies are up to date';
+      }
+
       return $this->mergeMultikinoTmdbMovies($movies['movies']);
     }
     /**
@@ -183,8 +188,13 @@ class Update_model extends CI_Model {
      */
     public function updateCinemaRepertoire($repertoire){
       $this->load->model('event_model', 'event');
+      
+      if (!$this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
+        return 'Repertoire is up to date';
+      }
+
       ini_set('max_execution_time', 300);
-      foreach ($repertoire as $event) {
+      foreach ($repertoire['movies'] as $event) {
         $this->event->setTime($event['time']);
         $this->event->setIdMovie($event['movieId']);
         $this->event->setIdCinema($event['cinemaId']);

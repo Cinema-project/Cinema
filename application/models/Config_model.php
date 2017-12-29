@@ -1,6 +1,6 @@
 <?php
 
-class Config extends CI_Model {
+class Config_model extends CI_Model {
   /**
    * @method insert
    * @param  string $name nazwa zmiennej
@@ -20,7 +20,7 @@ class Config extends CI_Model {
     if (is_numeric($value)){
       $this->db->where('id', $value);
     } else {
-      $this->db->where('name', $name);
+      $this->db->where('name', $value);
     }
     return $this->db->get()->result();
   }
@@ -38,6 +38,25 @@ class Config extends CI_Model {
       $this->db->where('name', $value);
     }
     return $this->db->update('config');
+  }
+  /**
+   * @method checkIfUpdate
+   * @param string $var nazwa zmiennej
+   * @param  string $date data do aktualizacji
+   * @return boolean Zwraca true jeśi ane są aktualne false w przeciwnym wypadku
+   */
+  public function checkIfUpdate($var, $date){
+    $last_update = $this->get($var);
+    if (count($last_update) != 0){
+      $created = strtotime($date);
+      $updated = strtotime($last_update[0]->date);
+      if ( $updated >= $created ){
+        return true;
+      }
+    } else {
+      $this->insert($var, $date);
+    }
+    return false;
   }
 }
 
