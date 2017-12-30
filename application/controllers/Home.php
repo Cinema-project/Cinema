@@ -11,7 +11,7 @@ class Home extends CI_Controller {
         $this->load->model('multikino');
         $this->load->model('themoviedb');
         $this->load->helper('url');
-        $this->load->model('BusinessLogic', 'logic');
+        $this->load->model('Businesslogic', 'logic');
     }
 
     /**
