@@ -25,6 +25,13 @@ class Event_model extends CI_Model
 	public function setLink($link){
 		$this->link = $link;
 	}
+
+	public function removeOldEvent()
+	{
+		$actualDate = date("Y-m-d H:i:s");
+		$this->db->where('time <', $actualDate);
+		$this->db->delete('events');
+	}
 	/**
 	 * Pobiera filmy grane w Multikinie
 	 * @method getNowPlaying
