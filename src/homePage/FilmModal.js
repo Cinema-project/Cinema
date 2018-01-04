@@ -25,11 +25,11 @@ export default class FilmModal extends Component{
         console.log("DETALE", response);
         this.setState({
           title: response.data.title,
-          overview: response.data.overview,
+          overview: response.data.description,
           budget: response.data.budget,
-          genre: response.data.genres[0].name,
-          production: response.data.production_companies[0].name,
-          date: response.data.release_date,
+          genre: response.data.genresList[0],
+          //production: response.data.production_companies[0].name,
+          date: response.data.premierDate,
           time: response.data.runtime
         })
       })

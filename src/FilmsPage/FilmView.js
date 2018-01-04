@@ -21,14 +21,16 @@ export default class FilmView extends Component {
 
   componentWillMount = () => {
     const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
+    //const path = `index.php?/Home/getMovies/PL/`;
     apiClient
       .get(path)
        .then(response => {
+         console.log(response);
          {response.data.results.map(r =>
            this.setState(previousState =>({
              title: [...previousState.title, r.title],
-             poster: [...previousState.poster, r.poster_path],
-             rating: [...previousState.rating, r.vote_average],
+             poster: [...previousState.poster, r.poster],
+             rating: [...previousState.rating, r.voteAverage],
              id: [...previousState.id, r.id]
            }))
          )}
@@ -39,7 +41,8 @@ export default class FilmView extends Component {
   }
 
   componentWillReceiveProps = () => {
-    const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
+  //const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
+    const path = `index.php?/Home/getMovies/PL/`;
     this.setState({
       title: [],
       poster: [],
@@ -53,8 +56,8 @@ export default class FilmView extends Component {
         {response.data.results.map(r =>
           this.setState(previousState =>({
             title: [...previousState.title, r.title],
-            poster: [...previousState.poster, r.poster_path],
-            rating: [...previousState.rating, r.vote_average],
+            poster: [...previousState.poster, r.poster],
+            rating: [...previousState.rating, r.voteAverage],
             id: [...previousState.id, r.id]
           }))
         )}
@@ -118,7 +121,7 @@ export default class FilmView extends Component {
         </Modal>
         <div className="row">
           <div className="col-md-2" style={{marginTop: "4vh"}}>
-            <img className="img-responsive" src={`https://image.tmdb.org/t/p/w500${this.state.poster[i]}`} alt="logo"/>
+            <img className="img-responsive" src={this.state.poster[i]} alt="logo"/>
           </div>
           <Title className="col-md-6">{this.state.title[i]}</Title>
           <Rating className="col-md-2">{this.state.rating[i]}</Rating>

@@ -19,7 +19,8 @@ class Films extends Component {
     apiClient
       .get("index.php/Home/getCategoryList/PL")
       .then(response => {
-        this.setState((state) => ({ genres: response.data.genres }))
+        console.log(response);
+       this.setState((state) => ({ genres: response.data }))
       })
       .catch(error => {
         console.log(error);
@@ -119,7 +120,7 @@ class Films extends Component {
           <div className = "col-md-12">
             <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies}>
               {this.state.genres.map((genre) => (
-                <MenuItem eventKey={genre.id}>{genre.name} </MenuItem>
+                <MenuItem eventKey={genre.id_genre}>{genre.name} </MenuItem>
               ))}
             </DropdownButton>
           </div>
