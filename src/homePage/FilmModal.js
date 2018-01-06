@@ -18,7 +18,7 @@ export default class FilmModal extends Component{
     }
   }
 
-  componentWillMount= () => {
+ /* componentWillMount= () => {
       apiClient
         .get(`index.php?/Home/getTrailerPath/PL/${this.props.id}`)
         .then(response => {
@@ -30,7 +30,7 @@ export default class FilmModal extends Component{
         .catch(error => {
           console.log(error);
         });
-  }
+  }*/
 
   componentDidMount = () => {
     apiClient
@@ -44,7 +44,8 @@ export default class FilmModal extends Component{
           genre: response.data.genresList[0],
           //production: response.data.production_companies[0].name,
           date: response.data.premierDate,
-          time: response.data.runtime
+          time: response.data.runtime,
+          url: response.data.trailer
         })
       })
       .catch(error => {
@@ -135,10 +136,10 @@ export default class FilmModal extends Component{
 
   render(){
     var url = this.state.url;
-    if(url !== undefined){
+    if(url !== undefined && url !== null){
     url = url.replace("watch?v=", "embed/");
 
-    }
+    }else if(url == " "){}
     if(this.state.time == 0){
       this.setState({
         time: "nieznany"

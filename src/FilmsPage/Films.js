@@ -11,7 +11,7 @@ class Films extends Component {
       genres: [],
       category: " ",
       dropdownTitle: "Wybierz kategorie",
-      page: 1
+      page: 1,
       };
   }
 
@@ -36,6 +36,9 @@ class Films extends Component {
     if(this.state.category == 28){
       this.setState((state) => ({dropdownTitle: "Akcja"}))
       console.log(this.state.category);
+      this.setState({
+      page: 0
+    })
     }
 
     if(this.state.category == 12){
@@ -109,6 +112,9 @@ class Films extends Component {
     if(this.state.category == 37){
       this.setState((state) => ({dropdownTitle: "Western"}))
     }
+
+    
+    
   }
 
   handlePageClick = e => {
@@ -135,9 +141,10 @@ class Films extends Component {
                        nextLabel={"następny"}
                        breakLabel={<a href="">...</a>}
                        breakClassName={"break-me"}
-                       pageCount={this.state.pageCount}
-                       marginPagesDisplayed={2}
-                       pageRangeDisplayed={3}
+                       pageCount={99999}
+                       marginPagesDisplayed={0}
+                       pageRangeDisplayed={6}
+                       pageCount={this.props.pageCount}
                        onPageChange={this.handlePageClick}
                        containerClassName={"pagination"}
                        subContainerClassName={"pages pagination"}
