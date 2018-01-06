@@ -5,7 +5,7 @@
  * Date: 06.01.2018
  * Time: 20:58
  */
-class Comments extends CI_Model{
+class Comments_model extends CI_Model{
 
     public $user_id;
     public $movie_id;

@@ -5,7 +5,7 @@ class Comments extends CI_Controller{
 
     function __construct(){
         parent::__construct();
-        $this->load->model('comments');
+        $this->load->model('comments_model');
         $this->load->model('user_model');
     }
 
@@ -15,12 +15,12 @@ class Comments extends CI_Controller{
         $comment = $this->input->post('comment');
         $user = $this->token->tokenIsValid($token);
         if ($user != -1) {
-          $this->comments->addComment($user, $movie_id, $comment);
+          $this->comments_model->addComment($user, $movie_id, $comment);
         }
     }
     public function getComments($movie_id){
         header('Content-Type: application/json');
-        echo json_encode(array('results' => $this->comments->getComments($movie_id) ));
+        echo json_encode(array('results' => $this->comments_model->getCommentsByMovieID($movie_id) ));
     }
 
     public function removeComment($comment_id){
@@ -28,7 +28,7 @@ class Comments extends CI_Controller{
         $user_id = intval($this->token->tokenIsValid($token));
         $userRole = $this->user_model->getUserRoleById($user_id);
         if ($userRole == 1){
-           $this->comments->removeComment($comment_id);
+           $this->comments_model->removeComment($comment_id);
         }
     }
 
