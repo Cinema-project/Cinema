@@ -9,7 +9,7 @@ class Films extends Component {
     super(props);
     this.state = {
       genres: [],
-      category: "",
+      category: " ",
       dropdownTitle: "Wybierz kategorie",
       page: 1
       };
@@ -19,7 +19,8 @@ class Films extends Component {
     apiClient
       .get("index.php/Home/getCategoryList/PL")
       .then(response => {
-        this.setState((state) => ({ genres: response.data.genres }))
+        console.log(response);
+       this.setState((state) => ({ genres: response.data }))
       })
       .catch(error => {
         console.log(error);
@@ -27,80 +28,85 @@ class Films extends Component {
  };
 
   loadMovies = e => {
+    console.log(e);
     this.state.category = e;
-    if(this.state.category === 28){
+    this.setState({
+      category: e
+    })
+    if(this.state.category == 28){
       this.setState((state) => ({dropdownTitle: "Akcja"}))
+      console.log(this.state.category);
     }
 
-    if(this.state.category === 12){
+    if(this.state.category == 12){
       this.setState((state) => ({dropdownTitle: "Przygodowy"}))
     }
 
-    if(this.state.category === 16){
+    if(this.state.category == 16){
       this.setState((state) => ({dropdownTitle: "Animacja"}))
     }
 
-    if(this.state.category === 35){
+    if(this.state.category == 35){
       this.setState((state) => ({dropdownTitle: "Komedia"}))
     }
 
-    if(this.state.category === 80){
+    if(this.state.category == 80){
       this.setState((state) => ({dropdownTitle: "Kryminał"}))
     }
 
-    if(this.state.category === 99){
+    if(this.state.category == 99){
       this.setState((state) => ({dropdownTitle: "Dokumentalny"}))
     }
 
-    if(this.state.category === 18){
+    if(this.state.category == 18){
       this.setState((state) => ({dropdownTitle: "Dramat"}))
     }
 
-    if(this.state.category === 10751){
+    if(this.state.category == 10751){
       this.setState((state) => ({dropdownTitle: "Familijny"}))
     }
 
-    if(this.state.category === 14){
+    if(this.state.category == 14){
       this.setState((state) => ({dropdownTitle: "Fantasy"}))
     }
 
-    if(this.state.category === 36){
+    if(this.state.category == 36){
       this.setState((state) => ({dropdownTitle: "Historyczny"}))
     }
 
-    if(this.state.category === 27){
+    if(this.state.category == 27){
       this.setState((state) => ({dropdownTitle: "Horror"}))
     }
 
-    if(this.state.category === 10402){
+    if(this.state.category == 10402){
       this.setState((state) => ({dropdownTitle: "Muzyczny"}))
     }
 
-    if(this.state.category === 9648){
+    if(this.state.category == 9648){
       this.setState((state) => ({dropdownTitle: "Tajemnica"}))
     }
 
-    if(this.state.category === 10749){
+    if(this.state.category == 10749){
       this.setState((state) => ({dropdownTitle: "Romans"}))
     }
 
-    if(this.state.category === 878){
+    if(this.state.category == 878){
       this.setState((state) => ({dropdownTitle: "Sci-Fi"}))
     }
 
-    if(this.state.category === 10770){
+    if(this.state.category == 10770){
       this.setState((state) => ({dropdownTitle: "film TV"}))
     }
 
-    if(this.state.category === 53){
+    if(this.state.category == 53){
       this.setState((state) => ({dropdownTitle: "Thriller"}))
     }
 
-    if(this.state.category === 10752){
+    if(this.state.category == 10752){
       this.setState((state) => ({dropdownTitle: "Wojenny"}))
     }
 
-    if(this.state.category === 37){
+    if(this.state.category == 37){
       this.setState((state) => ({dropdownTitle: "Western"}))
     }
   }
@@ -119,7 +125,7 @@ class Films extends Component {
           <div className = "col-md-12">
             <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies}>
               {this.state.genres.map((genre) => (
-                <MenuItem eventKey={genre.id}>{genre.name} </MenuItem>
+                <MenuItem eventKey={genre.id_genre}>{genre.name} </MenuItem>
               ))}
             </DropdownButton>
           </div>

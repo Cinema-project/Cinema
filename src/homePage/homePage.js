@@ -24,17 +24,18 @@ class homePage extends Component {
 
   componentWillMount = () => {
     Modal.setAppElement("body");
-    const rand = Math.floor(1 + Math.random() * 100);
+    const rand = Math.floor(1 + Math.random() * 20);
+    const rand2 = Math.floor(1+Math.random()*6);
     apiClient
-      .get(`index.php?/Home/getPopular/${rand}/PL`)
+      .get(`index.php?/Home/getPopular/PL/${rand}/${rand2}`)
       .then(response => {
         console.log(response);
         {
-          response.data.results.map(r =>
+          response.data.movies.map(r =>
             this.setState(previousState => ({
               title: [...previousState.title, r.title],
-              poster: [...previousState.poster, r.poster_path],
-              rating: [...previousState.rating, r.vote_average],
+              poster: [...previousState.poster, r.poster],
+              rating: [...previousState.rating, r.voteAverage],
               id: [...previousState.id, r.id]
             }))
           )
@@ -79,7 +80,7 @@ class homePage extends Component {
               <PosterContainer onClick={this.toogleModal.bind(this, 0)}>
 
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[0]}`}
+                  src={this.state.poster[0]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
@@ -93,7 +94,7 @@ class homePage extends Component {
               <PosterContainer onClick={this.toogleModal.bind(this, 1)}>
 
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[1]}`}
+                  src={this.state.poster[1]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
@@ -106,7 +107,7 @@ class homePage extends Component {
             <div className="col-md-4">
               <PosterContainer onClick={this.toogleModal.bind(this, 2)}>
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[2]}`}
+                  src={this.state.poster[2]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
@@ -120,7 +121,7 @@ class homePage extends Component {
             <div className="col-md-4">
               <PosterContainer onClick={this.toogleModal.bind(this, 3)}>
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[3]}`}
+                  src={this.state.poster[3]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
@@ -132,7 +133,7 @@ class homePage extends Component {
             <div className="col-md-4">
               <PosterContainer onClick={this.toogleModal.bind(this, 4)}>
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[4]}`}
+                  src={this.state.poster[4]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
@@ -144,7 +145,7 @@ class homePage extends Component {
             <div className="col-md-4">
               <PosterContainer onClick={this.toogleModal.bind(this, 5)}>
                 <ReactImageFallback
-                  src={`https://image.tmdb.org/t/p/w500${this.state.poster[5]}`}
+                  src={this.state.poster[5]}
                   fallbackImage={loaderImage}
                   initialImage={loaderImage}
                   className="img-responsive"
