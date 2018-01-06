@@ -6,6 +6,7 @@ class Comments extends CI_Controller{
     function __construct(){
         parent::__construct();
         $this->load->model('comments');
+        $this->load->model('user_model');
     }
 
     public function addComment(){
@@ -26,6 +27,19 @@ class Comments extends CI_Controller{
     public function getComments($movie_id){
         header('Content-Type: application/json');
         echo json_encode(array('results' => $this->comments->getComments($movie_id) ));
+    }
+
+    public function removeComment($comment_id){
+        $token = $this->input->post('token');
+        $user_id = intval($this->token->tokenIsValid($token));
+        $userRole = $this->user_model->getUserRoleById($user_id);
+        if ($user_id == -1){
+            $result = -1;
+        } else if ($userRole == 1){
+            $result = $this->comments->removeComment($comment_id);
+        }
+        header('Content-Type: application/json');
+        echo $this->statements->getJson($result);
     }
 
 }
