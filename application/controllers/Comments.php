@@ -14,15 +14,8 @@ class Comments extends CI_Controller{
         $movie_id = $this->input->post('movie_id');
         $comment = $this->input->post('comment');
         $user = $this->token->tokenIsValid($token);
-        if (is_numeric($user)){
-            if ($user == -1){
-                echo $this->statements->getJson(-1);
-                return;
-            }
-        }
-        $result = $this->comments->addComment($user, $movie_id, $comment);
-        header('Content-Type: application/json');
-        echo $this->statements->getJson($result);
+        $this->comments->addComment($user, $movie_id, $comment);
+
     }
     public function getComments($movie_id){
         header('Content-Type: application/json');
@@ -33,13 +26,9 @@ class Comments extends CI_Controller{
         $token = $this->input->post('token');
         $user_id = intval($this->token->tokenIsValid($token));
         $userRole = $this->user_model->getUserRoleById($user_id);
-        if ($user_id == -1){
-            $result = -1;
-        } else if ($userRole == 1){
-            $result = $this->comments->removeComment($comment_id);
+        if ($userRole == 1){
+           $this->comments->removeComment($comment_id);
         }
-        header('Content-Type: application/json');
-        echo $this->statements->getJson($result);
     }
 
 }
