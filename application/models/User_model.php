@@ -255,4 +255,12 @@ class User_model extends CI_Model
         $querry = $this->db->get()->result()[0]->Nick;
         return $querry;
     }
+
+    public function getUserRoleById($userId){
+        $this->db->select('RoleId');
+        $this->db->from('users');
+        $this->db->where('UserId', $userId);
+        $querry = $this->db->get()->result()[0]->RoleId;
+        return $querry;
+    }
 }
