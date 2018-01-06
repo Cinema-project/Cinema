@@ -42,7 +42,7 @@ class Update_model extends CI_Model {
       $title = $details->title;
       $vote = $details->vote_average;
       $premiere = $details->release_date;
-      $trailer = $this->themoviedb->getTrailerPath('Pl', $id);
+      $trailer = $this->themoviedb->getTrailerPath('Pl', $id)[0];
       $popularity = $details->popularity;
       $runtime = $details->runtime;
 

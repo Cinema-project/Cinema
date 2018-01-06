@@ -192,18 +192,6 @@ CREATE TABLE IF NOT EXISTS `tmdbmovies` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Struktura tabeli dla tabeli `upcomming`
---
-
-DROP TABLE IF EXISTS `upcomming`;
-CREATE TABLE IF NOT EXISTS `upcomming` (
-  `id_movie` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id_movie`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `users`
 --
 
@@ -257,12 +245,6 @@ ALTER TABLE `favorites`
 ALTER TABLE `genres_movie`
   ADD CONSTRAINT `genres_movie_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`),
   ADD CONSTRAINT `genres_movie_ibfk_3` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`);
-
---
--- Ograniczenia dla tabeli `upcomming`
---
-ALTER TABLE `upcomming`
-  ADD CONSTRAINT `upcomming_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
 -- Ograniczenia dla tabeli `users`
