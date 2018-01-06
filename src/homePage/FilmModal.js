@@ -18,6 +18,20 @@ export default class FilmModal extends Component{
     }
   }
 
+  componentWillMount= () => {
+      apiClient
+        .get(`index.php?/Home/getTrailerPath/PL/${this.props.id}`)
+        .then(response => {
+          console.log(response);
+          this.setState({
+            url: response.data[0]
+          })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+  }
+
   componentDidMount = () => {
     apiClient
       .get(`index.php/Home/getMovieDetails/PL/${this.props.id}`)
@@ -37,28 +51,97 @@ export default class FilmModal extends Component{
         console.log(error);
       });
 
-      apiClient
-        .get(`index.php?/Home/getTrailerPath/PL/${this.props.id}`)
-        .then(response => {
-          console.log(response);
-          this.setState({
-            url: response.data[0]
-          })
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      
+  }
+
+  getCategory = e =>{
+    console.log(e);
+    if(e == 28){
+      return "Akcja";
+    }
+
+    if(e == 12){
+      return "Przygodowy";
+    }
+
+    if(e== 16){
+      return "Animacja";
+    }
+
+    if(e == 35){
+      return "Komedia";
+    }
+
+    if(e == 80){
+      return "Kryminał";
+    }
+
+    if(e == 99){
+      return "Dokumentalny";
+    }
+
+    if(e == 18){
+      return "Dramat";
+    }
+
+    if(e == 10751){
+      return "Familijny";
+    }
+
+    if(e == 14){
+      return "Fantasy";
+    }
+
+    if(e == 36){
+      return "Historyczny";
+    }
+
+    if(e == 27){
+      return "Horror";
+    }
+
+    if(e == 10402){
+      return "Muzyczny";
+    }
+
+    if(e == 9648){
+      return  "Tajemnica";
+    }
+
+    if(e == 10749){
+      return "Romans";
+    }
+
+    if(e == 878){
+      return "Sci-Fi";
+    }
+
+    if(e == 10770){
+      return  "film TV";
+    }
+
+    if(e == 53){
+      return "Thriller";
+    }
+
+    if(e == 10752){
+      return "Wojenny";
+    }
+
+    if(e == 37){
+      return "Western";
+    }
   }
 
   render(){
     var url = this.state.url;
     if(url !== undefined){
-      url = url.replace("watch?v=", "embed/");
+    url = url.replace("watch?v=", "embed/");
 
     }
-    if(this.state.budget === 0){
+    if(this.state.time == 0){
       this.setState({
-        budget: "nieznany"
+        time: "nieznany"
       })
     }
 
@@ -76,10 +159,8 @@ export default class FilmModal extends Component{
         allowFullScreen
       />
       <Details className="col-md-3" style={{float: "right", marginRight: "5vw"}}>
-        {this.state.time}min <br/>
-        Budżet: {this.state.budget}$ <br/>
-        Gatunek: {this.state.genre} <br/>
-        Produkcja: {this.state.production} <br/>
+        {this.state.time} min <br/>
+        Gatunek: {this.getCategory(this.state.genre)} <br/>
         Premiera: {this.state.date}
       </Details>
     </div>

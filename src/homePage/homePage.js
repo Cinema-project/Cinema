@@ -24,7 +24,7 @@ class homePage extends Component {
 
   componentWillMount = () => {
     Modal.setAppElement("body");
-    const rand = Math.floor(1 + Math.random() * 100);
+    const rand = Math.floor(1 + Math.random() * 20);
     const rand2 = Math.floor(1+Math.random()*6);
     apiClient
       .get(`index.php?/Home/getPopular/PL/${rand}/${rand2}`)

@@ -4,6 +4,8 @@ import styled from "styled-components"
 import Modal from "react-modal";
 import FilmModal from "../homePage/FilmModal"
 import Button from "../user-interface/Button"
+import ReactImageFallback from "react-image-fallback"
+import loaderImage from "../images/loader.GIF"
 
 export default class FilmView extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ export default class FilmView extends Component {
 
   componentWillMount = () => {
     const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
+    
     //const path = `index.php?/Home/getMovies/PL/`;
     apiClient
       .get(path)
@@ -40,9 +43,10 @@ export default class FilmView extends Component {
       });
   }
 
-  componentWillReceiveProps = () => {
-  //const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
-    const path = `index.php?/Home/getMovies/PL/`;
+  componentWillReceiveProps = (nextProps) => {
+    const path = `index.php?/Home/getMovies/PL/${nextProps.categoryId}/${nextProps.pageNumber}`;
+    console.log(nextProps.pageNumber);
+    console.log(nextProps.categoryId);
     this.setState({
       title: [],
       poster: [],
@@ -53,6 +57,7 @@ export default class FilmView extends Component {
     apiClient
       .get(path)
       .then(response => {
+        console.log(response);
         {response.data.results.map(r =>
           this.setState(previousState =>({
             title: [...previousState.title, r.title],
@@ -66,7 +71,7 @@ export default class FilmView extends Component {
         console.log(error);
       });
   }
-
+  
   toogleModal = number => {
     this.setState({
       isModalActive: !this.state.isModalActive,
@@ -121,11 +126,17 @@ export default class FilmView extends Component {
         </Modal>
         <div className="row">
           <div className="col-md-2" style={{marginTop: "4vh"}}>
-            <img className="img-responsive" src={this.state.poster[i]} alt="logo"/>
+            <ReactImageFallback
+                  src={this.state.poster[i]}
+                  fallbackImage={loaderImage}
+                  initialImage={loaderImage}
+                  className="img-responsive"
+
+                />
           </div>
           <Title className="col-md-6">{this.state.title[i]}</Title>
           <Rating className="col-md-2">{this.state.rating[i]}</Rating>
-          <Star className="col-md-2" onMouseOver={this.mouseOver.bind(this)} onMouseOut={this.mouseOut.bind(this)}>
+          <Star className="col-md-2" onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut.bind(this,i)}>
             {this.showStar()}
           </Star>
         </div>
