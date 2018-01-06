@@ -74,6 +74,7 @@ class TheMovieDB extends CI_Model {
     } else {
       //$more = htmlentities($more);
     }
+    ini_set('max_execution_time', 0);
     $url = $this->urlData . $question . '?api_key=' . $this->authKeyV3 . $more;
     $result = file_get_contents( $url );
     return $result == NULL ? 'Can not find a url: ' . $url : $result ;
@@ -280,7 +281,7 @@ class TheMovieDB extends CI_Model {
         $result[] = 'https://www.youtube.com/watch?v=' . $item->key;
       }
     }
-    return json_encode($result);
+    return $result;
   }
   /**
    * Obsada i ekipa filmu
