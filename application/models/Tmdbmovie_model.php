@@ -8,16 +8,18 @@
 
 class Tmdbmovie_model extends CI_Model
 {
-    private $id;
-    private $title;
-    private $description;
-    private $popularity;
-    private $poster;
-    private $trailer;
-    private $voteAverage;
-    private $premierDate;
+    public $id;
+    public $title;
+    public $description;
+    public $popularity;
+    public $poster;
+    public $trailer;
+    public $voteAverage;
+    public $premierDate;
+    public $runtime;
 
-    private $genresList = array();
+    public $genresList = array();
+    public $eventList = array();
     /**
      * Tmdbmovie_model constructor.
      * @param $id
@@ -26,36 +28,53 @@ class Tmdbmovie_model extends CI_Model
     {
         if($id != null) {
             $sql = "SELECT * FROM tmdbmovies WHERE MovieID = ?";
-            $tmdbMovie = $this->db->query($sql, $id)->result_array()[0];
+            $tmdbMovie = $this->db->query($sql, $id)->result_array();
             if(!empty($tmdbMovie))
             {
-                $this->setTmdbMovie($tmdbMovie);
+                $this->setTmdbMovie($tmdbMovie[0]);
             }
-            $sql = "SELECT id_genre FROM genres_movies WHERE id_movie = ?";
-            $genres = $this->db->query($sql, $id)->result_array();
-            foreach ($genres as $genre) {
-                $this->genresList[] = $genre;
-            }
-
         }
+    }
+
+    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere, $runtime){
+      $this->setId($id);
+      $this->setTitle($title);
+      $this->setDescription($description);
+      $this->setPopularity($popularity);
+      $this->setPoster($poster);
+      $this->setTrailer($trailer);
+      $this->setVoteAverage($vote);
+      $this->setPremierDate($premiere);
+      $this->runtime = $runtime;
     }
 
     public function save()
     {
-        if ($this->title != null && $this->description != null && $this->popularity != null && $this->poster != null
-            && $this->trailer != null && $this->voteAverage != null && $this->premierDate != null)
+        if ( $this->id != null && $this->title != null)
         {
             $data = array(
+                'MovieID' => $this->id,
                 'Title' => $this->title,
                 'Description' => $this->description,
                 'Popularity' => $this->popularity,
                 'Poster' => $this->poster,
                 'Trailer' => $this->trailer,
                 'vote_average' => $this->voteAverage,
-                'Premiere_date' => $this->premierDate
+                'Premiere_date' => $this->premierDate,
+                'runtime' => $this->runtime
         );
             $this->db->insert('tmdbmovies', $data);
         }
+    }
+
+    public function getByTitle($title){
+      return $this->db->get_where('tmdbmovies', array('Title' => $title))->result();
+    }
+
+    public function insertToGenresMovies($genre, $movie){
+        $data = array('id_movie' => $movie,
+            'id_genre' => $genre);
+        $this->db->insert('genres_movie', $data);
     }
 
     /**
@@ -186,14 +205,35 @@ class Tmdbmovie_model extends CI_Model
         $this->premierDate = $premierDate;
     }
 
-    private function setTmdbMovie($tmdbMovie)
+    public function exist($id){
+      $query = $this->db->get_where('tmdbmovies', array('MovieID' => $id ));
+      $count = $query->num_rows();
+      if ($count === 0) {
+          return false;
+      } else {
+        return true;
+      }
+    }
+
+    public function setTmdbMovie($tmdbMovie)
     {
-        $this->id = $tmdbMovie[0]['MovieID'];
-        $this->title = $tmdbMovie[0]['Title'];
-        $this->description = $tmdbMovie[0]['Description'];
-        $this->popularity = $tmdbMovie[0]['Popularity'];
-        $this->Trailer = $tmdbMovie[0]['Trailer'];
-        $this->voteAverage = $tmdbMovie[0]['vote_average'];
-        $this->premierDate = $tmdbMovie[0]['Premiere_date'];
+        $this->id = $tmdbMovie['MovieID'];
+        $this->title = $tmdbMovie['Title'];
+        $this->description = $tmdbMovie['Description'];
+        $this->popularity = $tmdbMovie['Popularity'];
+        $this->trailer = $tmdbMovie['Trailer'];
+        $this->poster = $tmdbMovie['Poster'];
+        $this->voteAverage = $tmdbMovie['vote_average'];
+        $this->premierDate = $tmdbMovie['Premiere_date'];
+        $this->runtime = $tmdbMovie['runtime'];
+
+        $sql = "SELECT id_genre FROM genres_movie WHERE id_movie = ?";
+        $genres = $this->db->query($sql, $this->id)->result_array();
+        foreach ($genres as $genre) {
+          $this->genresList[] = $genre['id_genre'];
+        }
+
+        $sql = "SELECT events.time, cinemas.name AS cinema, cinemas.locationEW, cinemas.locationNS, events.link FROM events JOIN cinemas ON events.id_cinema = cinemas.id_cinema JOIN cinemamovies ON cinemamovies.movie_id = events.movie_id WHERE cinemamovies.tmdbmovie_id = ?";
+        $this->eventList = $this->db->query($sql, $this->id)->result_array();
     }
 }

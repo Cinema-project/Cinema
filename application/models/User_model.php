@@ -52,10 +52,43 @@ class User_model extends CI_Model
 
 	}
 
+    public function insertIntoFavorites($user, $movie){
+        $data = array('AccountID' => $user,
+            'MovieId' => $movie);
+        $this->db->insert('favorites', $data);
+    }
 
+    public function selectFromFavorites($userId = null){
+        if ($userId != null)
+        {
+            $sql = "SELECT MovieId FROM favorites WHERE AccountId = ?";
+            $favorites = $this->db->query($sql, $userId)->result_array();
+            foreach ($favorites as $favorite) {
+                $this->favorites[] = new Tmdbmovie_model($favorite);
+            }
+        }
+    }
+
+    public function removeFromFavorites($userId = null, $movieId = null){
+        if ($userId != null && $movieId != null)
+        {
+            $this->db->where('AccountId', $userId);
+            $this->db->where('MovieId', $movieId);
+            $this->db->delete('favorites');
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
+    }
 	/**
 	 * @return mixed
 	 */
+
 	public function getId()
 	{
 		return $this->id;

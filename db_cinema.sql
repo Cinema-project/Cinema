@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 09 Gru 2017, 23:02
+-- Czas generowania: 18 Gru 2017, 18:16
 -- Wersja serwera: 10.1.28-MariaDB
 -- Wersja PHP: 7.1.10
 
@@ -21,7 +21,8 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `db_cinema`
 --
-CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+drop database if exists `db_cinema`;
+CREATE DATABASE IF NOT EXISTS `db_cinema` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 USE `db_cinema`;
 
 -- --------------------------------------------------------
@@ -33,11 +34,11 @@ USE `db_cinema`;
 DROP TABLE IF EXISTS `cinemamovies`;
 CREATE TABLE IF NOT EXISTS `cinemamovies` (
   `movie_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `tmdbmovie_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`movie_id`),
   KEY `cinemamovies_ibfk_1` (`tmdbmovie_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -47,13 +48,27 @@ CREATE TABLE IF NOT EXISTS `cinemamovies` (
 
 DROP TABLE IF EXISTS `cinemas`;
 CREATE TABLE IF NOT EXISTS `cinemas` (
-  `id_cinema` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `id_cinema` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `locationEW` double NOT NULL,
   `locationNS` double NOT NULL,
   PRIMARY KEY (`id_cinema`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `config`
+--
+
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE IF NOT EXISTS `config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -64,13 +79,13 @@ CREATE TABLE IF NOT EXISTS `cinemas` (
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE IF NOT EXISTS `events` (
   `id_event` int(11) NOT NULL AUTO_INCREMENT,
-  `time` time NOT NULL,
+  `time` timestamp NOT NULL,
   `id_cinema` int(11) NOT NULL,
   `movie_id` int(11) NOT NULL,
+  `link` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_event`),
-  UNIQUE KEY `id_cinema` (`id_cinema`),
-  KEY `id_movie` (`movie_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `movie_id` (`movie_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -107,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `favorites` (
   `MovieId` int(11) NOT NULL,
   KEY `fk_Favorites_Movies1_idx` (`MovieId`),
   KEY `fk_Favorites_Accounts1` (`AccountId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -118,11 +133,10 @@ CREATE TABLE IF NOT EXISTS `favorites` (
 DROP TABLE IF EXISTS `genres`;
 CREATE TABLE IF NOT EXISTS `genres` (
   `id_genre` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id_genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10771 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- --------------------------------------------------------
 
 --
 -- Struktura tabeli dla tabeli `genres_movie`
@@ -132,11 +146,9 @@ DROP TABLE IF EXISTS `genres_movie`;
 CREATE TABLE IF NOT EXISTS `genres_movie` (
   `id_movie` int(11) NOT NULL,
   `id_genre` int(11) NOT NULL,
-  PRIMARY KEY (`id_movie`),
-  KEY `id_genre` (`id_genre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+  KEY `id_genre` (`id_genre`),
+  KEY `id_movie` (`id_movie`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Struktura tabeli dla tabeli `roles`
@@ -145,11 +157,11 @@ CREATE TABLE IF NOT EXISTS `genres_movie` (
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `RoleId` int(11) NOT NULL,
-  `Name` varchar(45) NOT NULL,
+  `Name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`RoleId`),
   UNIQUE KEY `RoleId_UNIQUE` (`RoleId`),
   UNIQUE KEY `Name_UNIQUE` (`Name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Zrzut danych tabeli `roles`
@@ -167,18 +179,17 @@ INSERT INTO `roles` (`RoleId`, `Name`) VALUES
 
 DROP TABLE IF EXISTS `tmdbmovies`;
 CREATE TABLE IF NOT EXISTS `tmdbmovies` (
-  `MovieID` int(11) NOT NULL AUTO_INCREMENT,
-  `Title` varchar(255) NOT NULL,
-  `Description` text NOT NULL,
-  `Popularity` int(11) NOT NULL,
-  `Poster` text NOT NULL,
-  `Trailer` text NOT NULL,
-  `vote_average` double NOT NULL,
-  `Premiere_date` date NOT NULL,
-  PRIMARY KEY (`MovieID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
+  `MovieID` int(11) NOT NULL,
+  `Title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `Description` text COLLATE utf8_unicode_ci,
+  `Popularity` int(11) DEFAULT NULL,
+  `Poster` text COLLATE utf8_unicode_ci,
+  `Trailer` text COLLATE utf8_unicode_ci,
+  `vote_average` double DEFAULT NULL,
+  `Premiere_date` date DEFAULT NULL,
+  `runtime` int(11) DEFAULT NULL,
+  KEY `MovieID` (`MovieID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Struktura tabeli dla tabeli `upcomming`
@@ -188,7 +199,7 @@ DROP TABLE IF EXISTS `upcomming`;
 CREATE TABLE IF NOT EXISTS `upcomming` (
   `id_movie` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id_movie`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -199,15 +210,15 @@ CREATE TABLE IF NOT EXISTS `upcomming` (
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
-  `Email` varchar(254) NOT NULL,
-  `Nick` varchar(45) NOT NULL,
-  `Password` varchar(255) NOT NULL,
+  `Email` varchar(254) COLLATE utf8_unicode_ci NOT NULL,
+  `Nick` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `Password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `RoleId` int(11) NOT NULL,
-  `Avatar` text,
+  `Avatar` text COLLATE utf8_unicode_ci,
   PRIMARY KEY (`UserId`),
   UNIQUE KEY `AccountName_UNIQUE` (`Email`),
   KEY `fk_Accounts_Roles1_idx` (`RoleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Zrzut danych tabeli `users`
@@ -219,7 +230,9 @@ INSERT INTO `users` (`UserId`, `Email`, `Nick`, `Password`, `RoleId`, `Avatar`) 
 (3, 'Jan', 'Janusz', '$2y$10$MIIt1b9om9EEPvGYkZd08uwjElyS6.vn8iE/r4VtopwSFWNCoSYxa', 2, NULL),
 (4, 'Adam', 'adam', '$2y$10$WCp2.yuzRn4MA9IGin4J8ufga0G/0pUZyIj4OZLZmIumn75Y3WWZi', 2, NULL),
 (5, 'Bartek', 'Barto', '$2y$10$sow.mC0Tg6tTv6exZn0vLuM3i5yT4DBDOsHXHVPq.V0ITdc057h9q', 2, NULL),
-(6, 'qweqrq@qwqerqr.pl', 'nick', '$2y$10$7cHt.jaMM0KwB12SmxvpNu0pciFcpUp3HZQeSX1V1TmhMUQz9Piju', 1, NULL);
+(6, 'qweqrq@qwqerqr.pl', 'nick', '$2y$10$7cHt.jaMM0KwB12SmxvpNu0pciFcpUp3HZQeSX1V1TmhMUQz9Piju', 1, NULL),
+(7, 'mateusz.sedkowski@gmail.com', 'Mateusz', '$2y$10$RyhwnVVxQYo00y7h61WFPOjxbWArGrxpZznK0R5TbleWN4P5MGLmO', 2, NULL),
+(8, 'b.ujazdowski@gmail.com', 'Bartek', '$2y$10$7cHt.jaMM0KwB12SmxvpNu0pciFcpUp3HZQeSX1V1TmhMUQz9Piju', 1, NULL);
 
 --
 -- Ograniczenia dla zrzutów tabel
@@ -232,31 +245,18 @@ ALTER TABLE `cinemamovies`
   ADD CONSTRAINT `cinemamovies_ibfk_1` FOREIGN KEY (`tmdbmovie_id`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
--- Ograniczenia dla tabeli `events`
---
-ALTER TABLE `events`
-  ADD CONSTRAINT `events_ibfk_1` FOREIGN KEY (`id_cinema`) REFERENCES `cinemas` (`id_cinema`),
-  ADD CONSTRAINT `events_ibfk_2` FOREIGN KEY (`movie_id`) REFERENCES `cinemamovies` (`movie_id`);
-
---
 -- Ograniczenia dla tabeli `favorites`
 --
 ALTER TABLE `favorites`
-  ADD CONSTRAINT `fk_Favorites_Accounts1` FOREIGN KEY (`AccountId`) REFERENCES `users` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_Favorites_Movies1` FOREIGN KEY (`MovieId`) REFERENCES `tmdbmovies` (`MovieID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`MovieId`) REFERENCES `tmdbmovies` (`MovieID`),
+  ADD CONSTRAINT `fk_Favorites_Accounts1` FOREIGN KEY (`AccountId`) REFERENCES `users` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Ograniczenia dla tabeli `genres_movie`
 --
 ALTER TABLE `genres_movie`
-  ADD CONSTRAINT `genres_movie_ibfk_1` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`),
-  ADD CONSTRAINT `genres_movie_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`);
-
---
--- Ograniczenia dla tabeli `tmdbmovies`
---
-ALTER TABLE `tmdbmovies`
-  ADD CONSTRAINT `tmdbmovies_ibfk_1` FOREIGN KEY (`MovieID`) REFERENCES `moviestmdb_events` (`id_movie_tmdb`);
+  ADD CONSTRAINT `genres_movie_ibfk_2` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`),
+  ADD CONSTRAINT `genres_movie_ibfk_3` FOREIGN KEY (`id_movie`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
 -- Ograniczenia dla tabeli `upcomming`

@@ -1,7 +1,7 @@
 <?php
 require_once('class/Movie.php');
 /**
-* Klasa jest czêœciowym wraperem dla API strony Multikina
+* Klasa jest czï¿½ï¿½ciowym wraperem dla API strony Multikina
 * @link https://apibeta.multikino.pl/
 */
 class Multikino extends CI_Model {
@@ -10,18 +10,27 @@ class Multikino extends CI_Model {
   }
  /**
   * @method getXMLFilePath
-  * @return string Zwraca œcie¿kê do pliku XML z repertuarem
+  * @return string Zwraca ï¿½cieï¿½kï¿½ do pliku XML z repertuarem
   */
   private function getXMLFilePath(){
     return 'https://apibeta.multikino.pl/repertoire.xml';
   }
   /**
-  * Pobiera repertuar ze strony
+  * @method getXMLFilms
+  * @return string Zwraca Å›cieÅ¼kÄ™ do pliku XML z filmami
+  */
+  private function getXMLFilms(){
+    return 'https://apibeta.multikino.pl/xml/filmsxml';
+  }
+  /**
+  * Pobiera repertuar ze strony.
+  * Funkcja moÅ¼e trwaÄ‡ 3 minuty
   * @method getXML
   * @param  string   $url  link do strony
   * @return string         zwraca repertuar w formacie XML
   */
   private function getXML($url){
+    ini_set('max_execution_time', 180);
     return simplexml_load_string( file_get_contents($url) , 'SimpleXMLElement', LIBXML_NOCDATA );
   }
   /**
@@ -38,7 +47,7 @@ class Multikino extends CI_Model {
   * Pobiera repertuar dla konkretnego kina z zakresu czasu w formacie XML
   * @method getXMLByDateAndID
   * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
-  * @param    string    $dateFrom pocz¹tek okresu (format yyyymmdd)
+  * @param    string    $dateFrom poczï¿½tek okresu (format yyyymmdd)
   * @param    string    $dateTo   koniec okresu (format yyyymmdd)
   * @param    int       $id       id kina
   * @return   string              zwraca repertuar w formacie XML
@@ -47,30 +56,75 @@ class Multikino extends CI_Model {
     return $this->getXML( $this->getXMLFilePath() . '?cinema_id=' . $id . 'date_from=' . $dateFrom . 'date_to' . $dateTo );
   }
   /**
-  * Pobiera repertuar dla konkretnego kina w formacie JSON
+  * Pobiera repertuar dla konkretnego kina
   * @method getCinemaRepertoire
   * @see INFORMACJA_O_PLIKACH_XML_MULTIKINO.pdf
-  * @param    int       $id       id kina
-  * @return   string              zwraca repertuar kin w formacie JSON
+  * @return array zwraca repertuar kin sieci Multikino oraz datÄ™ ostatniej aktualizacji
   */
-  public function getCinemaRepertoire($id){
-    $xml = $this->getXMLByCinemaId($id)->children();
+  public function getCinemaRepertoire(){
+    $xml = $this->getXML($this->getXMLFilePath());
+    $result = array();
+    $result['created'] = $xml->attributes()->created->__toString();
+    $result['movies'] = $this->xmlToArray($xml->children());
+    return $result;
+  }
+  /**
+   * Pobiera filmy grane obecnie w Multikinie
+   * @method getCinemaFilms
+   * @return array tablica filmÃ³w w poolu 'movies' oraz data ostatniej aktualizacji w polu 'created'
+   */
+  public function getCinemaFilms(){
+    $xml = $this->getXML($this->getXMLFilms());
+    $movies = array();
+    $movies['created'] = $xml->attributes()->created->__toString();
+    $movies['movies'] = $this->xmlFilmsToArray($xml->children());
+    return $movies;
+  }
+/**
+ * Konwertuje dane filmÃ³w w postaci XML do tablicy
+ * @method xmlFilmsToArray
+ * @param XML $xml XML z filmami
+ * @return array tablica filmÃ³w
+ */
+  private function xmlFilmsToArray($xml){
+    $movies = array();
+    foreach ($xml as $movie) {
+      $child = $movie->children();
+      $id = $child->id->__toString();
+      $title = $child->title->__toString();
+      $description = $child->description->__toString();
+      $runtime = $child->runtime->__toString();
+      $country = $child->country->__toString();
+      $premiere = $child->{'premiere-date'}->__toString();
+      $movies[] = array('id' => $id,
+                          'title' => $title,
+                          'description' => $description,
+                          'runtime' => $runtime,
+                          'country' => $country,
+                          'premierDate' => $premiere);
+    }
+    return $movies;
+  }
+  /**
+   * Konwertuje XML z repertuarem do tablicy
+   * @method xmlToArray
+   * @param XML $xml XML z repertuarem
+   * @return array tablica repertuaru
+   */
+  private function xmlToArray($xml){
     $movies = array();
     foreach ($xml->children() as $movie) {
       $child = $movie->children();
-      $id = $child->film_id;
-      $title = $child->film_title;
-      $time = $child->event_time;
-      $version = $child->version_name;
-      $reservation_link = $child->direct_link;
-      $movies[] = new Movie($id, $title, $time, $version, $reservation_link);
+      $id = $child->movie_id->__toString();
+      $title = $child->film_title->__toString();
+      $time = $child->event_time->__toString();
+      $version = $child->version_name->__toString();
+      $reservation_link = $child->direct_link->__toString();
+      $cinemaId = $child->ig_cinema_id->__toString();
+      $release = $child->release_date->__toString();
+      $movies[] = (new Movie($id, $title, $time, $version, $reservation_link, $cinemaId, $release))->toArray();
     }
-    $result = '{"movies":[';
-    foreach ($movies as $movie) {
-      $result .= $movie->toJson() . ', ';
-    }
-    $result = substr($result, 0, -2) . ']}';
-    return $result;
+    return $movies;
   }
 }
 ?>
