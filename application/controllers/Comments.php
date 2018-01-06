@@ -14,8 +14,9 @@ class Comments extends CI_Controller{
         $movie_id = $this->input->post('movie_id');
         $comment = $this->input->post('comment');
         $user = $this->token->tokenIsValid($token);
-        $this->comments->addComment($user, $movie_id, $comment);
-
+        if ($user != -1) {
+          $this->comments->addComment($user, $movie_id, $comment);
+        }
     }
     public function getComments($movie_id){
         header('Content-Type: application/json');
