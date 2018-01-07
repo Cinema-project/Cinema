@@ -36,7 +36,7 @@
             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                 <i class="icon-ellipsis-vertical"></i>
             </a>
-            <a class="brand" href="../index.html">API Documentation</a>
+            <a class="brand" href="../index.html">Cinema</a>
 
             <div class="nav-collapse">
                 <ul class="nav pull-right">
@@ -59,12 +59,12 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">301</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">332</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="../reports/markers.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">0</span>
                                 </a>
                             </li>
                             <li>
@@ -103,6 +103,8 @@
                                                                                                     <li><a href="#config\routes.php"><i class="icon-file"></i> config\routes.php</a></li>
                                                                                                     <li><a href="#config\smileys.php"><i class="icon-file"></i> config\smileys.php</a></li>
                                                                                                     <li><a href="#config\user_agents.php"><i class="icon-file"></i> config\user_agents.php</a></li>
+                                                                                                    <li><a href="#controllers\Comments.php"><i class="icon-file"></i> controllers\Comments.php</a></li>
+                                                                                                    <li><a href="#controllers\Favorites.php"><i class="icon-file"></i> controllers\Favorites.php</a></li>
                                                                                                     <li><a href="#controllers\Home.php"><i class="icon-file"></i> controllers\Home.php</a></li>
                                                                                                     <li><a href="#controllers\Login.php"><i class="icon-file"></i> controllers\Login.php</a></li>
                                                                                                     <li><a href="#controllers\Update.php"><i class="icon-file"></i> controllers\Update.php</a></li>
@@ -113,6 +115,7 @@
                                                                                                     <li><a href="#models\Cinemas_model.php"><i class="icon-file"></i> models\Cinemas_model.php</a></li>
                                                                                                     <li><a href="#models\class\Movie.php"><i class="icon-file"></i> models\class\Movie.php</a></li>
                                                                                                     <li><a href="#models\class\tmdbMovie.php"><i class="icon-file"></i> models\class\tmdbMovie.php</a></li>
+                                                                                                    <li><a href="#models\Comments_model.php"><i class="icon-file"></i> models\Comments_model.php</a></li>
                                                                                                     <li><a href="#models\Config_model.php"><i class="icon-file"></i> models\Config_model.php</a></li>
                                                                                                     <li><a href="#models\Event_model.php"><i class="icon-file"></i> models\Event_model.php</a></li>
                                                                                                     <li><a href="#models\Genre_model.php"><i class="icon-file"></i> models\Genre_model.php</a></li>
@@ -503,6 +506,73 @@
                                         <td>error</td>
                                         <td>0</td>
                                         <td>No summary was found for this file</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="controllers\Comments.php" id="controllers\Comments.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            controllers\Comments.php
+                            <small style="float: right;padding-right: 10px;">3</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>4</td>
+                                        <td>No summary for class \Comments</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>6</td>
+                                        <td>No summary for method __construct()</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
+                                            <a name="controllers\Favorites.php" id="controllers\Favorites.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            controllers\Favorites.php
+                            <small style="float: right;padding-right: 10px;">2</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>11</td>
+                                        <td>No summary for method __construct()</td>
                                     </tr>
                                                             </tbody>
                             </table>
@@ -1279,6 +1349,97 @@
                         </div>
                                     </div>
                             <div class="package-contents">
+                                            <a name="models\Comments_model.php" id="models\Comments_model.php"></a>
+                        <h3>
+                            <i class="icon-file"></i>
+                            models\Comments_model.php
+                            <small style="float: right;padding-right: 10px;">14</small>
+                        </h3>
+                        <div>
+                            <table class="table markers table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Line</th>
+                                    <th>Description</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>0</td>
+                                        <td>No summary was found for this file</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>15</td>
+                                        <td>No summary for method getFormat()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>19</td>
+                                        <td>Argument $user_id is missing from the Docblock of addComment</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>19</td>
+                                        <td>Argument $movie_id is missing from the Docblock of addComment</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>19</td>
+                                        <td>Argument $comment is missing from the Docblock of addComment</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>19</td>
+                                        <td>No summary for method addComment()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>27</td>
+                                        <td>Argument $movie_id is missing from the Docblock of getCommentsByMovieID</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>27</td>
+                                        <td>No summary for method getCommentsByMovieID()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>36</td>
+                                        <td>Argument $comment_id is missing from the Docblock of removeComment</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>36</td>
+                                        <td>No summary for method removeComment()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>10</td>
+                                        <td>No summary for property $user_id</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>11</td>
+                                        <td>No summary for property $movie_id</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>12</td>
+                                        <td>No summary for property $comment</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>13</td>
+                                        <td>No summary for property $date</td>
+                                    </tr>
+                                                            </tbody>
+                            </table>
+                        </div>
+                                    </div>
+                            <div class="package-contents">
                                             <a name="models\Config_model.php" id="models\Config_model.php"></a>
                         <h3>
                             <i class="icon-file"></i>
@@ -1339,7 +1500,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             models\Event_model.php
-                            <small style="float: right;padding-right: 10px;">25</small>
+                            <small style="float: right;padding-right: 10px;">26</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -1383,72 +1544,77 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>46</td>
-                                        <td>No summary for method save()</td>
+                                        <td>29</td>
+                                        <td>No summary for method removeOldEvent()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
                                         <td>60</td>
+                                        <td>No summary for method save()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>74</td>
                                         <td>No summary for method getEventId()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>66</td>
+                                        <td>80</td>
                                         <td>No summary for method getTime()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>71</td>
+                                        <td>85</td>
                                         <td>Argument $time is missing from the Docblock of setTime</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>71</td>
+                                        <td>85</td>
                                         <td>No summary for method setTime()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>76</td>
+                                        <td>90</td>
                                         <td>No summary for method getIdCinema()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>80</td>
+                                        <td>94</td>
                                         <td>Argument $id_cinema is missing from the Docblock of setIdCinema</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>80</td>
+                                        <td>94</td>
                                         <td>No summary for method setIdCinema()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>85</td>
+                                        <td>99</td>
                                         <td>No summary for method getIdMovie()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>89</td>
+                                        <td>103</td>
                                         <td>Argument $id_movie is missing from the Docblock of setIdMovie</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>89</td>
+                                        <td>103</td>
                                         <td>No summary for method setIdMovie()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>95</td>
+                                        <td>109</td>
                                         <td>Argument $event is missing from the Docblock of setEvent</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>95</td>
+                                        <td>109</td>
                                         <td>No summary for method setEvent()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>102</td>
+                                        <td>116</td>
                                         <td>No summary for method getRepertoire()</td>
                                     </tr>
                                                                     <tr>
@@ -1813,12 +1979,12 @@
                                     </tr>
                                                                     <tr>
                                         <td>notice</td>
-                                        <td>111</td>
+                                        <td>112</td>
                                         <td>Parameter $sort could not be found in getMovies()</td>
                                     </tr>
                                                                     <tr>
                                         <td>notice</td>
-                                        <td>111</td>
+                                        <td>112</td>
                                         <td>Parameter $year could not be found in getMovies()</td>
                                     </tr>
                                                             </tbody>
@@ -2163,7 +2329,7 @@
                         <h3>
                             <i class="icon-file"></i>
                             models\User_model.php
-                            <small style="float: right;padding-right: 10px;">31</small>
+                            <small style="float: right;padding-right: 10px;">42</small>
                         </h3>
                         <div>
                             <table class="table markers table-bordered">
@@ -2192,108 +2358,163 @@
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>59</td>
+                                        <td>55</td>
+                                        <td>Argument $user is missing from the Docblock of insertIntoFavorites</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>55</td>
+                                        <td>Argument $movie is missing from the Docblock of insertIntoFavorites</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>55</td>
+                                        <td>No summary for method insertIntoFavorites()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>61</td>
+                                        <td>Argument $userId is missing from the Docblock of getFavoritesById</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>61</td>
+                                        <td>No summary for method getFavoritesById()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>71</td>
+                                        <td>Argument $userId is missing from the Docblock of removeFromFavorites</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>71</td>
+                                        <td>Argument $movieId is missing from the Docblock of removeFromFavorites</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>71</td>
+                                        <td>No summary for method removeFromFavorites()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>83</td>
+                                        <td>No summary for method getFavorites()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>91</td>
                                         <td>No summary for method getId()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>67</td>
+                                        <td>99</td>
                                         <td>No summary for method getEmail()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>75</td>
+                                        <td>107</td>
                                         <td>No summary for method setEmail()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>87</td>
+                                        <td>119</td>
                                         <td>No summary for method getNick()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>95</td>
+                                        <td>127</td>
                                         <td>No summary for method setNick()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>103</td>
+                                        <td>135</td>
                                         <td>No summary for method getPassword()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>111</td>
+                                        <td>143</td>
                                         <td>No summary for method setPassword()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>119</td>
+                                        <td>151</td>
                                         <td>No summary for method getRole()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>127</td>
+                                        <td>159</td>
                                         <td>No summary for method setRole()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>135</td>
+                                        <td>167</td>
                                         <td>No summary for method getAvatar()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>143</td>
+                                        <td>175</td>
                                         <td>No summary for method setAvatar()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>148</td>
+                                        <td>180</td>
                                         <td>Argument $email is missing from the Docblock of checkLoginAndPassword</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>148</td>
+                                        <td>180</td>
                                         <td>Argument $password is missing from the Docblock of checkLoginAndPassword</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>148</td>
+                                        <td>180</td>
                                         <td>No summary for method checkLoginAndPassword()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>157</td>
+                                        <td>189</td>
                                         <td>No summary for method checkUniqueLoginAndNick()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>200</td>
+                                        <td>232</td>
                                         <td>Argument $user is missing from the Docblock of setUser</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>200</td>
+                                        <td>232</td>
                                         <td>No summary for method setUser()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>211</td>
+                                        <td>243</td>
                                         <td>Argument $email is missing from the Docblock of getUserId</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>211</td>
+                                        <td>243</td>
                                         <td>No summary for method getUserId()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>218</td>
+                                        <td>250</td>
                                         <td>Argument $email is missing from the Docblock of getUserNick</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
-                                        <td>218</td>
+                                        <td>250</td>
                                         <td>No summary for method getUserNick()</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>258</td>
+                                        <td>Argument $userId is missing from the Docblock of getUserRoleById</td>
+                                    </tr>
+                                                                    <tr>
+                                        <td>error</td>
+                                        <td>258</td>
+                                        <td>No summary for method getUserRoleById()</td>
                                     </tr>
                                                                     <tr>
                                         <td>error</td>
@@ -2633,7 +2854,7 @@
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on December 29th, 2017 at 15:29.
+                    on January 7th, 2018 at 11:09.
                 </section>
             </section>
         </section>
