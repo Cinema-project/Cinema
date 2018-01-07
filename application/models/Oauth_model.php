@@ -2,20 +2,46 @@
 
 require_once('Facebook/autoload.php');
 
+class MyPersistentDataHandler implements Facebook\PersistentData\PersistentDataInterface {
+  public function __construct(){
+    $this->data = array();
+  }
+
+  private $data = array();
+
+  /**
+   * Get a value from a persistent data store.
+   *
+   * @param string $key
+   *
+   * @return mixed
+   */
+  public function get($key){
+    return isset($this->data[$key]) ? $this->data[$key] : null;
+  }
+
+  /**
+   * Set a value in the persistent data store.
+   *
+   * @param string $key
+   * @param mixed  $value
+   */
+  public function set($key, $value){
+    $this->data[$key] = $value;
+  }
+}
+
 class Oauth_model extends CI_Model {
 
   private $appId = '336960786712721';
   private $appSecret = '7e90ee09172c91422bda26408d62d590';
 
   public function login(){
-    if (!session_id()) {
-    session_start();
-}
     $fb = new Facebook\Facebook([
       'app_id' => $this->appId, // Replace {app-id} with your app id
       'app_secret' => $this->appSecret,
       'default_graph_version' => 'v2.2',
-      'persistent_data_handler'=>'session'
+      'persistent_data_handler'=>'memory'
       ]);
 
     $helper = $fb->getRedirectLoginHelper();
@@ -27,14 +53,14 @@ class Oauth_model extends CI_Model {
   }
 
   public function callback(){
-    if (!session_id()) {
-    session_start();
-}
+    $state = $this->input->get('state');
+    $persistent = new MyPersistentDataHandler();
+    $persistent->set('state', $state);
     $fb = new Facebook\Facebook([
       'app_id' => $this->appId, // Replace {app-id} with your app id
       'app_secret' => $this->appSecret,
       'default_graph_version' => 'v2.2',
-      'persistent_data_handler'=>'session'
+      'persistent_data_handler'=> $persistent
       ]);
 
     $helper = $fb->getRedirectLoginHelper();
@@ -46,7 +72,7 @@ class Oauth_model extends CI_Model {
       echo 'Graph returned an error: ' . $e->getMessage();
       exit;
     } catch(Facebook\Exceptions\FacebookSDKException $e) {
-      // When validation fails or other local issues
+      // When validation fails or other local
       echo 'Facebook SDK returned an error: ' . $e->getMessage();
       exit;
     }
