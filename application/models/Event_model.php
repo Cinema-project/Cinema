@@ -25,6 +25,13 @@ class Event_model extends CI_Model
 	public function setLink($link){
 		$this->link = $link;
 	}
+
+	public function removeOldEvent()
+	{
+		$actualDate = date("Y-m-d H:i:s");
+		$this->db->where('time <', $actualDate);
+		$this->db->delete('events');
+	}
 	/**
 	 * Pobiera filmy grane w Multikinie
 	 * @method getNowPlaying
@@ -33,14 +40,21 @@ class Event_model extends CI_Model
 	 * @return array filmy
 	 */
 	public function getNowPlaying($count, $page){
-		return $this->db->select('tmdbmovies.*, events.movie_id')->
+		$query = $this->db->select('tmdbmovies.*, events.movie_id')->
 											from('events')->
 											join('cinemamovies', 'events.movie_id = cinemamovies.movie_id')->
 											join('tmdbmovies', 'cinemamovies.tmdbmovie_id = tmdbmovies.MovieID')->
 											group_by('events.movie_id')->
 											limit($count, $page*$count)->
 											get()->
-											result();
+											result_array();
+			$result = array();
+			foreach ($query as $movie) {
+					$movieModel = new Tmdbmovie_model();
+					$movieModel->setTmdbMovie($movie);
+					$result[] = $movieModel;
+			}
+			return $result;
 	}
 
 	public function save()

@@ -42,7 +42,7 @@ class Update_model extends CI_Model {
       $title = $details->title;
       $vote = $details->vote_average;
       $premiere = $details->release_date;
-      $trailer = $this->themoviedb->getTrailerPath('Pl', $id);
+      $trailer = $this->themoviedb->getTrailerPath('Pl', $id)[0];
       $popularity = $details->popularity;
       $runtime = $details->runtime;
 
@@ -192,12 +192,15 @@ class Update_model extends CI_Model {
      */
     public function updateCinemaRepertoire($repertoire){
       if ($this->c->checkIfUpdate('CINEMA_REPERTOIRE_UPDATE', $repertoire['created'])){
+        $this->event->removeOldEvent();
         return 'Repertoire is up to date';
       }
 
-      ini_set('max_execution_time', 300);
+      ini_set('max_execution_time', 0);
 
       $this->load->model('event_model', 'event');
+      $this->db->truncate('events');
+
       foreach ($repertoire['movies'] as $event) {
         $this->event->setTime($event['time']);
         $this->event->setIdMovie($event['movieId']);
