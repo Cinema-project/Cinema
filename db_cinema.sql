@@ -222,9 +222,28 @@ INSERT INTO `users` (`UserId`, `Email`, `Nick`, `Password`, `RoleId`, `Avatar`) 
 (7, 'mateusz.sedkowski@gmail.com', 'Mateusz', '$2y$10$RyhwnVVxQYo00y7h61WFPOjxbWArGrxpZznK0R5TbleWN4P5MGLmO', 2, NULL),
 (8, 'b.ujazdowski@gmail.com', 'Bartek', '$2y$10$7cHt.jaMM0KwB12SmxvpNu0pciFcpUp3HZQeSX1V1TmhMUQz9Piju', 1, NULL);
 
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `movie_id` int(11) NOT NULL,
+  `comment` text CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`comment_id`),
+  KEY `user_id` (`user_id`),
+  KEY `movie_id` (`movie_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 --
 -- Ograniczenia dla zrzutów tabel
 --
+
+--
+-- Ograniczenia dla tabeli `comments`
+--
+ALTER TABLE `comments`
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`UserId`),
+  ADD CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`movie_id`) REFERENCES `tmdbmovies` (`MovieID`);
 
 --
 -- Ograniczenia dla tabeli `cinemamovies`
