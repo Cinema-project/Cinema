@@ -36,6 +36,10 @@ class Oauth_model extends CI_Model {
   private $appId = '336960786712721';
   private $appSecret = '7e90ee09172c91422bda26408d62d590';
 
+/**
+ * Przekierowuje do logowania za pomocą facebooka
+ * @method login
+ */
   public function login(){
     $fb = new Facebook\Facebook([
       'app_id' => $this->appId, // Replace {app-id} with your app id
@@ -54,6 +58,10 @@ class Oauth_model extends CI_Model {
     //echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
   }
 
+  /**
+   * @method callback
+   * @return string zwraca dane do logowania do aplikacji
+   */
   public function callback(){
     $state = $this->input->get('state');
     $persistent = new MyPersistentDataHandler();
@@ -123,8 +131,10 @@ class Oauth_model extends CI_Model {
     /*  echo '<h3>Long-lived</h3>';
       var_dump($accessToken->getValue());*/
     }
-
-    return $this->logInToApp($accessToken->getValue(), $tokenMetadata->getField('user_id'));
+    $fb->setDefaultAccessToken($accessToken->getValue());
+    $response = $fb->get('/me?locale=en_US&fields=name,email');
+    $userNode = $response->getGraphUser();
+    return $this->logInToApp($accessToken->getValue(), $userNode->getField('email'), $userNode->getField('name'));
 
     //$_SESSION['fb_access_token'] = (string) $accessToken;
 
@@ -139,21 +149,22 @@ class Oauth_model extends CI_Model {
    * Jeżeli nie to najpierw go dodajemy do bazy. Pole email to userID.
    * @method logInToApp description
    * @param string $facebookAccessToken  access token dla facebooka
-   * @param int $userId id usera na facebooku
+   * @param string $email email usera na facebooku
+   * @param string $name nazwa usera na facebooku
    * @return string Zwraca token w formacie json
    */
-  public function logInToApp($facebookAccessToken, $userId){
+  public function logInToApp($facebookAccessToken, $email, $name){
     $this->load->model('user_model', 'user');
-    $query = $this->user->getUserByEmail($userId);
+    $query = $this->user->getUserByEmail($email);
     if ( count($query) == 0 ){
-      $this->user->setEmail($userId);
-      $this->user->setNick($userId);
+      $this->user->setEmail($email);
+      $this->user->setNick($name);
       $this->user->setPassword('NoPassword');
       $this->user->save();
     }
     $this->load->model('token');
-    $status = array('token' => $this->token->generateToken($this->user->getUserId($userId)),
-                      'status' => $this->user->getUserNick($userId));
+    $status = array('token' => $this->token->generateToken($this->user->getUserId($email)),
+                      'status' => $this->user->getUserNick($email));
     return $status;
   }
 
