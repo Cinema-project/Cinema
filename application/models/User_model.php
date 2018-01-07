@@ -262,4 +262,11 @@ class User_model extends CI_Model
         $querry = $this->db->get()->result()[0]->RoleId;
         return $querry;
     }
+		public function getUserByEmail($email){
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where('email', $email);
+			$querry = $this->db->get()->result();
+			return $querry;
+		}
 }

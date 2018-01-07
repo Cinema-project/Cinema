@@ -48,7 +48,10 @@ class Oauth_model extends CI_Model {
 
     $permissions = ['email', 'public_profile']; // Optional permissions
     $loginUrl = $helper->getLoginUrl('http://localhost/Cinema/index.php/OAuth/fb_callback', $permissions);
-
+    $this->load->helper('url');
+    $url = htmlspecialchars($loginUrl);
+    //header("Location: " . $url);
+    //redirect(htmlspecialchars($loginUrl));
     echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
   }
 
@@ -92,16 +95,16 @@ class Oauth_model extends CI_Model {
     }
 
     // Logged in
-    echo '<h3>Access Token</h3>';
-    var_dump($accessToken->getValue());
+    /*echo '<h3>Access Token</h3>';
+    var_dump($accessToken->getValue());*/
 
     // The OAuth 2.0 client handler helps us manage access tokens
     $oAuth2Client = $fb->getOAuth2Client();
 
     // Get the access token metadata from /debug_token
     $tokenMetadata = $oAuth2Client->debugToken($accessToken);
-    echo '<h3>Metadata</h3>';
-    var_dump($tokenMetadata);
+  /*  echo '<h3>Metadata</h3>';
+    var_dump($tokenMetadata);*/
 
     // Validation (these will throw FacebookSDKException's when they fail)
     $tokenMetadata->validateAppId($this->appId); // Replace {app-id} with your app id
@@ -118,9 +121,11 @@ class Oauth_model extends CI_Model {
         exit;
       }
 
-      echo '<h3>Long-lived</h3>';
-      var_dump($accessToken->getValue());
+    /*  echo '<h3>Long-lived</h3>';
+      var_dump($accessToken->getValue());*/
     }
+
+    return $this->logInToApp($accessToken->getValue(), $tokenMetadata->getField('user_id'));
 
     //$_SESSION['fb_access_token'] = (string) $accessToken;
 
@@ -134,12 +139,23 @@ class Oauth_model extends CI_Model {
    * Jeżeli tak to logujemy go.
    * Jeżeli nie to najpierw go dodajemy do bazy. Pole email to userID.
    * @method logInToApp description
-   * @param string $facebookAccessToken [description]
-   * @param int $userId              [description]
+   * @param string $facebookAccessToken  access token dla facebooka
+   * @param int $userId id usera na facebooku
    * @return string Zwraca token w formacie json
    */
   public function logInToApp($facebookAccessToken, $userId){
-
+    $this->load->model('user_model', 'user');
+    $query = $this->user->getUserByEmail($userId);
+    if ( count($query) == 0 ){
+      $this->user->setEmail($userId);
+      $this->user->setNick($userId);
+      $this->user->setPassword('NoPassword');
+      $this->user->save();
+    }
+    $this->load->model('token');
+    $status = array('token' => $this->token->generateToken($this->user->getUserId($userId)),
+                      'status' => $this->user->getUserNick($userId));
+    return $status;
   }
 
 }

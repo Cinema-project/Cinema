@@ -12,7 +12,8 @@
     }
 
     public function fb_callback() {
-      $this->oauth->callback();
+      header('Content-Type: application/json');
+  		echo json_encode($this->oauth->callback());
     }
   }
 
