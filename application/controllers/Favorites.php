@@ -14,6 +14,14 @@ class Favorites extends CI_Controller{
         $this->load->model('Businesslogic', 'logic');
     }
 
+    /**
+     * Pobieranie ulubionych filmow
+     * Przykład użycia: http://localhost/Cinema/index.php/Favorites/getFavorites/
+     *
+     * @method getFavorites
+     * @POST token
+     * @return string zwraca ulubione w formacie JSON
+     */
     public function getFavorites() {
         $token = $this->input->post('token');
         $user_id = $this->token->tokenIsValid($token);
@@ -27,6 +35,13 @@ class Favorites extends CI_Controller{
         }
     }
 
+    /**
+     * Dodanie do ulubionych
+     * Przykład użycia: http://localhost/Cinema/index.php/Favorites/addFavoriteMovie/401
+     * @POST token
+     * @method addFavoriteMovie
+     * @@param $movie_id id fulmu
+     */
     public function addFavoriteMovie($movie_id){
         $token = $this->input->post('token');
         $user = $this->token->tokenIsValid($token);
@@ -35,6 +50,13 @@ class Favorites extends CI_Controller{
         }
     }
 
+    /**
+     * Usuwanie z ulubionych
+     * Przykład użycia: http://localhost/Cinema/index.php/Favorites/removeFavoriteMovie/401
+     * @POST token
+     * @method removeFavoriteMovie
+     * @@param $movie_id id filmu
+     */
     public function removeFavoriteMovie($movie_id){
         $token = $this->input->post('token');
         $user_id = intval($this->token->tokenIsValid($token));
