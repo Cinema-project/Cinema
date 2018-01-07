@@ -40,7 +40,7 @@ class Favorites extends CI_Controller{
      * Przykład użycia: http://localhost/Cinema/index.php/Favorites/addFavoriteMovie/401
      * @POST token
      * @method addFavoriteMovie
-     * @@param $movie_id id fulmu
+     * @param int $movie_id id filmu
      */
     public function addFavoriteMovie($movie_id){
         $token = $this->input->post('token');
@@ -55,7 +55,7 @@ class Favorites extends CI_Controller{
      * Przykład użycia: http://localhost/Cinema/index.php/Favorites/removeFavoriteMovie/401
      * @POST token
      * @method removeFavoriteMovie
-     * @@param $movie_id id filmu
+     * @param int $movie_id id filmu
      */
     public function removeFavoriteMovie($movie_id){
         $token = $this->input->post('token');
