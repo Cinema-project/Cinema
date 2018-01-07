@@ -46,7 +46,7 @@ class Oauth_model extends CI_Model {
 
     $helper = $fb->getRedirectLoginHelper();
 
-    $permissions = ['email']; // Optional permissions
+    $permissions = ['email', 'public_profile']; // Optional permissions
     $loginUrl = $helper->getLoginUrl('http://localhost/Cinema/index.php/OAuth/fb_callback', $permissions);
 
     echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
@@ -122,11 +122,24 @@ class Oauth_model extends CI_Model {
       var_dump($accessToken->getValue());
     }
 
-    $_SESSION['fb_access_token'] = (string) $accessToken;
+    //$_SESSION['fb_access_token'] = (string) $accessToken;
 
     // User is logged in with a long-lived access token.
     // You can redirect them to a members-only page.
     //header('Location: https://example.com/members.php');
+  }
+
+  /**
+   * Funkcja sprawdza czy dany użytkownik istnieje w bazie.
+   * Jeżeli tak to logujemy go.
+   * Jeżeli nie to najpierw go dodajemy do bazy. Pole email to userID.
+   * @method logInToApp description
+   * @param string $facebookAccessToken [description]
+   * @param int $userId              [description]
+   * @return string Zwraca token w formacie json
+   */
+  public function logInToApp($facebookAccessToken, $userId){
+
   }
 
 }
