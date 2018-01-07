@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import apiClient from "../api-client";
 import Iframe from "react-iframe";
 import styled from "styled-components"
+import Comments from "./comments"
 
 export default class FilmModal extends Component{
   constructor(props){
@@ -12,13 +13,14 @@ export default class FilmModal extends Component{
       overview: "",
       budget: "",
       genre: "",
+      id: "",
       url: "",
       date: "",
       time: ""
     }
   }
 
-  componentWillMount= () => {
+ /* componentWillMount= () => {
       apiClient
         .get(`index.php?/Home/getTrailerPath/PL/${this.props.id}`)
         .then(response => {
@@ -30,21 +32,24 @@ export default class FilmModal extends Component{
         .catch(error => {
           console.log(error);
         });
-  }
+  }*/
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     apiClient
       .get(`index.php/Home/getMovieDetails/PL/${this.props.id}`)
       .then(response => {
         console.log("DETALE", response);
+        console.log(response.data.id)
         this.setState({
           title: response.data.title,
           overview: response.data.description,
           budget: response.data.budget,
           genre: response.data.genresList[0],
           //production: response.data.production_companies[0].name,
+          id: response.data.id,
           date: response.data.premierDate,
-          time: response.data.runtime
+          time: response.data.runtime,
+          url: response.data.trailer
         })
       })
       .catch(error => {
@@ -135,10 +140,10 @@ export default class FilmModal extends Component{
 
   render(){
     var url = this.state.url;
-    if(url !== undefined){
+    if(url !== undefined && url !== null){
     url = url.replace("watch?v=", "embed/");
 
-    }
+    }else if(url == " "){}
     if(this.state.time == 0){
       this.setState({
         time: "nieznany"
@@ -165,6 +170,7 @@ export default class FilmModal extends Component{
       </Details>
     </div>
       <Text className="col-md-6 col-md-offset-2">{this.state.overview}</Text>
+      <Comments idMovie={this.state.id}/>
       </div>
     </div>
     )
