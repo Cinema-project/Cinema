@@ -9,6 +9,16 @@ class Comments extends CI_Controller{
         $this->load->model('user_model');
     }
 
+    /**
+     * Dodawanie komentarza do filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/addComment/
+     *
+     * @method addComment
+     * @POST token
+     * @POST movie_id  id filmu
+     * @POST comment tresc komentarza
+     * @return boolean true jesli komentarz zostal dodany lub false jesli nie zostal dodany
+     */
     public function addComment(){
         $token = $this->input->post('token');
         $movie_id = $this->input->post('movie_id');
@@ -18,11 +28,28 @@ class Comments extends CI_Controller{
           $this->comments_model->addComment($user, $movie_id, $comment);
         }
     }
+
+    /**
+     * Pobiera komentarze do filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/getComments/401
+     *
+     * @method getComments
+     * @param int $movie_id   id filmu
+     * @return string zwraca listę komentarzy do konkretnego filmu w formacie JSON.
+     */
     public function getComments($movie_id){
         header('Content-Type: application/json');
         echo json_encode(array('results' => $this->comments_model->getCommentsByMovieID($movie_id) ));
     }
 
+    /**
+     * Usuwa komentarz
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/removeComment/1
+     *
+     * @method removeComment
+     * @param int $comment_id   id komentarza
+     * @return boolean true jesli komentarz zostal usuniety lub false jesli nie usunieto
+     */
     public function removeComment($comment_id){
         $token = $this->input->post('token');
         $user_id = intval($this->token->tokenIsValid($token));
