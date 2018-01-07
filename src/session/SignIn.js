@@ -86,7 +86,8 @@ export class SignIn extends React.Component {
           this.props.dispatch({
             type: "LOGIN",
             data: {
-              login: data.status
+              login: data.status,
+              token: data.token
             }
           });
         this.props.router.push("home_page");

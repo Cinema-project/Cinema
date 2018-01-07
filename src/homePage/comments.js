@@ -2,7 +2,9 @@ import React, {Component} from "react";
 import apiClient from "../api-client";
 import Input from "../user-interface/Input";
 import Button from "../user-interface/Button";
+import { connect } from "react-redux";
 var $ = require('jquery');
+
 class Comments extends Component{
   constructor(props){
     super(props);
@@ -14,7 +16,7 @@ class Comments extends Component{
         id: ""
     }
      this._handleSubmit = this._handleSubmit.bind(this);
-   
+
   }
 
   componentWillReceiveProps = () => {
@@ -39,7 +41,7 @@ class Comments extends Component{
         console.log(error);
       });
 
-      
+
   }
    updateComment = e => {
     this.setState({ commentText: e.target.value });
@@ -54,7 +56,7 @@ class Comments extends Component{
       //./index.php/Login/login
       type: 'POST',
       data: {
-        'token' : "Barto",
+        'token' : "Barto",   //Powinieneś móc wywołać sobie token za pomocą this.props.user.token
         'movie_id': this.state.id,
         'comment': this.state.comment
       },
@@ -84,9 +86,9 @@ class Comments extends Component{
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
             <br/>
             {this.state.comment[0]} <t/>
-            
+
             {this.state.nick[0]}  <t/>
-            
+
             {this.state.date[0]} <t/>
         </div>
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
@@ -96,7 +98,7 @@ class Comments extends Component{
               value={this.state.commentText}
               className="form-control"
               id="login"
-              
+
             />
             <Button style={{color: "red"}}
               onClick={event => {
@@ -111,4 +113,10 @@ class Comments extends Component{
   }
 }
 
-export default Comments;
+const mapStateToProps = state => {
+  return {
+    user: state.session.user
+  };
+};
+
+export default connect(mapStateToProps)(Comments);
