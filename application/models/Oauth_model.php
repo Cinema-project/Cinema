@@ -49,10 +49,9 @@ class Oauth_model extends CI_Model {
     $permissions = ['email', 'public_profile']; // Optional permissions
     $loginUrl = $helper->getLoginUrl('http://localhost/Cinema/index.php/OAuth/fb_callback', $permissions);
     $this->load->helper('url');
-    $url = htmlspecialchars($loginUrl);
-    //header("Location: " . $url);
-    //redirect(htmlspecialchars($loginUrl));
-    echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
+
+    redirect($loginUrl);
+    //echo '<a href="' . htmlspecialchars($loginUrl) . '">Log in with Facebook!</a>';
   }
 
   public function callback(){
