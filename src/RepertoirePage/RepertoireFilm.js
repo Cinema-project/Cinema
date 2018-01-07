@@ -105,7 +105,9 @@ export default class RepetoireFilm extends Component {
   }
 
   render() {
-    
+    if(this.isModalActive){
+      return null;
+    }
     return(
       <div>
         <div onClick = {this.toogleModal.bind(this,0)}>{this.viewFilm(0)}</div>

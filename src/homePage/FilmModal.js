@@ -34,7 +34,7 @@ export default class FilmModal extends Component{
         });
   }*/
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     apiClient
       .get(`index.php/Home/getMovieDetails/PL/${this.props.id}`)
       .then(response => {
@@ -56,7 +56,11 @@ export default class FilmModal extends Component{
         console.log(error);
       });
 
-      
+      if(this.state.time == 0){
+      this.setState({
+        time: "nieznany"
+      })
+    }
   }
 
   getCategory = e =>{
@@ -142,13 +146,8 @@ export default class FilmModal extends Component{
     var url = this.state.url;
     if(url !== undefined && url !== null){
     url = url.replace("watch?v=", "embed/");
-
     }else if(url == " "){}
-    if(this.state.time == 0){
-      this.setState({
-        time: "nieznany"
-      })
-    }
+    
 
     return(
       <div className="row">
