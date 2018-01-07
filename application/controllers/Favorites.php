@@ -12,6 +12,7 @@ class Favorites extends CI_Controller{
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('Businesslogic', 'logic');
+        $this->load->model('token');
     }
 
     /**
@@ -25,13 +26,14 @@ class Favorites extends CI_Controller{
     public function getFavorites() {
         $token = $this->input->post('token');
         $user_id = $this->token->tokenIsValid($token);
+        $result = array();
         if ($user_id != -1) {
             header('Content-Type: application/json');
-            $movies = array($this->user_model->getFavoritesById($user_id));
+            $movies = $this->user_model->getFavoritesById($user_id);
             foreach ($movies as $movie){
-            $result = (array('results' => $this->logic->getMovieDetails('PL', $movie[0]->MovieId)));
+              $result[] = $this->logic->getMovieDetails('PL', $movie->MovieId);
             }
-            echo json_encode ($result);
+            echo json_encode ( array('movies' => $result ));
         }
     }
 
