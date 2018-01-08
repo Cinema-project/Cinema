@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+/**
+ * Home
+ * Główny kontroler aplikacji
+ */
 class Home extends CI_Controller {
     /**
      * Konstruktor ładuje potrzebne modele oraz biblioteki

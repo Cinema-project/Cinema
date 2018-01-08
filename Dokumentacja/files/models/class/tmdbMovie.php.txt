@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * tmdbMovie
+ */
 class tmdbMovie {
   public $MovieID;
   public $Title;
@@ -10,6 +13,18 @@ class tmdbMovie {
   public $vote_average;
   public $Premiere_date;
   public $runtime;
+  /**
+   * @method __construct
+   * @param [type] $id    [description]
+   * @param [type] $title [description]
+   * @param [type] $des   [description]
+   * @param [type] $pop   [description]
+   * @param [type] $pos   [description]
+   * @param [type] $tra   [description]
+   * @param [type] $vote  [description]
+   * @param [type] $premi [description]
+   * @param [type] $time  [description]
+   */
   public function __construct($id, $title, $des, $pop, $pos, $tra, $vote, $premi, $time){
     $this->MovieID = $id;
     $this->Title = $title;

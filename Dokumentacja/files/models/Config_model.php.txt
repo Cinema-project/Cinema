@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Config_model - Konfiguracja aplikacji w tabeli config
+ */
 class Config_model extends CI_Model {
   /**
    * @method insert
@@ -59,6 +61,13 @@ class Config_model extends CI_Model {
     }
     return false;
   }
+  /**
+   * Sprawdza czy zmienna istnieje
+   * @method checkIfExist
+   * @param  string $name nazwa zmiennej
+   * @param  string $date data do sprawdzenia
+   * @return boolean czy istnieje
+   */
   public function checkIfExist($name, $date){
     $last_update = $this->get($name);
     if (count($last_update) != 0){

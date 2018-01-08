@@ -1,14 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+/**
+ * Login
+ * Kontroler logowania
+ */
 class Login extends CI_Controller {
 
+    /**
+     * @method __construct
+     */
     public function __construct() {
         parent :: __construct();
         $this->load->helper('url');
         $this->load->model('user_model');
         $this->load->model("token");
     }
+  /**
+   * @method login
+   * @return string token i nazwa użytkownika. Format JSON.
+   */
 	public function login() {
 		$email = $this->input->post('login');
 		$password = $this->input->post('password');
@@ -23,7 +34,10 @@ class Login extends CI_Controller {
 		header('Content-Type: application/json');
 		echo json_encode($status);
 	}
-
+  /**
+   * @method register
+   * @return string powodzenie lub rodzaj błędu. Format JSON.
+   */
 	public function register() {
 		$this->user_model->setEmail($this->input->post('login'));
 		$this->user_model->setNick($this->input->post('nick'));

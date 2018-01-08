@@ -1,6 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+/**
+ * Update_model
+ * Klasa aktualizuje dane w tabelach bazy
+ */
 class Update_model extends CI_Model {
+    /**
+     * Konstruktor - ładowanie potrzebnych modeli
+     * @method __construct
+     */
     public function __construct(){
       parent::__construct();
       $this->load->model('themoviedb');

@@ -7,6 +7,10 @@
  */
 class Comments_model extends CI_Model{
 
+    public function __construct(){
+        parent::__construct();
+    }
+
     public $user_id;
     public $movie_id;
     public $comment;
@@ -25,7 +29,7 @@ class Comments_model extends CI_Model{
         return $this->db->insert('comments', $this) ? true : false;
     }
     public function getCommentsByMovieID($movie_id){
-        $this->db->select('users.nick, comment, date');
+        $this->db->select('comment_id, users.nick, comment, date');
         $this->db->from('comments');
         $this->db->join('users', 'users.UserId = comments.user_id');
         $this->db->where('movie_id', $movie_id);
