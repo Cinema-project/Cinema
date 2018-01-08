@@ -1,4 +1,10 @@
 ###################
+Po instalacji
+###################
+Odpalamy www.example.com/index.php?/Update/update w celu uaktualnienia i zainicjowania bazy danych.
+Operacja ta może potrać nawet kilkanaście minut. 
+
+###################
 Jak dokumentować kod PHP
 ###################
 https://4programmers.net/PHP/Dokumentacja_kodu_PHP

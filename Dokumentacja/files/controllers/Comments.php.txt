@@ -1,0 +1,64 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *');
+class Comments extends CI_Controller{
+
+    function __construct(){
+        parent::__construct();
+        $this->load->model('comments_model');
+        $this->load->model('user_model');
+    }
+
+    /**
+     * Dodawanie komentarza do filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/addComment/
+     *
+     * @method addComment
+     * @POST token
+     * @POST movie_id  id filmu
+     * @POST comment tresc komentarza
+     * @return boolean true jesli komentarz zostal dodany lub false jesli nie zostal dodany
+     */
+    public function addComment(){
+        $token = $this->input->post('token');
+        $movie_id = $this->input->post('movie_id');
+        $comment = $this->input->post('comment');
+        $user = $this->token->tokenIsValid($token);
+        if ($user != -1) {
+          $this->comments_model->addComment($user, $movie_id, $comment);
+        }
+    }
+
+    /**
+     * Pobiera komentarze do filmu
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/getComments/401
+     *
+     * @method getComments
+     * @param int $movie_id   id filmu
+     * @return string zwraca listę komentarzy do konkretnego filmu w formacie JSON.
+     */
+    public function getComments($movie_id){
+        header('Content-Type: application/json');
+        echo json_encode(array('results' => $this->comments_model->getCommentsByMovieID($movie_id) ));
+    }
+
+    /**
+     * Usuwa komentarz
+     * Przykład użycia: http://localhost/Cinema/index.php/comments/removeComment/1
+     *
+     * @method removeComment
+     * @param int $comment_id   id komentarza
+     * @return boolean true jesli komentarz zostal usuniety lub false jesli nie usunieto
+     */
+    public function removeComment($comment_id){
+        $token = $this->input->post('token');
+        $user_id = intval($this->token->tokenIsValid($token));
+        $userRole = $this->user_model->getUserRoleById($user_id);
+        if ($userRole == 1){
+           $this->comments_model->removeComment($comment_id);
+        }
+    }
+
+}
+?>
+

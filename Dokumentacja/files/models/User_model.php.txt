@@ -52,10 +52,42 @@ class User_model extends CI_Model
 
 	}
 
+    public function insertIntoFavorites($user, $movie){
+        $data = array('AccountID' => $user,
+            'MovieId' => $movie);
+        $this->db->insert('favorites', $data);
+    }
 
+    public function getFavoritesById($userId){
+        if ($userId != null)
+        {
+            $this->db->select('MovieId');
+            $this->db->from('favorites');
+            $this->db->where('AccountId', $userId);
+            return $this->db->get()->result();
+        }
+    }
+
+    public function removeFromFavorites($userId = null, $movieId = null){
+        if ($userId != null && $movieId != null)
+        {
+            $this->db->where('AccountId', $userId);
+            $this->db->where('MovieId', $movieId);
+            $this->db->delete('favorites');
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getFavorites()
+    {
+        return $this->favorites;
+    }
 	/**
 	 * @return mixed
 	 */
+
 	public function getId()
 	{
 		return $this->id;
@@ -220,6 +252,14 @@ class User_model extends CI_Model
         $this->db->from('users');
         $this->db->where('Email', $email);
         $querry = $this->db->get()->result()[0]->Nick;
+        return $querry;
+    }
+
+    public function getUserRoleById($userId){
+        $this->db->select('RoleId');
+        $this->db->from('users');
+        $this->db->where('UserId', $userId);
+        $querry = $this->db->get()->result()[0]->RoleId;
         return $querry;
     }
 }

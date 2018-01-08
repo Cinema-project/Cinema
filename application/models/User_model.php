@@ -58,14 +58,13 @@ class User_model extends CI_Model
         $this->db->insert('favorites', $data);
     }
 
-    public function selectFromFavorites($userId = null){
+    public function getFavoritesById($userId){
         if ($userId != null)
         {
-            $sql = "SELECT MovieId FROM favorites WHERE AccountId = ?";
-            $favorites = $this->db->query($sql, $userId)->result_array();
-            foreach ($favorites as $favorite) {
-                $this->favorites[] = new Tmdbmovie_model($favorite);
-            }
+            $this->db->select('MovieId');
+            $this->db->from('favorites');
+            $this->db->where('AccountId', $userId);
+            return $this->db->get()->result();
         }
     }
 
@@ -255,4 +254,19 @@ class User_model extends CI_Model
         $querry = $this->db->get()->result()[0]->Nick;
         return $querry;
     }
+
+    public function getUserRoleById($userId){
+        $this->db->select('RoleId');
+        $this->db->from('users');
+        $this->db->where('UserId', $userId);
+        $querry = $this->db->get()->result()[0]->RoleId;
+        return $querry;
+    }
+		public function getUserByEmail($email){
+			$this->db->select('*');
+			$this->db->from('users');
+			$this->db->where('email', $email);
+			$querry = $this->db->get()->result();
+			return $querry;
+		}
 }

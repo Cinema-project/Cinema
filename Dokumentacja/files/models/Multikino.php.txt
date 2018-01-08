@@ -23,12 +23,14 @@ class Multikino extends CI_Model {
     return 'https://apibeta.multikino.pl/xml/filmsxml';
   }
   /**
-  * Pobiera repertuar ze strony
+  * Pobiera repertuar ze strony.
+  * Funkcja może trwać 3 minuty
   * @method getXML
   * @param  string   $url  link do strony
   * @return string         zwraca repertuar w formacie XML
   */
   private function getXML($url){
+    ini_set('max_execution_time', 180);
     return simplexml_load_string( file_get_contents($url) , 'SimpleXMLElement', LIBXML_NOCDATA );
   }
   /**
