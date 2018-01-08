@@ -1,13 +1,15 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *');
 /**
- * Created by PhpStorm.
- * User: Arek
- * Date: 06.01.2018
- * Time: 22:41
+ * Favorites
+ * Kontroler dodawania/usuwania/pobierania ulubionych filmów
  */
-
 class Favorites extends CI_Controller{
 
+    /**
+     * @method __construct
+     */
     function __construct(){
         parent::__construct();
         $this->load->model('user_model');

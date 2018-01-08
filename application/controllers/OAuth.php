@@ -1,5 +1,10 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
+header('Access-Control-Allow-Origin: *');
+  /**
+   * OAuth
+   * Kontroler logowania przez serwis Facebook
+   */
   class OAuth extends CI_Controller {
     public function __construct(){
       parent::__construct();

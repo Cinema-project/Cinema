@@ -1,7 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 header('Access-Control-Allow-Origin: *');
+/**
+ * Update
+ * Kontroler aktualizacji danych aplikacji
+ */
 class Update extends CI_Controller {
+  /**
+   * @method __construct konstruktor klasy
+   */
   public function __construct(){
     parent::__construct();
     $this->load->model('update_model');

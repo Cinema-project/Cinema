@@ -3,12 +3,12 @@
 class Cinemas_geocode_model extends CI_Model
 {
 		private $cinemasNumber;
-		
+
 		private $cinemaNameResult = array();
 		private $cinemaIdResult = array();
-		
+
 		private $cinemaDataResult = array();
-		
+
 		public function __construct()
 		{
 			$xml = $this->getXML($this->getXMLFilePath())->children();
@@ -20,20 +20,20 @@ class Cinemas_geocode_model extends CI_Model
 				$child = $a->children();
 				$cinemaName = $child->cinema_name;
 				$cinemaId = $child->ig_cinema_id;
-				
+
 				array_push($cinemaNameArray, $cinemaName);
 				array_push($cinemaIdArray, $cinemaId);
-				
+
 			}
 			$this->cinemaNameResult = array_unique($cinemaNameArray);//tworze tablice bez powtorzonych rekordow
 			$this->cinemaIdResult = array_unique($cinemaIdArray);
-			
+
 			$this->cinemaDataResult = array_combine($this->cinemaIdResult, $this->cinemaNameResult);//tworzy array , 1 parametr to klucze a 2 to wartosci
-			
+
 			//echo count($cinemaIdResult);
 			//echo count($cinemaNameResult);
 			$this->setCinemasNumber(count($this->cinemaIdResult));
-			
+
 			//print($this->cinemasNumber);
 			/*
 			foreach($this->cinemaDataResult as $cinemaId => $cinemaName)
@@ -42,12 +42,12 @@ class Cinemas_geocode_model extends CI_Model
 			}
 			*/
 		}
-		
+
 		private function setCinemasNumber($cinemasNumber)
 		{
 			$this->cinemasNumber = $cinemasNumber;
 		}
-		
+
 		private function getXMLFilePath()
 		{
 			return 'https://apibeta.multikino.pl/repertoire.xml?cinema_id=xx';
@@ -127,7 +127,7 @@ class Cinemas_geocode_model extends CI_Model
 				echo 'Blad serwera i polaczenia z baza danych'.$e;
 			}
 		}
-		
+
 		public function insertDataToDataBaseSingle()
 		{
 			//dane konifguracyjne do polaczenia z baza danych
@@ -158,7 +158,7 @@ class Cinemas_geocode_model extends CI_Model
 						if(!(in_array($cinemaName, $cinamasNameArray)))//jesli NIE znajdzie w tablicy
 						{
 							//$address = $cinemaName;
-							
+
 							//echo $address." ".',';
 							$this->insertDataCheck($cinemaId, $cinemaName, $polaczenie);
 						}
@@ -176,7 +176,7 @@ class Cinemas_geocode_model extends CI_Model
 				}
 				$polaczenie->close();
 			}
-			
+
 		}
 		private function insertDataCheck($idCinema, $address, $polaczenie)
 		{
