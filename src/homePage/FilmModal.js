@@ -34,7 +34,7 @@ export default class FilmModal extends Component{
         });
   }*/
 
-  componentDidMount = () => {
+  componentWillMount = () => {
     apiClient
       .get(`index.php/Home/getMovieDetails/PL/${this.props.id}`)
       .then(response => {
@@ -191,3 +191,4 @@ const Details = styled.div`
   font-size: 18px;
   color: rgb(198, 198, 184);
 `
+

@@ -99,14 +99,16 @@ class Comments extends Component{
               value={this.state.commentText}
               className="form-control"
               id="login"
-
+              placeholder="Wpisz komentarz"
             />
-            <Button style={{color: "red"}}
+            <div className="col-md-6 col-md-offset-10" style={{textAlign:"left", color: "red"}}>
+            <Button className="btn btn-primary" 
               onClick={event => {
                 this.onSubmit;
               }}
               label={"Dodaj"}
             />
+            </div>
           </form>
            </div>
       </div>

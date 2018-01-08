@@ -24,7 +24,6 @@ export default class RepetoireFilm extends Component {
   componentWillMount = () => {
     const path = `index.php/Home/getNowPlaying/20`;
     
-    //const path = `index.php?/Home/getMovies/PL/`;
     apiClient
       .get(path)
        .then(response => {
@@ -74,7 +73,7 @@ export default class RepetoireFilm extends Component {
     
     return(
       <Film className="col-md-8 col-md-offset-2" >
-        <Modal
+        <Modal 
           isOpen={this.state.isModalActive}
           onRequestClose={this.toogleModal}
           className="col-md-4 col-md-offset-4"
@@ -82,9 +81,9 @@ export default class RepetoireFilm extends Component {
           <Button
             onClick={this.closeModal}
             label={"X"}
-            style={{marginLeft: "98vw", color: "black"}}
+            style={{marginLeft: "80vw", color: "black"}}
           />
-          <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
+          <FilmModal  title={this.state.modalTitle} id={this.state.modalId}/>
         </Modal>
         <div className="row">
           <div className="col-md-2" style={{marginTop: "4vh"}}>
@@ -133,7 +132,7 @@ const Film = styled.div`
   background-color: rgba(30, 32, 32, 0.28);
   height: 31vh;
   margin-top: 5vh;
-
+  overflow: hidden;
   &:hover{
     cursor: pointer;
     background-color: rgba(93, 93, 93, 0.28);
@@ -153,10 +152,10 @@ const styledModal = {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(23, 23, 23, 0.99)"
+    backgroundColor: "rgba(23, 23, 23, 0.99)",
   },
   content: {
-    position: "fixed",
+    position: "absolute",
     top: "0px",
     left: "-35vw",
     right: "0px",
@@ -166,6 +165,10 @@ const styledModal = {
     outline: "none",
     height: "100%",
     width: "100%",
-    color: "rgb(201, 201, 201)"
+    color: "rgb(201, 201, 201)",
+    overflowY: "scroll",
+    overflowX: "hidden"
   }
+  
+  
 };
