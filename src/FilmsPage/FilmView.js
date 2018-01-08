@@ -24,7 +24,6 @@ export default class FilmView extends Component {
   componentWillMount = () => {
     const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
     
-    //const path = `index.php?/Home/getMovies/PL/`;
     apiClient
       .get(path)
        .then(response => {
@@ -83,6 +82,7 @@ export default class FilmView extends Component {
         this.setState({
           hover: true
         });
+        
     }
 
     mouseOut = () => {
@@ -125,7 +125,7 @@ export default class FilmView extends Component {
           <Button
             onClick={this.closeModal}
             label={"X"}
-            style={{marginLeft: "98vw", color: "black"}}
+            style={{marginLeft: "80vw", color: "black"}}
           />
           <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
         </Modal>
@@ -227,6 +227,8 @@ const styledModal = {
     outline: "none",
     height: "100%",
     width: "100%",
-    color: "rgb(201, 201, 201)"
+    color: "rgb(201, 201, 201)",
+    overflowY: "scroll",
+    overflowX: "hidden"
   }
 };

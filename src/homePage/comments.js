@@ -56,11 +56,12 @@ class Comments extends Component{
       //./index.php/Login/login
       type: 'POST',
       data: {
-        'token' : "Barto",   //Powinieneś móc wywołać sobie token za pomocą this.props.user.token
-        'movie_id': this.state.id,
-        'comment': this.state.comment
+        'token' : this.props.user.token,   //Powinieneś móc wywołać sobie token za pomocą this.props.user.token
+        'movie_id': 339877,
+        'comment': this.state.commentText
       },
       success: function(data) {
+        console.log(this.props.user.token);
        }.bind(this),
       error: function(xhr, status, err) {
         console.log(xhr, status);
@@ -79,17 +80,17 @@ class Comments extends Component{
     return(
       <div className = "container-fluid">
         <div className="col-md-4 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
-            Komentarz <t/>
-            Nick <t/>
-            Data <t/>
+            Komentarz 
+            Nick 
+            Data 
             </div>
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
             <br/>
-            {this.state.comment[0]} <t/>
+            {this.state.comment[0]} 
 
-            {this.state.nick[0]}  <t/>
+            {this.state.nick[0]}  
 
-            {this.state.date[0]} <t/>
+            {this.state.date[0]} 
         </div>
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
             <form onSubmit={this._handleSubmit}>
@@ -98,14 +99,16 @@ class Comments extends Component{
               value={this.state.commentText}
               className="form-control"
               id="login"
-
+              placeholder="Wpisz komentarz"
             />
-            <Button style={{color: "red"}}
+            <div className="col-md-6 col-md-offset-10" style={{textAlign:"left", color: "red"}}>
+            <Button className="btn btn-primary" 
               onClick={event => {
                 this.onSubmit;
               }}
               label={"Dodaj"}
             />
+            </div>
           </form>
            </div>
       </div>

@@ -24,7 +24,7 @@ class homePage extends Component {
 
   componentWillMount = () => {
     Modal.setAppElement("body");
-    const rand = Math.floor(1 + Math.random() * 20);
+    const rand = Math.floor(1 + Math.random() * 40);
     const rand2 = Math.floor(1+Math.random()*6);
     apiClient
       .get(`index.php?/Home/getPopular/PL/${rand}/${rand2}`)
@@ -71,7 +71,7 @@ class homePage extends Component {
             <Button
               onClick={this.closeModal}
               label={"X"}
-              style={{ marginLeft: "98vw", color: "black" }}
+              style={{ marginLeft: "80vw", color: "black" }}
             />
             <FilmModal title={this.state.modalTitle} id={this.state.modalId} />
           </Modal>
@@ -210,6 +210,8 @@ const styledModal = {
     outline: "none",
     height: "100%",
     width: "100%",
-    color: "rgb(201, 201, 201)"
+    color: "rgb(201, 201, 201)",
+    overflowY: "scroll",
+    overflowX: "hidden"
   }
 };
