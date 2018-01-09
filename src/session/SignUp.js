@@ -142,7 +142,7 @@ export class SignUp extends Component {
           }
           else if (this.state.loginCheck == "notExist") {
             callToast("Zarejestrowano, proszę się zalogować");
-            this.props.router.push("/");
+            this.props.modalClose();
           }
           else if (this.state.loginCheck == "Nick not unique") {
             callToast("Ten nick jest już zajęty!");
