@@ -11,8 +11,8 @@ export class RepetoireFilm extends Component {
     super(props);
     this.state = {
       films: [],
-      modalId: "",
-      hover: false
+      hover: false,
+      hoveredDivId: -1
     };
   }
 
@@ -22,7 +22,6 @@ export class RepetoireFilm extends Component {
     apiClient
       .get(path)
        .then(response => {
-         console.log("SPON", response);
          this.setState({
            films: response.data.movies
          })
@@ -43,26 +42,35 @@ export class RepetoireFilm extends Component {
     })
   }
 
-  mouseOver = () => {
+  mouseOver = i => {
         this.setState({
-          hover: true
+          hoveredDivId: i
         });
+
     }
 
     mouseOut = () => {
         this.setState({
-          hover: false
+          hoveredDivId: -1
         });
     }
 
-    closeModal = () => {
-      this.setState({
-        isModalActive: false
-      })
-    }
-
-    makeReservation = () => {
-      console.log("TICKET");
+    showTicket = i => {
+      if(this.state.hoveredDivId === i){
+        return(
+            <img
+            src={require("../images/ticketYellow.png")}
+            style={{ width: "200px" }}
+          />
+        )
+      }else{
+        return(
+          <img
+          src={require("../images/ticket.png")}
+          style={{ width: "200px" }}
+        />
+      )
+      }
     }
 
   viewFilm = i => {
@@ -79,12 +87,9 @@ export class RepetoireFilm extends Component {
                   />
             </div>
             <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{this.state.films[i].title}</Title>
-            <Ticket className="col-md-2" onClick={this.makeReservation}>
+            <Ticket className="col-md-2" id={i} onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut}>
               <a target="_blank" href={this.state.films[i].eventList[0].link}>
-                <img
-                  src={require("../images/ticket.png")}
-                  style={{ width: "200px" }}
-                />
+                {this.showTicket(i)}
               </a>
             </Ticket>
           </div>
@@ -94,7 +99,6 @@ export class RepetoireFilm extends Component {
   }
 
   render() {
-    console.log("FILMYYYY", this.state.films);
     return(
       <div>
         <div>{this.viewFilm(0)}</div>
@@ -126,13 +130,14 @@ const Ticket = styled.div`
 `
 
 const Film = styled.div`
-  background-color: rgba(30, 32, 32, 0.28);
+  background-color: rgba(13, 16, 18, 1);
+  border-radius: 15px;
   height: 31vh;
   margin-top: 5vh;
   overflow: hidden;
   &:hover{
     cursor: pointer;
-    background-color: rgba(93, 93, 93, 0.28);
+    background-color: rgba(40, 54, 68, 1);
   }
 `
 

@@ -16,7 +16,7 @@ export class FilmView extends Component {
       id: [],
       isModalActive: false,
       modalId: "",
-      hover: false
+      hoveredDivId: -1
     };
   }
 
@@ -77,35 +77,17 @@ export class FilmView extends Component {
     });
   };
 
-  mouseOver = () => {
+  mouseOver = i => {
         this.setState({
-          hover: true
+          hoveredDivId: i
         });
 
     }
 
     mouseOut = () => {
         this.setState({
-          hover: false
+          hoveredDivId: -1
         });
-    }
-
-    showStar = () => {
-        if(this.state.hover === false){
-          return(
-            <img
-              src={require("../images/whiteStar.png")}
-              style={{ width: "64px" }}
-            />
-          )
-        } else if(this.state.hover === true){
-          return(
-            <img
-              src={require("../images/yellowStar.png")}
-              style={{ width: "64px" }}
-            />
-          )
-        }
     }
 
     closeModal = () => {
@@ -123,6 +105,24 @@ export class FilmView extends Component {
       })
     }
 
+    showStar = i => {
+      if(this.state.hoveredDivId === i){
+        return(
+            <img
+            src={require("../images/yellowStar.png")}
+            style={{ width: "64px" }}
+          />
+        )
+      }else{
+        return(
+          <img
+          src={require("../images/whiteStar.png")}
+          style={{ width: "64px" }}
+        />
+      )
+      }
+    }
+
   viewFilm = i => {
     return(
       <Film className="col-md-8 col-md-offset-2">
@@ -138,8 +138,8 @@ export class FilmView extends Component {
           </div>
           <Title className="col-md-6" onClick = {this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
           <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this,i)}>{this.state.rating[i]}</Rating>
-          <Star className="col-md-2" onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut.bind(this,i)}>
-            {this.showStar()}
+          <Star className="col-md-2" id={i} onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut}>
+            {this.showStar(i)}
           </Star>
         </div>
       </Film>
@@ -178,13 +178,14 @@ export class FilmView extends Component {
 export default withRouter(FilmView);
 
 const Film = styled.div`
-  background-color: rgba(50, 52, 52, 0.28);
+  background-color: rgba(13, 16, 18, 1);
+  border-radius: 15px;
   height: 31vh;
   margin-top: 5vh;
-
+  overflow: hidden;
   &:hover{
     cursor: pointer;
-    background-color: rgba(93, 93, 93, 0.28);
+    background-color: rgba(40, 54, 68, 1);
   }
 `
 
