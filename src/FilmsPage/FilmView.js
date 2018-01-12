@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import apiClient from "../api-client";
 import styled from "styled-components"
 import { withRouter } from "react-router";
-import Modal from "react-modal";
-import FilmModal from "../homePage/FilmModal"
 import Button from "../user-interface/Button"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
@@ -128,18 +126,6 @@ export class FilmView extends Component {
   viewFilm = i => {
     return(
       <Film className="col-md-8 col-md-offset-2">
-        {/* <Modal
-          isOpen={this.state.isModalActive}
-          onRequestClose={this.toogleModal}
-          className="col-md-4 col-md-offset-4"
-          style={styledModal}>
-          <Button
-            onClick={this.closeModal}
-            label={"X"}
-            style={{marginLeft: "80vw", color: "black"}}
-          />
-          <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
-        </Modal> */}
         <div className="row">
           <div className="col-md-2" style={{marginTop: "4vh"}}>
             <ReactImageFallback

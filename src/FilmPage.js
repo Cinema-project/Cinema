@@ -1,9 +1,9 @@
 import React from "react"
 import styled from "styled-components";
 import { browserHistory } from 'react-router'
-import apiClient from "../api-client";
+import apiClient from "./api-client";
 import Iframe from "react-iframe";
-import Comments from "../homePage/comments"
+import Comments from "./homePage/comments"
 
 export default class FilmPage extends React.Component {
   constructor(props){
@@ -124,7 +124,7 @@ export default class FilmPage extends React.Component {
       <div>
         <Back className="col-md-1" onClick={browserHistory.goBack}>
           <img
-            src={require(`../images/back.png`)}
+            src={require(`./images/back.png`)}
             style={{ width: "64px" }}
           />
         </Back>
@@ -141,16 +141,16 @@ export default class FilmPage extends React.Component {
         />
         <Details className="col-md-3" style={{float: "right", marginRight: "5vw"}}>
           <img
-            src={require(`../images/time.png`)}
+            src={require(`./images/time.png`)}
             style={{ width: "40px", marginRight: "20px" }}
           />{this.state.filmDetails.runtime} min <br/><br/>
           <img
-            src={require(`../images/genres.png`)}
+            src={require(`./images/genres.png`)}
             style={{ width: "40px", marginRight: "20px" }}
           />
           {this.getCategory(this.state.genre)} <br/><br/>
           <img
-            src={require(`../images/premiere.png`)}
+            src={require(`./images/premiere.png`)}
             style={{ width: "40px", marginRight: "20px" }}
           />{this.state.filmDetails.premierDate}
         </Details>
@@ -182,7 +182,7 @@ const Title = styled.div`
 `
 
 const Text = styled.div`
-  font-size: 15px;
+  font-size: 18px;
   color: white;
   overflow: auto;
 `

@@ -8,7 +8,7 @@ import Announcements from "./AnnouncementsPage/Announcements"
 import Favourites from "./FavouritesPage/Favourites"
 import Films from "./FilmsPage/Films"
 import Layout from "./Layout"
-import FilmPage from "./FilmsPage/FilmPage"
+import FilmPage from "./FilmPage"
 
 class App extends Component {
   render() {
