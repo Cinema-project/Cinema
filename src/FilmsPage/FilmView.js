@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import apiClient from "../api-client";
 import styled from "styled-components"
+import { withRouter } from "react-router";
 import Modal from "react-modal";
 import FilmModal from "../homePage/FilmModal"
 import Button from "../user-interface/Button"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
 
-export default class FilmView extends Component {
+export class FilmView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +24,7 @@ export default class FilmView extends Component {
 
   componentWillMount = () => {
     const path = `index.php?/Home/getMovies/PL/${this.props.categoryId}/${this.props.pageNumber}`;
-    
+
     apiClient
       .get(path)
        .then(response => {
@@ -70,7 +71,7 @@ export default class FilmView extends Component {
         console.log(error);
       });
   }
-  
+
   toogleModal = number => {
     this.setState({
       isModalActive: !this.state.isModalActive,
@@ -82,7 +83,7 @@ export default class FilmView extends Component {
         this.setState({
           hover: true
         });
-        
+
     }
 
     mouseOut = () => {
@@ -108,16 +109,26 @@ export default class FilmView extends Component {
           )
         }
     }
+
     closeModal = () => {
       this.setState({
         isModalActive: false
       })
     }
 
+    openFilmPage = i => {
+      this.props.router.push({
+        pathname: 'film_page',
+        state:{
+          id: this.state.id[i]
+        }
+      })
+    }
+
   viewFilm = i => {
     return(
-      <Film className="col-md-8 col-md-offset-2" >
-        <Modal
+      <Film className="col-md-8 col-md-offset-2">
+        {/* <Modal
           isOpen={this.state.isModalActive}
           onRequestClose={this.toogleModal}
           className="col-md-4 col-md-offset-4"
@@ -128,7 +139,7 @@ export default class FilmView extends Component {
             style={{marginLeft: "80vw", color: "black"}}
           />
           <FilmModal title={this.state.modalTitle} id={this.state.modalId}/>
-        </Modal>
+        </Modal> */}
         <div className="row">
           <div className="col-md-2" style={{marginTop: "4vh"}}>
             <ReactImageFallback
@@ -152,33 +163,35 @@ export default class FilmView extends Component {
   render() {
     return(
       <div>
-        <div onClick = {this.toogleModal.bind(this,0)}>{this.viewFilm(0)}</div>
-        <div onClick = {this.toogleModal.bind(this,1)}>{this.viewFilm(1)}</div> 
-        <div onClick = {this.toogleModal.bind(this,2)}>{this.viewFilm(2)}</div>
-        <div onClick = {this.toogleModal.bind(this,3)}>{this.viewFilm(3)}</div>
-        <div onClick = {this.toogleModal.bind(this,4)}>{this.viewFilm(4)}</div>
-        <div onClick = {this.toogleModal.bind(this,5)}>{this.viewFilm(5)}</div>
-        <div onClick = {this.toogleModal.bind(this,6)}>{this.viewFilm(6)}</div>
-        <div onClick = {this.toogleModal.bind(this,7)}>{this.viewFilm(7)}</div>
-        <div onClick = {this.toogleModal.bind(this,8)}>{this.viewFilm(8)}</div>
-        <div onClick = {this.toogleModal.bind(this,9)}>{this.viewFilm(9)}</div>
-        <div onClick = {this.toogleModal.bind(this,10)}>{this.viewFilm(10)}</div>
-        <div onClick = {this.toogleModal.bind(this,11)}>{this.viewFilm(11)}</div>
-        <div onClick = {this.toogleModal.bind(this,12)}>{this.viewFilm(12)}</div>
-        <div onClick = {this.toogleModal.bind(this,13)}>{this.viewFilm(13)}</div>
-        <div onClick = {this.toogleModal.bind(this,14)}>{this.viewFilm(14)}</div>
-        <div onClick = {this.toogleModal.bind(this,15)}>{this.viewFilm(15)}</div>
-        <div onClick = {this.toogleModal.bind(this,16)}>{this.viewFilm(16)}</div>
-        <div onClick = {this.toogleModal.bind(this,17)}>{this.viewFilm(17)}</div>
-        <div onClick = {this.toogleModal.bind(this,18)}>{this.viewFilm(18)}</div>
+        <div onClick = {this.openFilmPage.bind(this,0)}>{this.viewFilm(0)}</div>
+        <div onClick = {this.openFilmPage.bind(this,1)}>{this.viewFilm(1)}</div>
+        <div onClick = {this.openFilmPage.bind(this,2)}>{this.viewFilm(2)}</div>
+        <div onClick = {this.openFilmPage.bind(this,3)}>{this.viewFilm(3)}</div>
+        <div onClick = {this.openFilmPage.bind(this,4)}>{this.viewFilm(4)}</div>
+        <div onClick = {this.openFilmPage.bind(this,5)}>{this.viewFilm(5)}</div>
+        <div onClick = {this.openFilmPage.bind(this,6)}>{this.viewFilm(6)}</div>
+        <div onClick = {this.openFilmPage.bind(this,7)}>{this.viewFilm(7)}</div>
+        <div onClick = {this.openFilmPage.bind(this,8)}>{this.viewFilm(8)}</div>
+        <div onClick = {this.openFilmPage.bind(this,9)}>{this.viewFilm(9)}</div>
+        <div onClick = {this.openFilmPage.bind(this,10)}>{this.viewFilm(10)}</div>
+        <div onClick = {this.openFilmPage.bind(this,11)}>{this.viewFilm(11)}</div>
+        <div onClick = {this.openFilmPage.bind(this,12)}>{this.viewFilm(12)}</div>
+        <div onClick = {this.openFilmPage.bind(this,13)}>{this.viewFilm(13)}</div>
+        <div onClick = {this.openFilmPage.bind(this,14)}>{this.viewFilm(14)}</div>
+        <div onClick = {this.openFilmPage.bind(this,15)}>{this.viewFilm(15)}</div>
+        <div onClick = {this.openFilmPage.bind(this,16)}>{this.viewFilm(16)}</div>
+        <div onClick = {this.openFilmPage.bind(this,17)}>{this.viewFilm(17)}</div>
+        <div onClick = {this.openFilmPage.bind(this,18)}>{this.viewFilm(18)}</div>
         <div>{this.viewFilm(19)}</div>
       </div>
     )
   }
 }
 
+export default withRouter(FilmView);
+
 const Film = styled.div`
-  background-color: rgba(30, 32, 32, 0.28);
+  background-color: rgba(50, 52, 52, 0.28);
   height: 31vh;
   margin-top: 5vh;
 

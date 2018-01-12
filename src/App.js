@@ -8,6 +8,7 @@ import Announcements from "./AnnouncementsPage/Announcements"
 import Favourites from "./FavouritesPage/Favourites"
 import Films from "./FilmsPage/Films"
 import Layout from "./Layout"
+import FilmPage from "./FilmsPage/FilmPage"
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
               <Route path="films" component={Films} />
               <Route path="find_cinema" component={FindCinema} />
             </Route>
+            <Route path="film_page" component={FilmPage} />
           </Route>
         </Router>
       </div>
