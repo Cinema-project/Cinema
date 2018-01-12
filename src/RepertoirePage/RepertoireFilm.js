@@ -10,11 +10,7 @@ export class RepetoireFilm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: [],
-      poster: [],
-      rating: [],
-      id: [],
-      isModalActive: false,
+      films: [],
       modalId: "",
       hover: false
     };
@@ -26,15 +22,10 @@ export class RepetoireFilm extends Component {
     apiClient
       .get(path)
        .then(response => {
-         console.log("FILMY REPER", response);
-         {response.data.movies.map(r =>
-           this.setState(previousState =>({
-             title: [...previousState.title, r.title],
-             poster: [...previousState.poster, r.poster],
-             rating: [...previousState.rating, r.voteAverage],
-             id: [...previousState.id, r.id]
-           }))
-         )}
+         console.log("SPON", response);
+         this.setState({
+           films: response.data.movies
+         })
       })
       .catch(error => {
         console.log(error);
@@ -47,7 +38,7 @@ export class RepetoireFilm extends Component {
     this.props.router.push({
       pathname: 'film_page',
       state:{
-        id: this.state.id[i]
+        id: this.state.films.id[i]
       }
     })
   }
@@ -75,33 +66,35 @@ export class RepetoireFilm extends Component {
     }
 
   viewFilm = i => {
-    return(
-      <Film className="col-md-8 col-md-offset-2">
-        <div className="row">
-          <div className="col-md-2" style={{marginTop: "4vh"}} onClick={this.openFilmPage.bind(this,i)}>
-            <ReactImageFallback
-                  src={this.state.poster[i]}
-                  fallbackImage={loaderImage}
-                  initialImage={loaderImage}
-                  className="img-responsive"
+    if(this.state.films.length > 0){
+      return(
+        <Film className="col-md-8 col-md-offset-2">
+          <div className="row">
+            <div className="col-md-2" style={{marginTop: "4vh"}} onClick={this.openFilmPage.bind(this,i)}>
+              <ReactImageFallback
+                    src={this.state.films[i].poster}
+                    fallbackImage={loaderImage}
+                    initialImage={loaderImage}
+                    className="img-responsive"
+                  />
+            </div>
+            <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{this.state.films[i].title}</Title>
+            <Ticket className="col-md-2" onClick={this.makeReservation}>
+              <a target="_blank" href={this.state.films[i].eventList[0].link}>
+                <img
+                  src={require("../images/ticket.png")}
+                  style={{ width: "200px" }}
                 />
+              </a>
+            </Ticket>
           </div>
-          <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
-          <Ticket className="col-md-2" onClick={this.makeReservation}>
-            <img
-              src={require("../images/ticketYellow.png")}
-              style={{ width: "200px" }}
-            />
-          </Ticket>
-        </div>
-      </Film>
-    )
+        </Film>
+      )
+    }
   }
 
   render() {
-    if(this.isModalActive){
-      return null;
-    }
+    console.log("FILMYYYY", this.state.films);
     return(
       <div>
         <div>{this.viewFilm(0)}</div>
@@ -173,6 +166,4 @@ const styledModal = {
     overflowY: "scroll",
     overflowX: "hidden"
   }
-
-
 };
