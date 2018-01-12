@@ -10,18 +10,6 @@ class Repertoire extends Component{
     };
   }
 
-  componentDidMount = () => {
-    console.log("MOUNT");
-    apiClient
-      .get("index.php/Home/getNowPlaying/40")
-      .then(response => {
-        console.log("REPERTUAR", response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-
   render(){
     return(
       <div className = "container-fluid">

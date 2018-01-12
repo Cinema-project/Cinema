@@ -127,7 +127,7 @@ export class FilmView extends Component {
     return(
       <Film className="col-md-8 col-md-offset-2">
         <div className="row">
-          <div className="col-md-2" style={{marginTop: "4vh"}}>
+          <div className="col-md-2" style={{marginTop: "4vh"}} onClick = {this.openFilmPage.bind(this,i)}>
             <ReactImageFallback
                   src={this.state.poster[i]}
                   fallbackImage={loaderImage}
@@ -136,8 +136,8 @@ export class FilmView extends Component {
 
                 />
           </div>
-          <Title className="col-md-6">{this.state.title[i]}</Title>
-          <Rating className="col-md-2">{this.state.rating[i]}</Rating>
+          <Title className="col-md-6" onClick = {this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
+          <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this,i)}>{this.state.rating[i]}</Rating>
           <Star className="col-md-2" onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut.bind(this,i)}>
             {this.showStar()}
           </Star>
@@ -149,25 +149,26 @@ export class FilmView extends Component {
   render() {
     return(
       <div>
-        <div onClick = {this.openFilmPage.bind(this,0)}>{this.viewFilm(0)}</div>
-        <div onClick = {this.openFilmPage.bind(this,1)}>{this.viewFilm(1)}</div>
-        <div onClick = {this.openFilmPage.bind(this,2)}>{this.viewFilm(2)}</div>
-        <div onClick = {this.openFilmPage.bind(this,3)}>{this.viewFilm(3)}</div>
-        <div onClick = {this.openFilmPage.bind(this,4)}>{this.viewFilm(4)}</div>
-        <div onClick = {this.openFilmPage.bind(this,5)}>{this.viewFilm(5)}</div>
-        <div onClick = {this.openFilmPage.bind(this,6)}>{this.viewFilm(6)}</div>
-        <div onClick = {this.openFilmPage.bind(this,7)}>{this.viewFilm(7)}</div>
-        <div onClick = {this.openFilmPage.bind(this,8)}>{this.viewFilm(8)}</div>
-        <div onClick = {this.openFilmPage.bind(this,9)}>{this.viewFilm(9)}</div>
-        <div onClick = {this.openFilmPage.bind(this,10)}>{this.viewFilm(10)}</div>
-        <div onClick = {this.openFilmPage.bind(this,11)}>{this.viewFilm(11)}</div>
-        <div onClick = {this.openFilmPage.bind(this,12)}>{this.viewFilm(12)}</div>
-        <div onClick = {this.openFilmPage.bind(this,13)}>{this.viewFilm(13)}</div>
-        <div onClick = {this.openFilmPage.bind(this,14)}>{this.viewFilm(14)}</div>
-        <div onClick = {this.openFilmPage.bind(this,15)}>{this.viewFilm(15)}</div>
-        <div onClick = {this.openFilmPage.bind(this,16)}>{this.viewFilm(16)}</div>
-        <div onClick = {this.openFilmPage.bind(this,17)}>{this.viewFilm(17)}</div>
-        <div onClick = {this.openFilmPage.bind(this,18)}>{this.viewFilm(18)}</div>
+        <div>{this.viewFilm(0)}</div>
+        <div>{this.viewFilm(1)}</div>
+        <div>{this.viewFilm(2)}</div>
+        <div>{this.viewFilm(3)}</div>
+        <div>{this.viewFilm(4)}</div>
+        <div>{this.viewFilm(5)}</div>
+        <div>{this.viewFilm(6)}</div>
+        <div>{this.viewFilm(7)}</div>
+        <div>{this.viewFilm(8)}</div>
+        <div>{this.viewFilm(9)}</div>
+        <div>{this.viewFilm(10)}</div>
+        <div>{this.viewFilm(11)}</div>
+        <div>{this.viewFilm(12)}</div>
+        <div>{this.viewFilm(13)}</div>
+        <div>{this.viewFilm(14)}</div>
+        <div>{this.viewFilm(15)}</div>
+        <div>{this.viewFilm(16)}</div>
+        <div>{this.viewFilm(17)}</div>
+        <div>{this.viewFilm(18)}</div>
+        <div>{this.viewFilm(19)}</div>
         <div>{this.viewFilm(19)}</div>
       </div>
     )

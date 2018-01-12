@@ -4,8 +4,9 @@ import styled from "styled-components"
 import Button from "../user-interface/Button"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
+import { withRouter } from "react-router";
 
-export default class RepetoireFilm extends Component {
+export class RepetoireFilm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +26,7 @@ export default class RepetoireFilm extends Component {
     apiClient
       .get(path)
        .then(response => {
-         console.log(response);
+         console.log("FILMY REPER", response);
          {response.data.movies.map(r =>
            this.setState(previousState =>({
              title: [...previousState.title, r.title],
@@ -42,12 +43,14 @@ export default class RepetoireFilm extends Component {
 
 
 
-  toogleModal = number => {
-    this.setState({
-      isModalActive: true,
-      modalId: this.state.id[number]
-    });
-  };
+  openFilmPage = i => {
+    this.props.router.push({
+      pathname: 'film_page',
+      state:{
+        id: this.state.id[i]
+      }
+    })
+  }
 
   mouseOver = () => {
         this.setState({
@@ -67,12 +70,15 @@ export default class RepetoireFilm extends Component {
       })
     }
 
-  viewFilm = i => {
+    makeReservation = () => {
+      console.log("TICKET");
+    }
 
+  viewFilm = i => {
     return(
-      <Film className="col-md-8 col-md-offset-2" >
+      <Film className="col-md-8 col-md-offset-2">
         <div className="row">
-          <div className="col-md-2" style={{marginTop: "4vh"}}>
+          <div className="col-md-2" style={{marginTop: "4vh"}} onClick={this.openFilmPage.bind(this,i)}>
             <ReactImageFallback
                   src={this.state.poster[i]}
                   fallbackImage={loaderImage}
@@ -80,7 +86,13 @@ export default class RepetoireFilm extends Component {
                   className="img-responsive"
                 />
           </div>
-          <Title className="col-md-6">{this.state.title[i]}</Title>
+          <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
+          <Ticket className="col-md-2" onClick={this.makeReservation}>
+            <img
+              src={require("../images/ticketYellow.png")}
+              style={{ width: "200px" }}
+            />
+          </Ticket>
         </div>
       </Film>
     )
@@ -92,24 +104,33 @@ export default class RepetoireFilm extends Component {
     }
     return(
       <div>
-        <div onClick = {this.toogleModal.bind(this,0)}>{this.viewFilm(0)}</div>
-        <div onClick = {this.toogleModal.bind(this,1)}>{this.viewFilm(1)}</div>
-        <div onClick = {this.toogleModal.bind(this,2)}>{this.viewFilm(2)}</div>
-        <div onClick = {this.toogleModal.bind(this,3)}>{this.viewFilm(3)}</div>
-        <div onClick = {this.toogleModal.bind(this,4)}>{this.viewFilm(4)}</div>
-        <div onClick = {this.toogleModal.bind(this,5)}>{this.viewFilm(5)}</div>
-        <div onClick = {this.toogleModal.bind(this,6)}>{this.viewFilm(6)}</div>
-        <div onClick = {this.toogleModal.bind(this,7)}>{this.viewFilm(7)}</div>
-        <div onClick = {this.toogleModal.bind(this,8)}>{this.viewFilm(8)}</div>
-        <div onClick = {this.toogleModal.bind(this,9)}>{this.viewFilm(9)}</div>
-        <div onClick = {this.toogleModal.bind(this,10)}>{this.viewFilm(10)}</div>
-        <div onClick = {this.toogleModal.bind(this,11)}>{this.viewFilm(11)}</div>
+        <div>{this.viewFilm(0)}</div>
+        <div>{this.viewFilm(1)}</div>
+        <div>{this.viewFilm(2)}</div>
+        <div>{this.viewFilm(3)}</div>
+        <div>{this.viewFilm(4)}</div>
+        <div>{this.viewFilm(5)}</div>
+        <div>{this.viewFilm(6)}</div>
+        <div>{this.viewFilm(7)}</div>
+        <div>{this.viewFilm(8)}</div>
+        <div>{this.viewFilm(9)}</div>
+        <div>{this.viewFilm(10)}</div>
+        <div>{this.viewFilm(11)}</div>
         <div>{this.viewFilm(12)}</div>
         <div></div>
       </div>
     )
   }
 }
+
+export default withRouter(RepetoireFilm);
+
+const Ticket = styled.div`
+  width: auto;
+  margin-left: 40px;
+  margin-top: 10px;
+  z-index: 4;
+`
 
 const Film = styled.div`
   background-color: rgba(30, 32, 32, 0.28);

@@ -43,13 +43,6 @@ class homePage extends Component {
       });
   };
 
-  toogleModal = number => {
-    this.setState({
-      isModalActive: !this.state.isModalActive,
-      modalId: this.state.id[number]
-    });
-  };
-
   openFilmPage = i => {
     this.props.router.push({
       pathname: 'film_page',
