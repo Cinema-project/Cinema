@@ -38,7 +38,7 @@ export class RepetoireFilm extends Component {
     this.props.router.push({
       pathname: 'film_page',
       state:{
-        id: this.state.films.id[i]
+        id: this.state.films[i].id
       }
     })
   }
