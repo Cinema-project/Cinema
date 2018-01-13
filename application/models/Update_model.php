@@ -53,8 +53,9 @@ class Update_model extends CI_Model {
       $trailer = $this->themoviedb->getTrailerPath('Pl', $id)[0];
       $popularity = $details->popularity;
       $runtime = $details->runtime;
+      $screen = $details->backdrop_path;
 
-      $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere, $runtime);
+      $this->tmdbmovie_model->set($id, $title, $overview, $popularity, $poster, $trailer, $vote, $premiere, $runtime, $screen);
       $this->tmdbmovie_model->save();
       $this->addGenresToMovie($genres, $id);
       return true;
