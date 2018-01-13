@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS `tmdbmovies` (
   `vote_average` double DEFAULT NULL,
   `Premiere_date` date DEFAULT NULL,
   `runtime` int(11) DEFAULT NULL,
+  `Movie_screen` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
   KEY `MovieID` (`MovieID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

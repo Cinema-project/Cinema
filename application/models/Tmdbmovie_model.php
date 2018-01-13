@@ -17,6 +17,7 @@ class Tmdbmovie_model extends CI_Model
     public $voteAverage;
     public $premierDate;
     public $runtime;
+    public $screen;
 
     public $genresList = array();
     public $eventList = array();
@@ -36,7 +37,7 @@ class Tmdbmovie_model extends CI_Model
         }
     }
 
-    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere, $runtime){
+    public function set($id, $title, $description, $popularity, $poster, $trailer, $vote, $premiere, $runtime, $screen){
       $this->setId($id);
       $this->setTitle($title);
       $this->setDescription($description);
@@ -46,6 +47,7 @@ class Tmdbmovie_model extends CI_Model
       $this->setVoteAverage($vote);
       $this->setPremierDate($premiere);
       $this->runtime = $runtime;
+      $this->screen = $screen;
     }
 
     public function save()
@@ -61,7 +63,8 @@ class Tmdbmovie_model extends CI_Model
                 'Trailer' => $this->trailer,
                 'vote_average' => $this->voteAverage,
                 'Premiere_date' => $this->premierDate,
-                'runtime' => $this->runtime
+                'runtime' => $this->runtime,
+                'Movie_screen' => $this->screen
         );
             $this->db->insert('tmdbmovies', $data);
         }
@@ -226,6 +229,7 @@ class Tmdbmovie_model extends CI_Model
         $this->voteAverage = $tmdbMovie['vote_average'];
         $this->premierDate = $tmdbMovie['Premiere_date'];
         $this->runtime = $tmdbMovie['runtime'];
+        $this->screen = $tmdbMovie['Movie_screen'];
 
         $sql = "SELECT id_genre FROM genres_movie WHERE id_movie = ?";
         $genres = $this->db->query($sql, $this->id)->result_array();
