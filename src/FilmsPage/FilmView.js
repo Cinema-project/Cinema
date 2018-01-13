@@ -154,6 +154,26 @@ export class FilmView extends Component {
       }
     }
 
+    removeFromFavourites = i => {
+      $.ajax({
+          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${this.state.id[i]}` : `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${this.state.id[i]}`,
+          type: 'POST',
+          data: {
+            'token' : this.props.user.token
+          },
+          success: function(data) {
+              this.getFavourites();
+           }.bind(this),
+          error: function(xhr, status, err) {
+            console.log(xhr, status);
+            console.log(err);
+            this.setState({
+              contactMessage: 'Błąd',
+            });
+          }.bind(this)
+        });
+    }
+
     addToFavourites = i => {
       $.ajax({
           url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}` : `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}`,
@@ -172,6 +192,22 @@ export class FilmView extends Component {
             });
           }.bind(this)
         });
+    }
+
+    addToFavouritesOrRemove = i => {
+      let x = 0;
+      for(var a = 0; a < this.state.favourites.length; a++){
+        for(var b = 0; b < this.state.id.length; b++){
+          if(this.state.favourites[a].id === this.state.id[i]){
+            x = 1;
+          }
+        }
+      }
+      if(x === 0){
+        this.addToFavourites(i);
+      }else{
+        this.removeFromFavourites(i);
+      }
     }
 
   viewFilm = i => {
@@ -193,7 +229,7 @@ export class FilmView extends Component {
             id={i}
             onMouseOver={this.mouseOver.bind(this,i)}
             onMouseOut={this.mouseOut}
-            onClick={this.addToFavourites.bind(this,i)}>
+            onClick={this.addToFavouritesOrRemove.bind(this,i)}>
             {this.showStar(i)}
           </Star>
         </div>
