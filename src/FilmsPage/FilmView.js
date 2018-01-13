@@ -5,6 +5,8 @@ import { withRouter } from "react-router";
 import Button from "../user-interface/Button"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
+import { connect } from "react-redux";
+var $ = require('jquery');
 
 export class FilmView extends Component {
   constructor(props) {
@@ -16,8 +18,31 @@ export class FilmView extends Component {
       id: [],
       isModalActive: false,
       modalId: "",
-      hoveredDivId: -1
+      hoveredDivId: -1,
+      favourites: []
     };
+  }
+
+  getFavourites = () => {
+    $.ajax({
+        url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/getFavorites` : `http://localhost:80/Cinema/index.php/Favorites/getFavorites`,
+        type: 'POST',
+        data: {
+          'token' : this.props.user.token,
+        },
+        success: function(data) {
+          this.setState({
+            favourites: data.movies
+          })
+         }.bind(this),
+        error: function(xhr, status, err) {
+          console.log(xhr, status);
+          console.log(err);
+          this.setState({
+            contactMessage: 'Błąd',
+          });
+        }.bind(this)
+      });
   }
 
   componentWillMount = () => {
@@ -26,7 +51,6 @@ export class FilmView extends Component {
     apiClient
       .get(path)
        .then(response => {
-         console.log(response);
          {response.data.results.map(r =>
            this.setState(previousState =>({
              title: [...previousState.title, r.title],
@@ -39,12 +63,12 @@ export class FilmView extends Component {
       .catch(error => {
         console.log(error);
       });
+
+      this.getFavourites();
   }
 
   componentWillReceiveProps = (nextProps) => {
     const path = `index.php?/Home/getMovies/PL/${nextProps.categoryId}/${nextProps.pageNumber}`;
-    console.log(nextProps.pageNumber);
-    console.log(nextProps.categoryId);
     this.setState({
       title: [],
       poster: [],
@@ -55,7 +79,6 @@ export class FilmView extends Component {
     apiClient
       .get(path)
       .then(response => {
-        console.log(response);
         {response.data.results.map(r =>
           this.setState(previousState =>({
             title: [...previousState.title, r.title],
@@ -106,7 +129,15 @@ export class FilmView extends Component {
     }
 
     showStar = i => {
-      if(this.state.hoveredDivId === i){
+      let x = 0;
+      for(var a = 0; a < this.state.favourites.length; a++){
+        for(var b = 0; b < this.state.id.length; b++){
+          if(this.state.favourites[a].id === this.state.id[i]){
+            x = 1;
+          }
+        }
+      }
+      if(this.state.hoveredDivId === i || x === 1){
         return(
             <img
             src={require("../images/yellowStar.png")}
@@ -119,8 +150,28 @@ export class FilmView extends Component {
           src={require("../images/whiteStar.png")}
           style={{ width: "64px" }}
         />
-      )
+        )
       }
+    }
+
+    addToFavourites = i => {
+      $.ajax({
+          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}` : `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}`,
+          type: 'POST',
+          data: {
+            'token' : this.props.user.token
+          },
+          success: function(data) {
+              this.getFavourites();
+           }.bind(this),
+          error: function(xhr, status, err) {
+            console.log(xhr, status);
+            console.log(err);
+            this.setState({
+              contactMessage: 'Błąd',
+            });
+          }.bind(this)
+        });
     }
 
   viewFilm = i => {
@@ -138,7 +189,11 @@ export class FilmView extends Component {
           </div>
           <Title className="col-md-6" onClick = {this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
           <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this,i)}>{this.state.rating[i]}</Rating>
-          <Star className="col-md-2" id={i} onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut}>
+          <Star className="col-md-2"
+            id={i}
+            onMouseOver={this.mouseOver.bind(this,i)}
+            onMouseOut={this.mouseOut}
+            onClick={this.addToFavourites.bind(this,i)}>
             {this.showStar(i)}
           </Star>
         </div>
@@ -175,7 +230,13 @@ export class FilmView extends Component {
   }
 }
 
-export default withRouter(FilmView);
+const mapStateToProps = state => {
+  return {
+    user: state.session.user
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(FilmView));
 
 const Film = styled.div`
   background-color: rgba(13, 16, 18, 1);

@@ -20,15 +20,12 @@ class Comments extends Component{
   }
 
   componentWillReceiveProps = () => {
-      console.log(this.props.idMovie);
       this.setState({
           id: this.props.idMovie
       })
-      console.log(this.state.id);
     apiClient
       .get(`index.php/comments/getComments/${this.props.idMovie}`)
       .then(response => {
-        console.log("komentarze", response);
         {response.data.results.map(r =>
           this.setState(previousState =>({
             comment: [...previousState.comment, r.comment],
@@ -80,17 +77,17 @@ class Comments extends Component{
     return(
       <div className = "container-fluid">
         <div className="col-md-4 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
-            Komentarz 
-            Nick 
-            Data 
+            Komentarz
+            Nick
+            Data
             </div>
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
             <br/>
-            {this.state.comment[0]} 
+            {this.state.comment[0]}
 
-            {this.state.nick[0]}  
+            {this.state.nick[0]}
 
-            {this.state.date[0]} 
+            {this.state.date[0]}
         </div>
         <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
             <form onSubmit={this._handleSubmit}>
@@ -102,7 +99,7 @@ class Comments extends Component{
               placeholder="Wpisz komentarz"
             />
             <div className="col-md-6 col-md-offset-10" style={{textAlign:"left", color: "red"}}>
-            <Button className="btn btn-primary" 
+            <Button className="btn btn-primary"
               onClick={event => {
                 this.onSubmit;
               }}

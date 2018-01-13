@@ -8,7 +8,6 @@ import homePageBackground from "./images/it.jpg";
 
 class Layout extends React.Component {
   render() {
-    console.log("login:", this.props.user.login);
     return (
       <div className="container-fluid">
         <Background className="row">

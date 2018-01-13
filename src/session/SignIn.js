@@ -78,11 +78,12 @@ export class SignIn extends React.Component {
         'password': this.state.password
       },
       success: function(data) {
-        console.log("LOGIN", data);
-        this.state.loginCheck = data['status'];
-        this.state.nick = data['status'];
-        this.state.token = data['token'];
-        console.log(this.state.token);
+        this.setState({
+          loginCheck: data.status,
+          nick: data.status,
+          token: data.token
+        })
+        console.log("SIGN IN", data.token);
         if(this.state.loginCheck!=null && this.state.loginCheck!="notExist"){
           this.props.dispatch({
             type: "LOGIN",

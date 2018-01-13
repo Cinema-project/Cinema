@@ -114,7 +114,6 @@ export default class FilmPage extends React.Component {
   }
 
   render(){
-    console.log("STACIK", this.state.filmDetails);
     var url = this.state.filmDetails.trailer;
     if(url !== undefined && url !== null){
     url = url.replace("watch?v=", "embed/");

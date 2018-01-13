@@ -26,7 +26,6 @@ class homePage extends Component {
     apiClient
       .get(`index.php?/Home/getPopular/PL/${rand}/${rand2}`)
       .then(response => {
-        console.log(response);
         {
           response.data.movies.map(r =>
             this.setState(previousState => ({

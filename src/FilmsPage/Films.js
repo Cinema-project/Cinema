@@ -19,7 +19,6 @@ class Films extends Component {
     apiClient
       .get("index.php/Home/getCategoryList/PL")
       .then(response => {
-        console.log(response);
        this.setState((state) => ({ genres: response.data }))
       })
       .catch(error => {
@@ -35,7 +34,6 @@ class Films extends Component {
     })
     if(this.state.category == 28){
       this.setState((state) => ({dropdownTitle: "Akcja"}))
-      console.log(this.state.category);
       this.setState({
       page: 0
     })
@@ -113,8 +111,8 @@ class Films extends Component {
       this.setState((state) => ({dropdownTitle: "Western"}))
     }
 
-    
-    
+
+
   }
 
   handlePageClick = e => {

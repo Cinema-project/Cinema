@@ -7,9 +7,9 @@ export class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.state = { latitude: 0, longtitude: 0,cinemaLocation: [], showingInfoWindow: false,activeMarker: {},selectedPlace: {}};
-    
+
     //ustawiam pozycje za pomoca wbudowanej w przegladarke funkcji, nie dodaje na razie warunkow
-    //sprawdzajacych czy przegladraka obsluguje 
+    //sprawdzajacych czy przegladraka obsluguje
     navigator.geolocation.getCurrentPosition((position) => {
       this.setState({
         latitude: position.coords.latitude,
@@ -36,7 +36,6 @@ export class MapContainer extends Component {
 
   }
   render() {
-    console.log(this.state.cinemaLocation);
     
     //dodaje ten warunek po to ze zanim latitude nie zmieni wartosci na konkretna lokalizacje to zwracam null
     if (this.state.latitude == 0) {
@@ -54,7 +53,7 @@ export class MapContainer extends Component {
       }} zoom={14}>
 
         {this.state.cinemaLocation.map((clocation)=>(
-          
+
            <Marker title={clocation.name}
            name={clocation.name}
           icon={{
@@ -62,7 +61,7 @@ export class MapContainer extends Component {
     }}   onClick={this.onMarkerClick}
          position={{lat: clocation.locationNS, lng: clocation.locationEW}} />
         ))}
-       
+
 
         <InfoWindow marker={this.state.activeMarker} visible={this.state.showingInfoWindow}>
           <div>
