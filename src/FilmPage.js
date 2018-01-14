@@ -155,7 +155,7 @@ export default class FilmPage extends React.Component {
         </Details>
       </div>
         <Text className="col-md-6 col-md-offset-2">{this.state.filmDetails.description}</Text>
-        {/* <Comments className="col-md-12" idMovie={this.state.filmDetails.id}/> */}
+         <Comments className="col-md-6 col-md-offset-2" idMovie={this.state.filmDetails.id}/> 
         </div>
 
     </div>

@@ -3,42 +3,38 @@ import apiClient from "../api-client";
 import Input from "../user-interface/Input";
 import Button from "../user-interface/Button";
 import { connect } from "react-redux";
+import styled from "styled-components";
 var $ = require('jquery');
 
 class Comments extends Component{
   constructor(props){
     super(props);
     this.state= {
-        comment: [],
-        nick: [],
-        date: [],
+        comments: [],
         commentText: "",
-        id: ""
     }
      this._handleSubmit = this._handleSubmit.bind(this);
-
+  
   }
 
-  componentWillReceiveProps = () => {
-      this.setState({
-          id: this.props.idMovie
-      })
+  componentWillReceiveProps = (nextProps) => {
+   
+   console.log(this.props.idMovie);
     apiClient
-      .get(`index.php/comments/getComments/${this.props.idMovie}`)
+      .get(`index.php/comments/getComments/${nextProps.idMovie}`)
       .then(response => {
-        {response.data.results.map(r =>
-          this.setState(previousState =>({
-            comment: [...previousState.comment, r.comment],
-            nick: [...previousState.nick, r.nick],
-            date: [...previousState.date, r.date],
-          }))
-        )}
+       this.setState({
+         comments: response.data.results
+       })
+        console.log(this.state.comments);
       })
       .catch(error => {
         console.log(error);
       });
 
 
+  
+   
   }
    updateComment = e => {
     this.setState({ commentText: e.target.value });
@@ -46,19 +42,20 @@ class Comments extends Component{
 
   _handleSubmit(e){
   e.preventDefault();
-
+  console.log(this.props.idMovie);
   $.ajax({
+    
       url: process.env.NODE_ENV !== "production" ? 'http://localhost:80/Cinema/index.php/comments/addComment/' : "http://localhost:80/Cinema/comments/addComment/",
       // url: "./php/mailer.php",
       //./index.php/Login/login
       type: 'POST',
       data: {
         'token' : this.props.user.token,   //Powinieneś móc wywołać sobie token za pomocą this.props.user.token
-        'movie_id': 339877,
+        'movie_id': this.props.idMovie,
         'comment': this.state.commentText
       },
       success: function(data) {
-        console.log(this.props.user.token);
+        console.log("dodano komentarz!");
        }.bind(this),
       error: function(xhr, status, err) {
         console.log(xhr, status);
@@ -68,29 +65,53 @@ class Comments extends Component{
         });
       }.bind(this)
     });
+
+    //jeszce raz po dodaniu komenta
+    console.log(this.props.idMovie);
+    apiClient
+      .get(`index.php/comments/getComments/${this.props.idMovie}`)
+      .then(response => {
+       this.setState({
+         comments: response.data.results
+       })
+        console.log(this.state.comments);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+      this.setState({
+        commentText: ""
+      })
+
   };
 
   render(){
-      if(this.props.idMovie == ""){
-          return null;
-      }
+      
     return(
       <div className = "container-fluid">
-        <div className="col-md-4 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
-            Komentarz
-            Nick
-            Data
-            </div>
-        <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
-            <br/>
-            {this.state.comment[0]}
-
-            {this.state.nick[0]}
-
-            {this.state.date[0]}
-        </div>
-        <div className="col-md-6 col-md-offset-2" style={{textAlign:"left", color: "red"}}>
-            <form onSubmit={this._handleSubmit}>
+        
+        <div className="col-md-6 col-md-offset-1" style={{marginBottom:"2vw",marginLeft: "14vw"}}>
+          <Details className="col-md-12" style={{float: "left", fontSize: "20px",marginTop:"1vw",marginBottom:"1vw"}}>
+            Komentarze:
+          </Details>
+          {this.state.comments.map(comment=>
+          <div>
+             <Details className="col-md-12" style={{float: "left", fontSize: "15px",marginBottom:"4px",borderRadius:"30px",backgroundColor: "rgb(124, 132, 131)"}}>
+            {comment.nick}  {comment.date}
+          </Details>
+          <Details className="col-md-12" style={{float: "left", fontSize: "13px",marginBottom:"1vw",fontFamily: "Georgia",fontWeight:"bold"}}>
+            {comment.comment}
+          </Details>
+          </div>
+          )}
+          
+       </div>
+       
+       
+       
+            
+        <div className="col-md-6" style={{textAlign:"left",marginBottom:"2vw",marginLeft:"15vw"}}>
+            <form onSubmit={this._handleSubmit} style={{marginBottom:"1vw"}}>
             <Input
               onChange={this.updateComment}
               value={this.state.commentText}
@@ -99,12 +120,13 @@ class Comments extends Component{
               placeholder="Wpisz komentarz"
             />
             <div className="col-md-6 col-md-offset-10" style={{textAlign:"left", color: "red"}}>
-            <Button className="btn btn-primary"
+            <ConfirmationButton className="btn btn-primary"
               onClick={event => {
                 this.onSubmit;
               }}
               label={"Dodaj"}
             />
+            
             </div>
           </form>
            </div>
@@ -120,3 +142,17 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(Comments);
+const Details = styled.div`
+  font-family: 'Oswald', sans-serif;
+  font-size: 25px;
+  color: rgb(198, 198, 184);
+  
+  
+`
+
+const ConfirmationButton = styled(Button)`
+  background-color: rgb(124, 132, 131);
+  font-family: 'Indie Flower', cursive;
+  font-weight: bold;
+  font-size: 20px;
+`;
