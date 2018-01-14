@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import styled from "styled-components"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
+import {Doughnut} from 'react-chartjs-2';
 var $ = require('jquery');
 
 class Favourites extends Component{
@@ -47,6 +48,23 @@ class Favourites extends Component{
     })
   }
 
+  getTodayGraphData = rating => {
+    return {
+      labels: ["%", "%"],
+      datasets: [
+        {
+          data: [
+            rating * 10,
+            100 - rating * 10
+          ],
+          backgroundColor: ["rgb(255, 255, 255)", "rgba(96, 170, 3, 0)"],
+          hoverBackgroundColor: ["rgb(255, 255, 255)", "rgba(96, 170, 3, 0)"],
+          borderColor: "transparent"
+        }
+      ]
+    };
+  };
+
   render(){
     return(
       <div>
@@ -57,6 +75,15 @@ class Favourites extends Component{
               src={`https://image.tmdb.org/t/p/w500/${favourite.screen}`}
               style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.3"}}
             />
+            <Graph className="col-md-3">
+              <Doughnut
+                data={this.getTodayGraphData(favourite.voteAverage)}
+                options={{
+                  maintainAspectRatio: false,
+                  legend: false
+                }}
+              />
+            </Graph>
           </Film>
         )}
       </div>
@@ -79,6 +106,14 @@ const Film = styled.div`
     cursor: pointer;
     opacity: 0.8;
   }
+`
+
+const Graph = styled.div`
+  position: absolute;
+  left: 10%;
+  top: 30%;
+  height: 25vh;
+  z-index: 4;
 `
 
 const Title = styled.div`
