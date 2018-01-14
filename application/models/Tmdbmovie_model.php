@@ -18,6 +18,7 @@ class Tmdbmovie_model extends CI_Model
     public $premierDate;
     public $runtime;
     public $screen;
+    public $multikino_id;
 
     public $genresList = array();
     public $eventList = array();
@@ -220,6 +221,8 @@ class Tmdbmovie_model extends CI_Model
 
     public function setTmdbMovie($tmdbMovie)
     {
+        $this->load->model('cinemasmovie_model');
+        
         $this->id = $tmdbMovie['MovieID'];
         $this->title = $tmdbMovie['Title'];
         $this->description = $tmdbMovie['Description'];
@@ -230,6 +233,7 @@ class Tmdbmovie_model extends CI_Model
         $this->premierDate = $tmdbMovie['Premiere_date'];
         $this->runtime = $tmdbMovie['runtime'];
         $this->screen = $tmdbMovie['Movie_screen'];
+        $this->multikino_id = $this->cinemasmovie_model->getMultikinioIdByTmdbId($this->id);
 
         $sql = "SELECT id_genre FROM genres_movie WHERE id_movie = ?";
         $genres = $this->db->query($sql, $this->id)->result_array();
