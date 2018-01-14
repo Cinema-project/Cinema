@@ -6,6 +6,11 @@ class Cinemasmovie_model extends CI_Model
     private $title;
     private $tmdbmovie_id;
 
+    public function getMultikinioIdByTmdbId($tmdb){
+      $query = $this->db->select('movie_id')->from('cinemamovies')->where('tmdbmovie_id', $tmdb)->get()->result();
+      return count($query) != 0 ? $query[0]->movie_id : NULL;
+    }
+
     /**
      * Cinemasmovie_model constructor.
      * @param $movie_id
