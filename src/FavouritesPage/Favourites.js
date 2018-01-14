@@ -38,11 +38,20 @@ class Favourites extends Component{
       });
   }
 
+  openFilmPage = id => {
+    this.props.router.push({
+      pathname: 'film_page',
+      state:{
+        id: id
+      }
+    })
+  }
+
   render(){
     return(
       <div>
         {this.state.favourites.map(favourite=>
-          <Film className="col-md-8 col-md-offset-2" style={{marginTop: "10vh"}}>
+          <Film className="col-md-8 col-md-offset-2" onClick={this.openFilmPage.bind(this, favourite.id)}>
             <Title>{favourite.title}</Title>
             <img
               src={`https://image.tmdb.org/t/p/w500/${favourite.screen}`}
@@ -63,19 +72,13 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(Favourites);
 
-const Poster = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 4;
-
-  &:hover{
-    cursor: pointer;
-  }
-`
-
 const Film = styled.div`
   position: relative;
+  margin-top: 10vh;
+  &:hover{
+    cursor: pointer;
+    opacity: 0.8;
+  }
 `
 
 const Title = styled.div`
@@ -86,6 +89,7 @@ const Title = styled.div`
   text-shadow: 2px 2px 10px rgba(150, 150, 150, 1);
   font-size: 45px;
   text-align: center;
+  z-index: 4;
 `
 
 const Description = styled.div`
