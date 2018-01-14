@@ -1,0 +1,29 @@
+{
+  "name": "react-percentage-circle",
+  "version": "0.0.0",
+  "description": "React Percentage Circle",
+  "main": "dist/react-percentage-circle.min.js",
+  "homepage": "https://github.com/KennethJiang/react-percentage-circle",
+  "authors": [
+    "Kenneth Jiang"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "react",
+    "react-component"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".editorconfig",
+    ".gitignore",
+    "package.json",
+    "src",
+    "node_modules",
+    "example",
+    "test"
+  ]
+}

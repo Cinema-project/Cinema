@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import styled from "styled-components"
 import ReactImageFallback from "react-image-fallback"
 import loaderImage from "../images/loader.GIF"
-import {Doughnut} from 'react-chartjs-2';
+import { Line, Circle } from 'rc-progress';
+import TextTruncate from 'react-text-truncate';
 var $ = require('jquery');
 
 class Favourites extends Component{
@@ -48,22 +49,16 @@ class Favourites extends Component{
     })
   }
 
-  getTodayGraphData = rating => {
-    return {
-      labels: ["%", "%"],
-      datasets: [
-        {
-          data: [
-            rating * 10,
-            100 - rating * 10
-          ],
-          backgroundColor: ["rgb(255, 255, 255)", "rgba(96, 170, 3, 0)"],
-          hoverBackgroundColor: ["rgb(255, 255, 255)", "rgba(96, 170, 3, 0)"],
-          borderColor: "transparent"
-        }
-      ]
-    };
-  };
+  getVoteAverage = vote => {
+    let number = "";
+    if(vote % 2 === 1 || vote % 2 === 0){
+      number = vote + ".0";
+    }else{
+      number = vote;
+    }
+
+    return number;
+  }
 
   render(){
     return(
@@ -72,18 +67,33 @@ class Favourites extends Component{
           <Film className="col-md-8 col-md-offset-2" onClick={this.openFilmPage.bind(this, favourite.id)}>
             <Title>{favourite.title}</Title>
             <img
-              src={`https://image.tmdb.org/t/p/w500/${favourite.screen}`}
-              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.3"}}
+              src={`https://image.tmdb.org/t/p/w600/${favourite.screen}`}
+              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.15"}}
             />
             <Graph className="col-md-3">
-              <Doughnut
-                data={this.getTodayGraphData(favourite.voteAverage)}
-                options={{
-                  maintainAspectRatio: false,
-                  legend: false
-                }}
-              />
+              <Circle
+                percent={favourite.voteAverage * 10}
+                strokeWidth="12"
+                strokeColor="#D3D3D3"
+                trailWidth={0}
+                trailColor="rgba(124, 124, 124, 0.48)" />
+                <Vote>
+                  <div style={{paddingLeft: "3px"}}>
+                    <img
+                      src={require("../images/rating.png")}
+                      style={{ width: "50px" }}
+                    />
+                  </div>
+                  {this.getVoteAverage(favourite.voteAverage)}
+                </Vote>
             </Graph>
+            <Description className="col-md-7">
+              <TextTruncate
+                line={7}
+                truncateText="…"
+                text={favourite.description}
+              />
+            </Description>
           </Film>
         )}
       </div>
@@ -99,7 +109,7 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(Favourites);
 
-const Film = styled.div`
+const Film = styled.div`/ufUAOM5aVizNf8d5YLoutqrrlhq.jpg
   position: relative;
   margin-top: 10vh;
   &:hover{
@@ -116,9 +126,20 @@ const Graph = styled.div`
   z-index: 4;
 `
 
+const Vote = styled.div`
+  position: relative;
+  left: 5vw;
+  bottom: 22vh;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  z-index: 4;
+`
+
 const Title = styled.div`
   width: 100%;
   position: absolute;
+  top: 2vh;
   opacity: 1;
   color: white;
   text-shadow: 2px 2px 10px rgba(150, 150, 150, 1);
@@ -128,8 +149,14 @@ const Title = styled.div`
 `
 
 const Description = styled.div`
+  position: absolute;
+  left: 35%;
+  top: 30%;
+  height: 100%;
   text-align: center;
+  vertical-align: middle;
   font-size: 15px;
+  font-weight: bold;
   color: white;
   margin-top: 4vh;
 `
