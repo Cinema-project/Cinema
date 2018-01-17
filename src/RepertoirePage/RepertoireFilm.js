@@ -73,48 +73,29 @@ export class RepetoireFilm extends Component {
       }
     }
 
-  viewFilm = i => {
-    if(this.state.films.length > 0){
-      return(
-        <Film className="col-md-8 col-md-offset-2">
-          <div className="row">
-            <div className="col-md-2" style={{marginTop: "4vh"}} onClick={this.openFilmPage.bind(this,i)}>
-              <ReactImageFallback
-                    src={this.state.films[i].poster}
-                    fallbackImage={loaderImage}
-                    initialImage={loaderImage}
-                    className="img-responsive"
-                  />
-            </div>
-            <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{this.state.films[i].title}</Title>
-            <Ticket className="col-md-2" id={i} onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut}>
-              <a target="_blank" href={this.state.films[i].eventList[0].link}>
-                {this.showTicket(i)}
-              </a>
-            </Ticket>
-          </div>
-        </Film>
-      )
-    }
-  }
-
   render() {
     return(
       <div>
-        <div>{this.viewFilm(0)}</div>
-        <div>{this.viewFilm(1)}</div>
-        <div>{this.viewFilm(2)}</div>
-        <div>{this.viewFilm(3)}</div>
-        <div>{this.viewFilm(4)}</div>
-        <div>{this.viewFilm(5)}</div>
-        <div>{this.viewFilm(6)}</div>
-        <div>{this.viewFilm(7)}</div>
-        <div>{this.viewFilm(8)}</div>
-        <div>{this.viewFilm(9)}</div>
-        <div>{this.viewFilm(10)}</div>
-        <div>{this.viewFilm(11)}</div>
-        <div>{this.viewFilm(12)}</div>
-        <div></div>
+        {this.state.films.map((film, i) =>
+          <Film className="col-md-8 col-md-offset-2">
+            <div className="row">
+              <div className="col-md-2" style={{marginTop: "4vh"}} onClick={this.openFilmPage.bind(this,i)}>
+                <ReactImageFallback
+                      src={film.poster}
+                      fallbackImage={loaderImage}
+                      initialImage={loaderImage}
+                      className="img-responsive"
+                    />
+              </div>
+              <Title className="col-md-6"  onClick={this.openFilmPage.bind(this,i)}>{film.title}</Title>
+              <Ticket className="col-md-2" id={i} onMouseOver={this.mouseOver.bind(this,i)} onMouseOut={this.mouseOut}>
+                <a target="_blank" href={film.eventList[0].link}>
+                  {this.showTicket(i)}
+                </a>
+              </Ticket>
+            </div>
+          </Film>
+        )}
       </div>
     )
   }
@@ -147,28 +128,3 @@ const Title = styled.div`
   color: white;
   padding-top: 12vh;
 `
-const styledModal = {
-  overlay: {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(23, 23, 23, 0.99)",
-  },
-  content: {
-    position: "absolute",
-    top: "0px",
-    left: "-35vw",
-    right: "0px",
-    bottom: "0px",
-    opacity: "1",
-    WebkitOverflowScrolling: "touch",
-    outline: "none",
-    height: "100%",
-    width: "100%",
-    color: "rgb(201, 201, 201)",
-    overflowY: "scroll",
-    overflowX: "hidden"
-  }
-};

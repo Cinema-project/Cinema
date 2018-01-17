@@ -68,7 +68,7 @@ class Favourites extends Component{
             <Title>{favourite.title}</Title>
             <img
               src={`https://image.tmdb.org/t/p/w600/${favourite.screen}`}
-              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.15"}}
+              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.25"}}
             />
             <Graph className="col-md-3">
               <Circle
@@ -109,7 +109,7 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(Favourites);
 
-const Film = styled.div`/ufUAOM5aVizNf8d5YLoutqrrlhq.jpg
+const Film = styled.div`
   position: relative;
   margin-top: 10vh;
   &:hover{
