@@ -221,5 +221,10 @@ class Home extends CI_Controller {
       header('Content-Type: application/json');
       echo json_encode( array( 'result' => $this->logic->getCinemas()));
     }
+
+    public function getSearchMovies($phrase){
+        header('Content-Type: application/json');
+        echo json_encode( array( 'result' => $this->themoviedb->getSearchMovies($phrase)));
+    }
 }
 ?>

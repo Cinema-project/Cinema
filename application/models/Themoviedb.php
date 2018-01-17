@@ -306,5 +306,13 @@ class TheMovieDB extends CI_Model {
     $query = json_decode($query)->results;
     return $query;
   }
+
+    public function getSearchMovies($phrase){
+        $this->db->select('*');
+        $this->db->from('tmdbmovies');
+        $this->db->like('Title', $phrase, 'after');
+        $this->db->limit(5);
+        return $this->db->get()->result_array();
+    }
 }
 ?>
