@@ -169,7 +169,7 @@ class Films extends Component {
       <div className="container-fluid">
         <div className="col-md-12" style={{ paddingTop: "5vh", paddingLeft: "5vh" }}>
           <div className = "col-md-12">
-            <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies}>
+            <DropdownButton title= {this.state.dropdownTitle} onSelect={this.loadMovies} style={{backgroundColor: "gray", color: "black", fontWeight: "bold"}}>
               {this.state.genres.map((genre) => (
                 <MenuItem eventKey={genre.id_genre}>{genre.name} </MenuItem>
               ))}

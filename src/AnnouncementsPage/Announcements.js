@@ -65,11 +65,11 @@ export class Announcements extends Component {
     console.log(this.state.films);
     return(
       <div>
-        <div>{this.showAnnouncement(0)}</div>
-        <div>{this.showAnnouncement(3)}</div>
+        <div>{this.showAnnouncement(6)}</div>
+        <div>{this.showAnnouncement(4)}</div>
         <div>{this.showAnnouncement(11)}</div>
         <div>{this.showAnnouncement(7)}</div>
-        <div>{this.showAnnouncement(8)}</div>
+        <div>{this.showAnnouncement(10)}</div>
       </div>
     )
   }

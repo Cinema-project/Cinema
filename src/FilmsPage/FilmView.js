@@ -12,10 +12,7 @@ export class FilmView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: [],
-      poster: [],
-      rating: [],
-      id: [],
+      films: [],
       isModalActive: false,
       modalId: "",
       hoveredDivId: -1,
@@ -51,14 +48,9 @@ export class FilmView extends Component {
     apiClient
       .get(path)
        .then(response => {
-         {response.data.results.map(r =>
-           this.setState(previousState =>({
-             title: [...previousState.title, r.title],
-             poster: [...previousState.poster, r.poster],
-             rating: [...previousState.rating, r.voteAverage],
-             id: [...previousState.id, r.id]
-           }))
-         )}
+         this.setState({
+           films: response.data.results
+         })
       })
       .catch(error => {
         console.log(error);
@@ -70,35 +62,20 @@ export class FilmView extends Component {
   componentWillReceiveProps = (nextProps) => {
     const path = `index.php?/Home/getMovies/PL/${nextProps.categoryId}/${nextProps.pageNumber}`;
     this.setState({
-      title: [],
-      poster: [],
-      rating: [],
-      id: []
+      films: []
     })
 
     apiClient
       .get(path)
       .then(response => {
-        {response.data.results.map(r =>
-          this.setState(previousState =>({
-            title: [...previousState.title, r.title],
-            poster: [...previousState.poster, r.poster],
-            rating: [...previousState.rating, r.voteAverage],
-            id: [...previousState.id, r.id]
-          }))
-        )}
+        this.setState({
+          films: response.data.results
+        })
      })
       .catch(error => {
         console.log(error);
       });
   }
-
-  toogleModal = number => {
-    this.setState({
-      isModalActive: !this.state.isModalActive,
-      modalId: this.state.id[number]
-    });
-  };
 
   mouseOver = i => {
         this.setState({
@@ -119,11 +96,11 @@ export class FilmView extends Component {
       })
     }
 
-    openFilmPage = i => {
+    openFilmPage = id => {
       this.props.router.push({
         pathname: 'film_page',
         state:{
-          id: this.state.id[i]
+          id: id
         }
       })
     }
@@ -131,8 +108,8 @@ export class FilmView extends Component {
     showStar = i => {
       let x = 0;
       for(var a = 0; a < this.state.favourites.length; a++){
-        for(var b = 0; b < this.state.id.length; b++){
-          if(this.state.favourites[a].id === this.state.id[i]){
+        for(var b = 0; b < this.state.films.length; b++){
+          if(this.state.favourites[a].id === this.state.films[i].id){
             x = 1;
           }
         }
@@ -154,9 +131,9 @@ export class FilmView extends Component {
       }
     }
 
-    removeFromFavourites = i => {
+    removeFromFavourites = id => {
       $.ajax({
-          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${this.state.id[i]}` : `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${this.state.id[i]}`,
+          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${id}` : `http://localhost:80/Cinema/index.php/Favorites/removeFavoriteMovie/${id}`,
           type: 'POST',
           data: {
             'token' : this.props.user.token
@@ -174,9 +151,9 @@ export class FilmView extends Component {
         });
     }
 
-    addToFavourites = i => {
+    addToFavourites = id => {
       $.ajax({
-          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}` : `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${this.state.id[i]}`,
+          url: process.env.NODE_ENV !== "production" ? `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${id}` : `http://localhost:80/Cinema/index.php/Favorites/addFavoriteMovie/${id}`,
           type: 'POST',
           data: {
             'token' : this.props.user.token
@@ -194,72 +171,48 @@ export class FilmView extends Component {
         });
     }
 
-    addToFavouritesOrRemove = i => {
+    addToFavouritesOrRemove = id => {
       let x = 0;
       for(var a = 0; a < this.state.favourites.length; a++){
-        for(var b = 0; b < this.state.id.length; b++){
-          if(this.state.favourites[a].id === this.state.id[i]){
+        for(var b = 0; b < this.state.films.length; b++){
+          if(this.state.favourites[a].id === id){
             x = 1;
           }
         }
       }
       if(x === 0){
-        this.addToFavourites(i);
+        this.addToFavourites(id);
       }else{
-        this.removeFromFavourites(i);
+        this.removeFromFavourites(id);
       }
     }
-
-  viewFilm = i => {
-    return(
-      <Film className="col-md-8 col-md-offset-2">
-        <div className="row">
-          <div className="col-md-2" style={{marginTop: "4vh"}} onClick = {this.openFilmPage.bind(this,i)}>
-            <ReactImageFallback
-                  src={this.state.poster[i]}
-                  fallbackImage={loaderImage}
-                  initialImage={loaderImage}
-                  className="img-responsive"
-
-                />
-          </div>
-          <Title className="col-md-6" onClick = {this.openFilmPage.bind(this,i)}>{this.state.title[i]}</Title>
-          <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this,i)}>{this.state.rating[i]}</Rating>
-          <Star className="col-md-2"
-            id={i}
-            onMouseOver={this.mouseOver.bind(this,i)}
-            onMouseOut={this.mouseOut}
-            onClick={this.addToFavouritesOrRemove.bind(this,i)}>
-            {this.showStar(i)}
-          </Star>
-        </div>
-      </Film>
-    )
-  }
 
   render() {
     return(
       <div>
-        <div>{this.viewFilm(0)}</div>
-        <div>{this.viewFilm(1)}</div>
-        <div>{this.viewFilm(2)}</div>
-        <div>{this.viewFilm(3)}</div>
-        <div>{this.viewFilm(4)}</div>
-        <div>{this.viewFilm(5)}</div>
-        <div>{this.viewFilm(6)}</div>
-        <div>{this.viewFilm(7)}</div>
-        <div>{this.viewFilm(8)}</div>
-        <div>{this.viewFilm(9)}</div>
-        <div>{this.viewFilm(10)}</div>
-        <div>{this.viewFilm(11)}</div>
-        <div>{this.viewFilm(12)}</div>
-        <div>{this.viewFilm(13)}</div>
-        <div>{this.viewFilm(14)}</div>
-        <div>{this.viewFilm(15)}</div>
-        <div>{this.viewFilm(16)}</div>
-        <div>{this.viewFilm(17)}</div>
-        <div>{this.viewFilm(18)}</div>
-        <div>{this.viewFilm(19)}</div>
+        {this.state.films.map((film, i) =>
+          <Film className="col-md-8 col-md-offset-2">
+            <div className="row">
+              <div className="col-md-2" style={{marginTop: "4vh"}} onClick = {this.openFilmPage.bind(this, film.id)}>
+                <ReactImageFallback
+                      src={film.poster}
+                      fallbackImage={loaderImage}
+                      initialImage={loaderImage}
+                      className="img-responsive"
+                    />
+              </div>
+              <Title className="col-md-6" onClick = {this.openFilmPage.bind(this, film.id)}>{film.title}</Title>
+              <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this, film.id)}>{film.voteAverage}</Rating>
+              <Star className="col-md-2"
+                id={i}
+                onMouseOver={this.mouseOver.bind(this,i)}
+                onMouseOut={this.mouseOut}
+                onClick={this.addToFavouritesOrRemove.bind(this,film.id)}>
+                {this.showStar(i)}
+              </Star>
+            </div>
+          </Film>
+        )}
       </div>
     )
   }

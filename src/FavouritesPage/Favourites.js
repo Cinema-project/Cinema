@@ -68,7 +68,7 @@ class Favourites extends Component{
             <Title>{favourite.title}</Title>
             <img
               src={`https://image.tmdb.org/t/p/w600/${favourite.screen}`}
-              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.25"}}
+              style={{ width: "920px", height: "400px", borderRadius: "10px", opacity: "0.3"}}
             />
             <Graph className="col-md-3">
               <Circle
