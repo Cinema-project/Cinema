@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import apiClient from "../api-client";
 import { DropdownButton, MenuItem, Button } from "react-bootstrap";
 import ReactPaginate from "react-paginate";
-import FilmView from "./FilmView"
+import FilmView from "./FilmView";
+import SearchedFilm from "./SearchedFilm"
+import styled from "styled-components"
 
 class Films extends Component {
   constructor(props) {
@@ -12,6 +14,7 @@ class Films extends Component {
       category: " ",
       dropdownTitle: "Wybierz kategorie",
       page: 1,
+      searchedMovie: ""
       };
   }
 
@@ -110,16 +113,55 @@ class Films extends Component {
     if(this.state.category == 37){
       this.setState((state) => ({dropdownTitle: "Western"}))
     }
-
-
-
   }
 
   handlePageClick = e => {
-    const page = e.selected + 1; //bo paginacja  od zera bierze a kino dopiero od 1
+    const page = e.selected + 1;
     this.setState({
       page: page
     })
+  }
+
+  updateSearchedMovie = e => {
+    this.setState({ searchedMovie: e.target.value });
+  }
+
+  showFilms = () => {
+    if(this.state.searchedMovie === ""){
+      return(
+        <FilmView className="col-md-12" categoryId={this.state.category} pageNumber={this.state.page}/>
+      )
+    }else{
+      return(
+        <SearchedFilm className="col-md-12" searchedMovie={this.state.searchedMovie}/>
+      )
+    }
+  }
+
+  showPaginate = () => {
+    if(this.state.searchedMovie === ""){
+      return(
+        <div className="col-md-12" style={{textAlign:"center"}}>
+          <ReactPaginate previousLabel={"wstecz"}
+                     nextLabel={"następny"}
+                     breakLabel={<a href="">...</a>}
+                     breakClassName={"break-me"}
+                     pageCount={99999}
+                     marginPagesDisplayed={0}
+                     pageRangeDisplayed={6}
+                     pageCount={this.props.pageCount}
+                     onPageChange={this.handlePageClick}
+                     containerClassName={"pagination"}
+                     subContainerClassName={"pages pagination"}
+                     activeClassName={"active"} />
+
+          </div>
+      )
+    }else{
+      return(
+        <div></div>
+      )
+    }
   }
 
   render() {
@@ -132,23 +174,18 @@ class Films extends Component {
                 <MenuItem eventKey={genre.id_genre}>{genre.name} </MenuItem>
               ))}
             </DropdownButton>
+            <label style={{fontSize:"20px", marginLeft: "20vw"}}>
+              <Text className="col-md-3">Szukaj:</Text>
+              <input
+                type="text"
+                name="nazwa"
+                onChange={this.updateSearchedMovie}
+                style={{borderRadius: "5px", backgroundColor:"gray", color: "black"}}
+              />
+            </label>
           </div>
-          <FilmView className="col-md-12" categoryId={this.state.category} pageNumber={this.state.page}/>
-          <div className="col-md-12" style={{textAlign:"center"}}>
-            <ReactPaginate previousLabel={"wstecz"}
-                       nextLabel={"następny"}
-                       breakLabel={<a href="">...</a>}
-                       breakClassName={"break-me"}
-                       pageCount={99999}
-                       marginPagesDisplayed={0}
-                       pageRangeDisplayed={6}
-                       pageCount={this.props.pageCount}
-                       onPageChange={this.handlePageClick}
-                       containerClassName={"pagination"}
-                       subContainerClassName={"pages pagination"}
-                       activeClassName={"active"} />
-
-            </div>
+          {this.showFilms()}
+          {this.showPaginate()}
         </div>
       </div>
     );
@@ -156,3 +193,8 @@ class Films extends Component {
 }
 
 export default Films;
+
+const Text = styled.div`
+  color: white;
+  font-size: 20px;
+`
