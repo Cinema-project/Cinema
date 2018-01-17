@@ -260,7 +260,6 @@ export class FilmView extends Component {
         <div>{this.viewFilm(17)}</div>
         <div>{this.viewFilm(18)}</div>
         <div>{this.viewFilm(19)}</div>
-        <div>{this.viewFilm(19)}</div>
       </div>
     )
   }

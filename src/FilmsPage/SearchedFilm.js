@@ -103,11 +103,11 @@ export class SearchedFilm extends Component {
       })
     }
 
-    openFilmPage = i => {
+    openFilmPage = id => {
       this.props.router.push({
         pathname: 'film_page',
         state:{
-          id: this.state.id[i]
+          id: id
         }
       })
     }
@@ -195,23 +195,21 @@ export class SearchedFilm extends Component {
     }
 
   render() {
-    console.log("FILMMM", this.state.films);
     return(
       <div>
         {this.state.films.map((film, i) =>
           <Film className="col-md-8 col-md-offset-2">
             <div className="row">
-              <div className="col-md-2" style={{marginTop: "4vh"}} onClick = {this.openFilmPage.bind(this,i)}>
+              <div className="col-md-2" style={{marginTop: "4vh"}} onClick = {this.openFilmPage.bind(this, film.MovieID)}>
                 <ReactImageFallback
                       src={film.Poster}
                       fallbackImage={loaderImage}
                       initialImage={loaderImage}
                       className="img-responsive"
-
                     />
               </div>
-              <Title className="col-md-6" onClick = {this.openFilmPage.bind(this,i)}>{film.Title}</Title>
-              <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this,i)}>{film.vote_average}</Rating>
+              <Title className="col-md-6" onClick = {this.openFilmPage.bind(this, film.MovieID)}>{film.Title}</Title>
+              <Rating className="col-md-2" onClick = {this.openFilmPage.bind(this, film.MovieID)}>{film.vote_average}</Rating>
               <Star className="col-md-2"
                 id={i}
                 onMouseOver={this.mouseOver.bind(this,i)}
