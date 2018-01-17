@@ -29,22 +29,47 @@ export class Announcements extends Component {
       });
   }
 
-  showAnnouncement = i => {
+  openFilmPage = i => {
+    this.props.router.push({
+      pathname: 'film_page',
+      state:{
+        id: this.state.films[i].id
+      }
+    })
+  }
+
+  showAnnouncement = (i) => {
     if(this.state.films.length > 0){
       return(
-        <Film className="col-md-10 col-md-offset-1">
-          abc
+        <Film className="col-md-10 col-md-offset-1" onClick={this.openFilmPage.bind(this,i)}>
+          <Poster className="col-md-4">
+            <ReactImageFallback
+                src={this.state.films[i].poster}
+                fallbackImage={loaderImage}
+                initialImage={loaderImage}
+                className="img-responsive"
+              />
+          </Poster>
+          <PremierDate className="col-md-8">
+            {this.state.films[i].premierDate}
+          </PremierDate>
+          <Description>
+            {this.state.films[i].description}
+          </Description>
         </Film>
       )
     }
   }
 
   render() {
+    console.log(this.state.films);
     return(
       <div>
         <div>{this.showAnnouncement(0)}</div>
-        <div>{this.showAnnouncement(1)}</div>
-        <div>{this.showAnnouncement(2)}</div>
+        <div>{this.showAnnouncement(3)}</div>
+        <div>{this.showAnnouncement(11)}</div>
+        <div>{this.showAnnouncement(7)}</div>
+        <div>{this.showAnnouncement(8)}</div>
       </div>
     )
   }
@@ -54,8 +79,8 @@ export default withRouter(Announcements);
 
 const Film = styled.div`
   background-color: rgba(13, 16, 18, 1);
-  border-radius: 50px;
-  height: 75vh;
+  position: relative;
+  height: 68vh;
   margin-top: 10vh;
   overflow: hidden;
 
@@ -65,9 +90,20 @@ const Film = styled.div`
   }
 `
 
-const Title = styled.div`
+const Poster = styled.div`
+  left: -3%;
+  height: 100%;
+`
+
+const PremierDate = styled.div`
+  color: rgb(219, 219, 219);
+  font-size: 40px;
   text-align: center;
-  font-size: 30px;
+`
+
+const Description = styled.div`
+  font-size: 25px;
+  margin-top: 7%;
+  font-style: italic;
   color: white;
-  padding-top: 12vh;
 `
