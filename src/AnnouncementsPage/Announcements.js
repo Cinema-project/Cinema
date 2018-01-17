@@ -84,15 +84,24 @@ const Film = styled.div`
   margin-top: 10vh;
   overflow: hidden;
 
+  img{
+    transition: transform 1s ease-in-out;
+  }
+
   &:hover{
     cursor: pointer;
     background-color: rgba(28, 34, 38, 1);
+
+    img{
+      transform: scale(1.15);
+    }
   }
 `
 
 const Poster = styled.div`
   left: -3%;
   height: 100%;
+  overflow: hidden;
 `
 
 const PremierDate = styled.div`
