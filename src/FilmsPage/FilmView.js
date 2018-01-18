@@ -188,6 +188,7 @@ export class FilmView extends Component {
     }
 
   render() {
+    console.log(this.state.films);
     return(
       <div>
         {this.state.films.map((film, i) =>

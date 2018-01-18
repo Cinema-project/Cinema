@@ -40,24 +40,26 @@ export class Announcements extends Component {
 
   showAnnouncement = (i) => {
     if(this.state.films.length > 0){
-      return(
-        <Film className="col-md-10 col-md-offset-1" onClick={this.openFilmPage.bind(this,i)}>
-          <Poster className="col-md-4">
-            <ReactImageFallback
-                src={this.state.films[i].poster}
-                fallbackImage={loaderImage}
-                initialImage={loaderImage}
-                className="img-responsive"
-              />
-          </Poster>
-          <PremierDate className="col-md-8">
-            {this.state.films[i].premierDate}
-          </PremierDate>
-          <Description>
-            {this.state.films[i].description}
-          </Description>
-        </Film>
-      )
+      if(this.state.films[i].description.length > 0){
+        return(
+          <Film className="col-md-10 col-md-offset-1" onClick={this.openFilmPage.bind(this,i)}>
+            <Poster className="col-md-4">
+              <ReactImageFallback
+                  src={this.state.films[i].poster}
+                  fallbackImage={loaderImage}
+                  initialImage={loaderImage}
+                  className="img-responsive"
+                />
+            </Poster>
+            <PremierDate className="col-md-8">
+              {this.state.films[i].premierDate}
+            </PremierDate>
+            <Description>
+              {this.state.films[i].description}
+            </Description>
+          </Film>
+        )
+      }
     }
   }
 
@@ -65,11 +67,16 @@ export class Announcements extends Component {
     console.log(this.state.films);
     return(
       <div>
-        <div>{this.showAnnouncement(6)}</div>
+        <div>{this.showAnnouncement(0)}</div>
+        <div>{this.showAnnouncement(1)}</div>
+        <div>{this.showAnnouncement(2)}</div>
+        <div>{this.showAnnouncement(3)}</div>
         <div>{this.showAnnouncement(4)}</div>
-        <div>{this.showAnnouncement(11)}</div>
+        <div>{this.showAnnouncement(5)}</div>
+        <div>{this.showAnnouncement(6)}</div>
         <div>{this.showAnnouncement(7)}</div>
-        <div>{this.showAnnouncement(10)}</div>
+        <div>{this.showAnnouncement(8)}</div>
+        <div>{this.showAnnouncement(9)}</div>
       </div>
     )
   }
